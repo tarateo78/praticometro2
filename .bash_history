@@ -14,3 +14,10 @@ chown root:root vite.config.js
 su -i
 sudo -i
 exit
+ll
+ls -l
+cd database/
+ls -l
+exit
+npm run dev
+exit
