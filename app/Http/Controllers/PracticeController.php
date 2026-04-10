@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Practice;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PracticeController extends Controller
@@ -26,12 +27,6 @@ class PracticeController extends Controller
     {
         // Passiamo un'istanza vuota del modello
         $practice = new Practice();
-        return view('practices.form', compact('practice'));
-    }
-
-    public function edit(Practice $practice)
-    {
-        // Passiamo l'istanza recuperata dal DB
         return view('practices.form', compact('practice'));
     }
 
