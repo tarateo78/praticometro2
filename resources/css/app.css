@@ -14,3 +14,7 @@ h1 {
     font-size: 100px;
     color: green;
 }
+
+td {
+    padding:2px 5px;
+}
