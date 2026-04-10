@@ -1,12 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Practice;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
-
-
 
 class PracticeController extends Controller
 {
@@ -19,9 +15,22 @@ class PracticeController extends Controller
         return view("practices.index", compact("practices"));
     }
 
-    public function show(Practice $practice)
+    public function form(Practice $practice)
     {
         // Se l'ID non esiste, Laravel restituirà automaticamente un errore 404
-        return view('practices.show', compact('practice'));
+        return view('practices.form', compact('practice'));
+    }
+
+    public function create()
+    {
+        // Passiamo un'istanza vuota del modello
+        $practice = new Practice();
+        return view('practices.form', compact('practice'));
+    }
+
+    public function edit(Practice $practice)
+    {
+        // Passiamo l'istanza recuperata dal DB
+        return view('practices.form', compact('practice'));
     }
 }
