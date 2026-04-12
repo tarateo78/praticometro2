@@ -1,11 +1,9 @@
 <?php
 
 use App\Http\Controllers\PracticeController;
+use App\Http\Controllers\OpenwebController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
 
 Route::get('/api/tasks', function () {
     #return Task::all();
@@ -21,6 +19,8 @@ Route::get('/elenco', [PracticeController::class, 'create'])->name("practices.st
 
 Route::resource('posts', PostController::class);
 */
+
+Route::get('/', [OpenwebController::class, 'index'])->name("openweb.index");
 
 Route::get('/elenco', [PracticeController::class, 'index'])->name("practices.index");
 
