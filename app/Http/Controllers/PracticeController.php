@@ -10,16 +10,13 @@ class PracticeController extends Controller
 
     public function index(Request $request): View
     {
-        // $practices = Practice::where("is_in_corso", true)->orderBy("codice", "desc")->get();
-        // $practices = Practice::when($request->cerca, function ($query) use ($request) {
-        //     return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->cerca . "%");
-        // })->get();
+
         $practices = Practice::when($request->cerca, function ($query) use ($request) {
-            return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->cerca . "%")->where('is_in_corso', isset($request->is_in_corso) ? true : false);
+            return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->cerca . "%");
+        })->when($request->is_in_corso, function ($query) use ($request) {
+            return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
         })->orderBy("codice", "desc")->get();
 
-
-        //$practices = Practice::where("codice", "LIKE", "V26%")->get();
         //$practices = Practice::all();
         // dd($practice);
         return view("practices.index", compact("practices"));

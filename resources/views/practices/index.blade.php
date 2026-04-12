@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <h1>Elenco pratiche</h1>
+    <h1 class="text-center">Elenco pratiche</h1>
+    <h2>Numero di pratiche: {{ $practices->count() }}</h2>
     <div>
         <form action="{{ route('practices.index') }}" method="GET">
             <label for="cerca">CERCA</label><input type="text" name="cerca" id="cerca"/>
