@@ -10,6 +10,14 @@
 
 <body>
     <h1>Elenco pratiche</h1>
+    <div>
+        <form action="{{ route('practices.index') }}" method="GET">
+            <label for="cerca">CERCA</label><input type="text" name="cerca" id="cerca"/>
+            <label for="is_in_corso">In corso</label><input type="checkbox" name="is_in_corso" id="is_in_corso" checked>
+            <button type="submit">CERCA</button>
+        </form>
+    </div>
+
     <table>
         @foreach($practices as $practice)
         <tr>
