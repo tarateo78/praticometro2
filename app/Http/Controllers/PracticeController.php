@@ -46,7 +46,8 @@ class PracticeController extends Controller
         // 1. Valida i dati
 
         $validated = $request->validate([
-            'codice' => 'required|max:255',
+            'codice' => 'required|max:5',
+            'is_in_corso' => 'nullable',
             'titolo' => 'nullable',
             'titolo_esteso' => 'nullable',
             'zona' => 'nullable',

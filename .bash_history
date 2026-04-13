@@ -21,3 +21,16 @@ ls -l
 exit
 npm run dev
 exit
+ls
+ls -l
+cd database/
+ls -l
+ls -l
+cd ..
+ls -l
+chmod 777 database/praticometro.sqlite 
+cd database/
+ls -l
+chmod 775 praticometro.sqlite 
+ls -l
+exit

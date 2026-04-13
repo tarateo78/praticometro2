@@ -45,7 +45,7 @@
         <input name="codice" value="{{ old('codice', $practice->codice) }}" /><br>
 
         <label for="is_in_corso">is_in_corso</label>
-        <input type="checkbox" name="is_in_corso" {{ $practice->is_in_corso ? "checked" : ""}} /><br>
+        <input type="checkbox" value="1" name="is_in_corso" {{ old('is_in_corso', $practice->is_in_corso) ? "checked" : "" }} /><br>
 
         <label for="titolo">titolo</label>
         <input name="titolo" value="{{ old('titolo', $practice->titolo) }}" /><br>
@@ -78,12 +78,12 @@
         <input name="importo" value="{{ old('importo', $practice->importo) }}" /><br>
 
         <label for="is_rl">is_rl</label>
-        <input type="checkbox" name="is_rl" {{ old('is_rl', $practice->is_rl) ?
+        <input type="checkbox" value="1" name="is_rl" {{ old('is_rl', $practice->is_rl) ?
         "checked" : "" }}
         /><br>
 
         <label for="is_mims">is_mims</label>
-        <input type="checkbox" name="is_mims" {{ old('is_mims', $practice->is_mims)
+        <input type="checkbox" value="1" name="is_mims" {{ old('is_mims', $practice->is_mims)
         ? "checked" : ""
         }}
         /><br>
@@ -98,7 +98,7 @@
         <input name="avvio_servizio_at" value="{{ old('avvio_servizio_at', $practice->avvio_servizio_at) }}" /><br>
 
         <label for="is_avvio_progettazione">is_avvio_progettazione</label>
-        <input type="checkbox" name="is_avvio_progettazione" {{ old('is_avvio_progettazione',
+        <input type="checkbox" value="1" name="is_avvio_progettazione" {{ old('is_avvio_progettazione',
             $practice->is_avvio_progettazione) ?
         "checked" : "" }} /><br>
 
@@ -131,14 +131,14 @@
         <input name="cds_chiusa_at" value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at) }}" /><br>
 
         <label for="is_avvio_gara">is_avvio_gara</label>
-        <input type="checkbox" name="is_avvio_gara" {{ old('is_avvio_gara', $practice->is_avvio_gara) ? "checked" : ""
+        <input type="checkbox" value="1" name="is_avvio_gara" {{ old('is_avvio_gara', $practice->is_avvio_gara) ? "checked" : ""
         }} /><br>
 
         <label for="contratto_at">contratto_at</label>
         <input name="contratto_at" value="{{ old('contratto_at', $practice->contratto_at) }}" /><br>
 
         <label for="is_lavori_in_corso">is_lavori_in_corso</label>
-        <input type="checkbox" name="ish_lavori_in_corso" {{ old('is_lavori_in_corso', $practice->is_lavori_in_corso) ?
+        <input type="checkbox" value="1" name="ish_lavori_in_corso" {{ old('is_lavori_in_corso', $practice->is_lavori_in_corso) ?
         "checked" : "" }} /><br>
 
         <label for="direttore_lavori">direttore_lavori</label>
@@ -157,7 +157,7 @@
         <input name="lavori_note" value="{{ old('lavori_note', $practice->lavori_note) }}" /><br>
 
         <label for="is_cre">is_cre</label>
-        <input type="checkbox" name="is_cre" {{ old('is_cre', $practice->is_cre) ? "checked" : "" }} /><br>
+        <input type="checkbox" value="1" name="is_cre" {{ old('is_cre', $practice->is_cre) ? "checked" : "" }} /><br>
 
         <label for="cre_at">cre_at</label>
         <input name="cre_at" value="{{ old('cre_at', $practice->cre_at) }}" /><br>
