@@ -61,8 +61,8 @@
                     @foreach($practices as $practice)
                     <tr>
 
-                        <td class="text-blue-800">
-                            <a href="{{ route('practices.edit', $practice) }}" class="hover:text-black">{{ $practice->codice }}</a></td>
+                        <td>
+                            <a href="{{ route('practices.edit', $practice) }}" class="link">{{ $practice->codice }}</a></td>
                         <td>{{ $practice->titolo }}</td>
                         <td>
                             @if( $practice->is_cre )

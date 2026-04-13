@@ -32,6 +32,7 @@
                 <th>Titolo</th>
                 <th>Stato</th>
                 <th>Area</th>
+                <th>Strade</th>
                 <th>Cup</th>
                 <th>Importo</th>
                 <th>Finanziamento</th>
@@ -41,8 +42,8 @@
             @foreach($practices as $practice)
             <tr>
 
-                <td class="text-blue-800">
-                    <a href="{{ route('practices.edit', $practice) }}" class="hover:text-black">{{ $practice->codice }}</a></td>
+                <td>
+                    <a href="{{ route('practices.edit', $practice) }}" class="link">{{ $practice->codice }}</a></td>
                 <td>{{ $practice->titolo }}</td>
                 <td>
                     @if ($practice->is_avvio_progettazione)
@@ -62,14 +63,14 @@
                     @endif
                 </td>
                 <td>{{ $practice->zona }}</td>
+                <td>{{ $practice->strade }}</td>
                 <td>{{ $practice->cup }}</td>
 
                 <?php $importo = (float) str_replace( ",",".", str_replace(".","", $practice->importo) ) ?>
                 {{-- <td class="">{{ number_format((float)str_replace(str_replace($practice->importo,".",""),",",".") , 2, "," , ".")}} €</td> --}}
-                <td class="text-right pr-2">{{ number_format( $importo, 2) }} €</td>
+                <td class="text-right pr-2">{{ number_format( $importo, 2,",",".") }} €</td>
 
                 <td>{{ $practice->finanziamento }}</td>
-                <td></td>
             </tr>
 
             <?php 
@@ -84,8 +85,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
                 <td class="text-right">Importo Totale:</td>
-                <td class="text-right pr-2">{{ number_format( $importo_totale, 2) }} €</td>
+                <td class="text-right pr-2">{{ number_format( $importo_totale, 2,",",".") }} €</td>
                 <td></td>
             </tr>
         </tfoot>

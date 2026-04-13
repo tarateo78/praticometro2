@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <a href="{{ route('practices.index') }}">← Torna alla lista</a>
+    <a href="{{ route('practices.index') }}?is_in_corso=on">← Torna alla lista</a>
 
     <h1>EDIT</h1>
     <h2>{{ $practice->codice }}</h2>
