@@ -11,14 +11,35 @@
 }
 
 body {
-    @apply bg-gray-100;
+}
+
+table {
+    @apply w-full my-5 bg-gray-50
+}
+
+thead tr {
+    @apply border-b border-gray-300 bg-gray-200
+}
+
+th {
+    @apply py-2
+}
+
+tbody tr {
+    @apply border-b border-gray-300 hover:bg-gray-200
 }
 
 h1 {
-    font-size: 100px;
-    color: green;
+    @apply text-4xl text-green-700;
 }
 
 td {
-    padding: 2px 5px;
+    @apply py-1 pl-3
+}
+
+
+/* */
+
+.tag {
+    @apply py-1 px-2 rounded-2xl
 }
