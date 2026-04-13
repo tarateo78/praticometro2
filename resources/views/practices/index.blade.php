@@ -9,14 +9,20 @@
 </head>
 
 <body>
-    <h1 class="text-center">Elenco pratiche</h1>
-    <h2>Numero di pratiche: {{ $practices->count() }}</h2>
-    <div>
-        <form action="{{ route('practices.index') }}" method="GET">
-            <label for="cerca">CERCA</label><input type="text" name="cerca" id="cerca"/>
-            <label for="is_in_corso">In corso</label><input type="checkbox" name="is_in_corso" id="is_in_corso" checked>
-            <button type="submit">CERCA</button>
-        </form>
+    <h1>Elenco pratiche</h1>
+    <?php $importo_totale = 0; ?>
+
+    <div class="filtra">
+        <div class="form">
+            <form action="{{ route('practices.index') }}" method="GET">
+                <label for="is_in_corso">Solo pratiche in corso</label><input type="checkbox" name="is_in_corso" id="is_in_corso" {{ isset($_GET['is_in_corso'])?"checked":"" }}>
+                <input type="text" name="filtra" id="filtra" placeholder="{{ isset($_GET['filtra'])?$_GET['filtra']:"" }}"/>
+                <button type="submit">Applica filtro</button>
+            </form>
+        </div>
+        <div class="conteggio">
+            <h2>Numero di pratiche: {{ $practices->count() }}</h2>
+        </div>
     </div>
 
     <table>
@@ -57,16 +63,31 @@
                 </td>
                 <td>{{ $practice->zona }}</td>
                 <td>{{ $practice->cup }}</td>
+
+                <?php $importo = (float) str_replace( ",",".", str_replace(".","", $practice->importo) ) ?>
                 {{-- <td class="">{{ number_format((float)str_replace(str_replace($practice->importo,".",""),",",".") , 2, "," , ".")}} €</td> --}}
-                <td class="text-right pr-2">{{ number_format( (float) str_replace( ",",".", str_replace(".","", $practice->importo) ), 2) }} €</td>
+                <td class="text-right pr-2">{{ number_format( $importo, 2) }} €</td>
 
                 <td>{{ $practice->finanziamento }}</td>
                 <td></td>
             </tr>
+
+            <?php 
+            $importo_totale += $importo;
+            ?>
+
             @endforeach
         </tbody>
         <tfoot>
-
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right">Importo Totale:</td>
+                <td class="text-right pr-2">{{ number_format( $importo_totale, 2) }} €</td>
+                <td></td>
+            </tr>
         </tfoot>
     </table>
 </body>

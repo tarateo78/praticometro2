@@ -56,6 +56,9 @@
         <label for="zona">zona</label>
         <input name="zona" value="{{ old('zona', $practice->zona) }}" /><br>
 
+        <label for="strade">strade</label>
+        <input name="strade" value="{{ old('strade', $practice->strade) }}" /><br>
+
         <label for="cup">cup</label>
         <input name="cup" value="{{ old('cup', $practice->cup) }}" /><br>
 

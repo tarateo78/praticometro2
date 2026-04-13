@@ -8,9 +8,24 @@ use Illuminate\View\View;
 class OpenwebController extends Controller
 {
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        $practices = Practice::where("is_in_corso", true)->where("codice", 'like', "V28%")->orderBy("codice", "desc")->get();
+        // Query: QUANDO è partita la progettazione e non è ancora stato fatto il CRE o il CRE è successivo al 2022
+
+        $practices = Practice::when($request->filtra, function ($query) use ($request) {
+            return $query->whereAny(['codice', 'titlo', 'titolo_esteso', 'zona', 'strade', 'finanziamento'], 'like', "%" . $request->filtra . "%");
+        })
+            ->where('is_avvio_progettazione', true)
+            ->where(function ($query) {
+                $query->where('cre_at', '=', '')
+                    ->orWhere('cre_at', "=", null)
+                    ->orWhere('cre_at', '>', '2022');
+            })
+            ->orderBy("codice", "desc")
+            ->get();
+
+        // $practices = Practice::all();
+        // dd($practice);
         return view("openweb.index", compact("practices"));
     }
 
@@ -38,64 +53,65 @@ class OpenwebController extends Controller
         // 1. Valida i dati
 
         $validated = $request->validate([
-            'codice'                 => 'required|max:255',
-            'titolo'                 => 'nullable',
-            'titolo_esteso'          => 'nullable',
-            'zona'                   => 'nullable',
-            'cup'                    => 'nullable',
-            'finanziamento'          => 'nullable',
-            'finanziamento_note'     => 'nullable',
-            'rup'                    => 'nullable',
-            'fascicolo'              => 'nullable',
-            'importo'                => 'nullable',
-            'is_rl'                  => 'nullable',
-            'is_mims'                => 'nullable',
-            'rl_codice'              => 'nullable',
-            'mims_codice'            => 'nullable',
-            'avvio_servizio_at'      => 'nullable',
+            'codice' => 'required|max:255',
+            'titolo' => 'nullable',
+            'titolo_esteso' => 'nullable',
+            'zona' => 'nullable',
+            'strade' => 'nullable',
+            'cup' => 'nullable',
+            'finanziamento' => 'nullable',
+            'finanziamento_note' => 'nullable',
+            'rup' => 'nullable',
+            'fascicolo' => 'nullable',
+            'importo' => 'nullable',
+            'is_rl' => 'nullable',
+            'is_mims' => 'nullable',
+            'rl_codice' => 'nullable',
+            'mims_codice' => 'nullable',
+            'avvio_servizio_at' => 'nullable',
             'is_avvio_progettazione' => 'nullable',
-            'progettista'            => 'nullable',
-            'sicurezza'              => 'nullable',
-            'file_count'             => 'nullable',
-            'file_effettivi_count'   => 'nullable',
-            'fte_at'                 => 'nullable',
-            'def_at'                 => 'nullable',
-            'ese_at'                 => 'nullable',
-            'cds_at'                 => 'nullable',
-            'cds_chiusa_at'          => 'nullable',
-            'is_avvio_gara'          => 'nullable',
-            'contratto_at'           => 'nullable',
-            'is_lavori_in_corso'     => 'nullable',
-            'direttore_lavori'       => 'nullable',
-            'assistente_dl'          => 'nullable',
-            'consegna_lavori_at'     => 'nullable',
-            'impresa'                => 'nullable',
-            'lavori_note'            => 'nullable',
-            'is_cre'                 => 'nullable',
-            'cre_at'                 => 'nullable',
-            'appunti_progettazione'  => 'nullable',
-            'rup_note'               => 'nullable',
-            'capitolo'               => 'nullable',
-            'urgente'                => 'nullable',
-            'urgente_nota'           => 'nullable',
+            'progettista' => 'nullable',
+            'sicurezza' => 'nullable',
+            'file_count' => 'nullable',
+            'file_effettivi_count' => 'nullable',
+            'fte_at' => 'nullable',
+            'def_at' => 'nullable',
+            'ese_at' => 'nullable',
+            'cds_at' => 'nullable',
+            'cds_chiusa_at' => 'nullable',
+            'is_avvio_gara' => 'nullable',
+            'contratto_at' => 'nullable',
+            'is_lavori_in_corso' => 'nullable',
+            'direttore_lavori' => 'nullable',
+            'assistente_dl' => 'nullable',
+            'consegna_lavori_at' => 'nullable',
+            'impresa' => 'nullable',
+            'lavori_note' => 'nullable',
+            'is_cre' => 'nullable',
+            'cre_at' => 'nullable',
+            'appunti_progettazione' => 'nullable',
+            'rup_note' => 'nullable',
+            'capitolo' => 'nullable',
+            'urgente' => 'nullable',
+            'urgente_nota' => 'nullable',
             'prossima_scadenza_nota' => 'nullable',
-            'prossima_scadenza_at'   => 'nullable',
-            'bdap'                   => 'nullable',
-            'bdap_convalidato'       => 'nullable',
-            'bdap_note'              => 'nullable',
-            'sito_internet'          => 'nullable',
-            'sito_internet_nota'     => 'nullable',
-            'rif_llpp'               => 'nullable',
-            'determina_gruppo'       => 'nullable',
-            'check_at'               => 'nullable',
-            'modifica_at'            => 'nullable',
-            'modifica_utente'        => 'nullable',
-            'alias'                  => 'nullable',
-            'scadenza_progetto'      => 'nullable',
-            'scadenza_affidamento'   => 'nullable',
-            'scadenza_esecutivo'     => 'nullable',
-            'gruppo'                 => 'nullable',
-            'coordinate'             => 'nullable',
+            'prossima_scadenza_at' => 'nullable',
+            'bdap' => 'nullable',
+            'bdap_convalidato' => 'nullable',
+            'bdap_note' => 'nullable',
+            'sito_internet' => 'nullable',
+            'sito_internet_nota' => 'nullable',
+            'rif_llpp' => 'nullable',
+            'determina_gruppo' => 'nullable',
+            'check_at' => 'nullable',
+            'modifica_at' => 'nullable',
+            'modifica_utente' => 'nullable',
+            'alias' => 'nullable',
+            'scadenza_progetto' => 'nullable',
+            'scadenza_affidamento' => 'nullable',
+            'scadenza_esecutivo' => 'nullable',
+            'gruppo' => 'nullable',
+            'coordinate' => 'nullable',
         ]);
 
         // 2. Aggiorna il modello

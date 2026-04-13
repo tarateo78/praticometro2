@@ -7,45 +7,119 @@
     <title>Progetti e Lavori</title>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         #map {
             height: 800px;
             width: 500px;
             border: 2px solid #ccc;
         }
-
+        
         /* Impedisce a Tailwind di forzare l'altezza massima delle immagini della mappa */
         #map img {
             max-width: none !important;
             max-height: none !important;
         }
     </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
     <h1>Progetti e Lavori</h1>
 
-    <table>
-        @foreach($practices as $practice)
-        <tr>
+    <?php $importo_totale = 0; ?>
 
-            <td>{{ $practice->codice }}</td>
-            <td><a href="{{ route('practices.edit', $practice) }}">🔎</a></td>
-            <td>{{ $practice->titolo }}</td>
-            <td>{{ $practice->zona }}</td>
-            <td>{{ $practice->importo }}</td>
-            <td>{{ $practice->finanziamento }}</td>
-            <td></td>
-        </tr>
-        @endforeach
-    </table>
+    <div class="filtra">
+        <div class="form">
+            <form action="{{ route('openweb.index') }}" method="GET">
+                <input type="text" name="filtra" id="filtra" placeholder="{{ isset($_GET['filtra'])?$_GET['filtra']:"" }}"/>
+                <button type="submit">Applica filtro</button>
+            </form>
+        </div>
+        <div class="conteggio">
+            <h2>Numero di pratiche: {{ $practices->count() }}</h2>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-4">
+        
+        <div class="col-span-8 p-4">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Codice</th>
+                        <th>Titolo</th>
+                        <th>Stato</th>
+                        <th>Area</th>
+                        <th>Strade</th>
+                        <th>Importo</th>
+                        <th>Finanziamento</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($practices as $practice)
+                    <tr>
+
+                        <td class="text-blue-800">
+                            <a href="{{ route('practices.edit', $practice) }}" class="hover:text-black">{{ $practice->codice }}</a></td>
+                        <td>{{ $practice->titolo }}</td>
+                        <td>
+                            @if( $practice->is_cre )
+                                <span  class="tag bg-violet-100" >Lavori conclusi</span>
+                            @else
+                                @if($practice->is_lavori_in_corso)
+                                    <span  class="tag bg-blue-100" >Lavori in corso</span>
+                                @else
+                                    @if($practice->is_avvio_gara)
+                                        <span  class="tag bg-green-100" >Gara d'Appalto</span>
+                                    @else
+                                        @if ($practice->is_avvio_progettazione)
+                                            <span class="tag bg-yellow-100" >Progettazione</span>
+                                        @endif
+                                    @endif
+                                @endif
+                            @endif
+                            
+                        </td>
+                        <td>{{ $practice->zona }}</td>
+                        <td>{{ $practice->strade }}</td>
+
+                        <?php $importo = (float) str_replace( ",",".", str_replace(".","", $practice->importo) ) ?>
+                        {{-- <td class="">{{ number_format((float)str_replace(str_replace($practice->importo,".",""),",",".") , 2, "," , ".")}} €</td> --}}
+                        <td class="text-right pr-2">{{ number_format( $importo, 2,",",".") }} €</td>
+                    
+                        <td>{{ $practice->finanziamento }}</td>
+                    </tr>
 
 
+                    <?php 
+                    $importo_totale += $importo;
+                    ?>
 
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right">Importo Totale:</td>
+                        <td class="text-right pr-2">{{ number_format( $importo_totale, 2,",",".") }} €</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
 
+        </div>
+        <div class="col-span-4 p-4">
 
-    <div id="map"></div>
+            <div id="map"></div>
+
+        </div>
+
+    </div>
 
     <script>
         // 4. IL TUO CODICE JAVASCRIPT
@@ -60,27 +134,23 @@
 
         // recupero le coordinate
 
-        // practices = array di oggetti relativi a ogni singola pratica 
-        @js($practices).forEach( practice => {
+        @if (isset($practice))
+        
+        
+            // practices = array di oggetti relativi a ogni singola pratica 
+            @js($practices).forEach( practice => {
 
-            if(practice.coordinate != null) {
-                practice.coordinate.split("|").forEach(coordinata=>{
-                     L.marker(coordinata.split(",")).addTo(map)
-                    .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso );
-                });                
-                
-            }
+                if(practice.coordinate != null) {
+                    practice.coordinate.split("|").forEach(coordinata=>{
+                        L.marker(coordinata.split(",")).addTo(map)
+                        .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso );
+                    });                
+                    
+                }
 
-        });
+            });
+        @endif
 
-        /*
-        @js($practice->coordinate).split("|").forEach(coordinata => {
-            // Aggiungi il marker
-            L.marker(coordinata.split(",")).addTo(map)
-                .bindPopup('{{ $practice->titolo_esteso }}');
-                //.openPopup();
-        });
-            */
             
         // RETE STRADE PROVINCIALI
         const geojsonUrl = '/assets/gis/strade_provinciali.geojson';

@@ -11,8 +11,8 @@ class PracticeController extends Controller
     public function index(Request $request): View
     {
 
-        $practices = Practice::when($request->cerca, function ($query) use ($request) {
-            return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->cerca . "%");
+        $practices = Practice::when($request->filtra, function ($query) use ($request) {
+            return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->filtra . "%");
         })->when($request->is_in_corso, function ($query) use ($request) {
             return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
         })->orderBy("codice", "desc")->get();
@@ -50,6 +50,7 @@ class PracticeController extends Controller
             'titolo' => 'nullable',
             'titolo_esteso' => 'nullable',
             'zona' => 'nullable',
+            'strade' => 'nullable',
             'cup' => 'nullable',
             'finanziamento' => 'nullable',
             'finanziamento_note' => 'nullable',

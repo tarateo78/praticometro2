@@ -66,5 +66,6 @@ class Openweb extends Model
         'scadenza_esecutivo',
         'gruppo',
         'coordinate',
+        'strade'
     ];
 }

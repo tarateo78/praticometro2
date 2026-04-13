@@ -13,12 +13,19 @@
 body {
 }
 
+
+h1 {
+    @apply text-center text-4xl text-green-700 my-4
+}
+
+/* */
+
 table {
     @apply w-full my-5 bg-gray-50
 }
 
 thead tr {
-    @apply border-b border-gray-300 bg-gray-200
+    @apply border-b border-b-purple-500 bg-purple-300
 }
 
 th {
@@ -29,8 +36,9 @@ tbody tr {
     @apply border-b border-gray-300 hover:bg-gray-200
 }
 
-h1 {
-    @apply text-4xl text-green-700;
+
+tfoot {
+        @apply border-b border-b-purple-300 bg-purple-200 font-bold
 }
 
 td {
@@ -40,6 +48,19 @@ td {
 
 /* */
 
+.filtra {
+    @apply border border-2 flex p-2
+}
+
+.filtra input[type="text"] {
+    @apply border-2 bg-orange-100
+}
+
+.filtra button {
+    @apply bg-gray-300 px-2 hover:cursor-pointer
+}
+
 .tag {
     @apply py-1 px-2 rounded-2xl
 }
+
