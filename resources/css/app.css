@@ -12,8 +12,10 @@
 
 @layer components {
 
+
+
     body { 
-        @apply bg-gray-100
+        @apply bg-gray-200
     }
 
     .titolo-colonna {
@@ -28,15 +30,27 @@
     }
 
     label {
-        @apply text-lg text-gray-700 mr-2
+        @apply text-lg text-gray-700  m-1 mr-2
     }
 
     input {
-        @apply text-xl bg-gray-50
+        @apply text-xl bg-white m-1
     }
 
     textarea {
-        @apply text-xl bg-gray-50
+        @apply text-xl bg-white m-1
+    }
+
+    input::placeholder {
+        @apply text-amber-500
+    }
+
+    button.outer {
+        @apply border-2 rounded-lg py-2 px-4
+    }
+
+    button.inner {
+        @apply rounded-lg py-2 px-4
     }
 
     /* TABLE */

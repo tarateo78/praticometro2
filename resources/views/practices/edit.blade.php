@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit</title>
+    <title>Praticometro - Pratica {{ $practice->codice }}</title>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         #map {
-            height: 800px;
-            width: 500px;
+            height: 300px;
+            width: 300px;
             border: 2px solid #ccc;
         }
 
@@ -41,12 +41,12 @@
 
             {{-- Se stiamo modificando, Laravel ha bisogno del metodo PUT --}}
             @if($practice->exists)
-            @method('PUT')
+                @method('PUT')
             @endif
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-2 p-2">
-                <div class="bg-amber-100/30 p-2 rounded-xs md:col-span-2">
-                    <div class="grid grid-cols-2 gap-2">
+                <div class=" p-2 rounded-xs md:col-span-2">
+                    <div class="grid grd-cols-1 sm:grid-cols-2 gap-2">
                         <div>
                             {{-- Usiamo l'helper old() per mantenere i dati in caso di errore di validazione --}}
                             <label for="codice">Pratica</label>
@@ -54,10 +54,16 @@
                         </div>
                         <div>
                             <label for="is_in_corso">In corso</label>
-                            <input type="checkbox" value="1" name="is_in_corso" {{ old('is_in_corso',
-                                $practice->is_in_corso) ?
-                            "checked" :
-                            "" }} />
+                            <input type="checkbox" value="1" name="is_in_corso" {{ old(
+    'is_in_corso',
+    $practice->is_in_corso
+) ?
+    "checked" :
+    "" }} />
+                            <br>
+
+                            <label for="cup">cup</label>
+                            <input name="cup" value="{{ old('cup', $practice->cup) }}" class="w-50" />
                         </div>
                     </div>
                     <label for="titolo">Titolo</label>
@@ -65,14 +71,12 @@
                     <br>
                     <label for="titolo_esteso">Titolo esteso</label>
                     <textarea name="titolo_esteso"
-                        class="w-full h-20 bg-gray-50">{{ old('titolo_esteso', $practice->titolo_esteso) }}</textarea>
-                    <label for="cup">cup</label>
-                    <input name="cup" value="{{ old('cup', $practice->cup) }}" class="w-60" />
+                        class="w-full h-20">{{ old('titolo_esteso', $practice->titolo_esteso) }}</textarea>
+
 
                 </div>
 
                 <div class="p-2 rounded-xs">
-                    <div class="titolo-colonna text-blue-700">Dati amministrativi</div>
 
                     <label for="fascicolo">fascicolo</label>
                     <input name="fascicolo" value="{{ old('fascicolo', $practice->fascicolo) }}" class="w-40" />
@@ -117,12 +121,12 @@
 
                     <label for="is_rl">is_rl</label>
                     <input type="checkbox" value="1" name="is_rl" {{ old('is_rl', $practice->is_rl) ?
-                    "checked" : "" }} />
+    "checked" : "" }} />
                     <br>
 
                     <label for="is_mims">is_mims</label>
                     <input type="checkbox" value="1" name="is_mims" {{ old('is_mims', $practice->is_mims) ? "checked" :
-                    "" }} />
+    "" }} />
                     <br>
 
                     <label for="rl_codice">rl_codice</label>
@@ -136,16 +140,18 @@
 
             <br>
 
-            <div class="bg-gray-200 p-2">
+            <div class="p-2">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="border border-l-8 border-purple-700 p-2 rounded-xs">
-                        <div class="titolo-colonna text-purple-700">Progettazione</div>
+                    <div class="border border-l-8 border-purple-700 rounded-xs">
+                        <div class="titolo-colonna bg-purple-700 text-white">Progettazione</div>
 
 
                         <label for="is_avvio_progettazione">is_avvio_progettazione</label>
-                        <input type="checkbox" value="1" name="is_avvio_progettazione" {{ old('is_avvio_progettazione',
-                            $practice->is_avvio_progettazione) ?
-                        "checked" : "" }} />
+                        <input type="checkbox" value="1" name="is_avvio_progettazione" {{ old(
+    'is_avvio_progettazione',
+    $practice->is_avvio_progettazione
+) ?
+    "checked" : "" }} />
                         <br>
                         <label for="avvio_servizio_at">avvio_servizio_at</label>
                         <input type="date" name="avvio_servizio_at"
@@ -179,9 +185,11 @@
                         <div class="titolo-colonna text-green-700">Gara</div>
 
                         <label for="is_avvio_gara">is_avvio_gara</label>
-                        <input type="checkbox" value="1" name="is_avvio_gara" {{ old('is_avvio_gara',
-                            $practice->is_avvio_gara) ?
-                        "checked" : ""
+                        <input type="checkbox" value="1" name="is_avvio_gara" {{ old(
+    'is_avvio_gara',
+    $practice->is_avvio_gara
+) ?
+    "checked" : ""
                         }} />
                         <br>
                         <label for="contratto_at">contratto_at</label>
@@ -197,9 +205,11 @@
                         <div class="titolo-colonna text-yellow-700">Lavori</div>
 
                         <label for="is_lavori_in_corso">is_lavori_in_corso</label>
-                        <input type="checkbox" value="1" name="ish_lavori_in_corso" {{ old('is_lavori_in_corso',
-                            $practice->is_lavori_in_corso) ?
-                        "checked" : "" }} />
+                        <input type="checkbox" value="1" name="ish_lavori_in_corso" {{ old(
+    'is_lavori_in_corso',
+    $practice->is_lavori_in_corso
+) ?
+    "checked" : "" }} />
 
                         <label for="direttore_lavori">direttore_lavori</label>
                         <input name="direttore_lavori"
@@ -230,9 +240,8 @@
                         <div class="titolo-colonna text-blue-700">Cre</div>
                         <label for="is_cre">is_cre</label>
                         <input type="checkbox" value="1" name="is_cre" {{ old('is_cre', $practice->is_cre) ? "checked" :
-                        ""
-                        }}
-                        />
+    ""
+                        }} />
 
                         <label for="cre_at">cre_at</label>
                         <input type="date" name="cre_at" value="{{ old('cre_at', $practice->cre_at) }}" />
@@ -263,20 +272,21 @@
                     <label for="coordinate">coordinate</label>
                     <input name="coordinate" value="{{ old('coordinate', $practice->coordinate) }}" />
 
+                    <div id="map"></div>
 
                 </div>
                 <div class="border-l-8 border-blue-700 p-6 rounded-xs">
                     <div class="titolo-colonna text-blue-700">Check</div>
 
                     <label for="file_count">file_count</label>
-                    <input name="file_count" value="{{ old('file_count', $practice->file_count) }}" />
+                    <input name="file_count" id="file_count" value="{{ old('file_count', $practice->file_count) }}" />
 
                     <label for="file_effettivi_count">file_effettivi_count</label>
-                    <input name="file_effettivi_count"
+                    <input name="file_effettivi_count" id="file_effettivi_count"
                         value="{{ old('file_effettivi_count', $practice->file_effettivi_count) }}" />
 
                     <label for="check_at">check_at</label>
-                    <input name="check_at" value="{{ old('check_at', $practice->check_at) }}" />
+                    <input name="check_at" id="check_at" value="{{ old('check_at', $practice->check_at) }}" />
 
                     <label for="modifica_at">modifica_at</label>
                     <input name="modifica_at" value="{{ old('modifica_at', $practice->modifica_at) }}" />
@@ -301,7 +311,8 @@
                     <label for="bdap_note">bdap_note</label>
                     <input name="bdap_note" value="{{ old('bdap_note', $practice->bdap_note) }}" />
 
-                    <label for="sito_internet">sito_internet</label>
+                    <label
+                        for="shttps://tarateo.altervista.org/scanner-file/index.htmlito_internet">sito_internet</label>
                     <input name="sito_internet" value="{{ old('sito_internet', $practice->sito_internet) }}" />
 
                     <label for="sito_internet_nota">sito_internet_nota</label>
@@ -332,65 +343,211 @@
                 </div>
             </div>
 
-            <button type="submit">Salva aggiornamenti</button>
+            <button type="submit" class="inner bg-green-600 text-white font-bold">Salva aggiornamenti</button>
         </form>
 
-        <div id="map"></div>
+
+
+        <button id="btnStart" class="outer border-green-600 text-green-600 font-bold">Verifica Aggiornamenti</button>
+        <div id="status-bar">
+            <div>Stato: <span id="statusText">Pronto</span></div>
+            <div>File analizzati: <strong id="fileCount">0</strong></div>
+        </div>
+        <div id="log">I risultati appariranno qui...</div>
+
+
+        <button id="btnAllinea">Allinea il conteggio</button>
+
+        <script>
+
+            // Gestione controllo aggiornamenti
+            const btnStart = document.getElementById('btnStart');
+            const logElement = document.getElementById('log');
+            const statusElement = document.getElementById('statusText');
+            const file_effettivi_count = document.getElementById('file_effettivi_count');
+
+            function writeLog(text, className = "") {
+                const span = document.createElement('div');
+                if (className) span.className = className;
+                span.innerHTML = text;
+                logElement.appendChild(span);
+                // Autoscroll verso il basso
+                logElement.scrollTop = logElement.scrollHeight;
+            }
+
+            async function scanEfficient(directoryHandle, targetTimestamp, stats, path = "") {
+                // .values() è un iteratore asincrono che non carica tutto in memoria
+
+                for await (const entry of directoryHandle.values()) {
+                    const currentPath = path ? `${path}/${entry.name}` : entry.name;
+                    if (entry.kind === 'file') {
+
+                        stats.total++; // Incrementa il contatore totale
+
+                        // Aggiorna l'interfaccia ogni 50 file per performance
+                        if (stats.total % 50 === 0) {
+                            document.getElementById('fileCount').innerText = stats.total;
+                        }
+
+                        try {
+                            // Otteniamo solo i metadati (operazione leggera)
+                            const file = await entry.getFile();
+
+                            if (file.lastModified > targetTimestamp) {
+                                const dateStr = new Date(file.lastModified).toLocaleString();
+                                writeLog(`<span class="file-entry">������ ${currentPath}</span> <span class="highlight">[Modificato: ${dateStr}]</span>`);
+                            }
+                        } catch (err) {
+                            writeLog(`⚠️ Errore accesso file: ${entry.name}`, "dir-entry");
+                        }
+                    } else if (entry.kind === 'directory') {
+                        // Ricorsione asincrona per le sottocartelle
+                        await scanEfficient(entry, targetTimestamp, stats, currentPath);
+                    }
+
+                    // Trucco per la memoria: cede il controllo alla UI ogni tanto
+                    // Impedisce al browser di segnalare "Pagina bloccata"
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    /*
+                    setTimeout(resolve, 0): Durante la scansione ricorsiva, questa riga permette al 
+                    browser di "respirare", aggiornare il log a video e non mostrare il messaggio di 
+                    "Pagina che non risponde" anche se scansiona 10.000 file.
+                    */
+                }
+            }
+
+            btnStart.addEventListener('click', async () => {
+
+                const selectedDate = new Date(@js($practice->check_at)).getTime();
+
+                if (isNaN(selectedDate)) {
+                    alert("Per favore, seleziona una data valida.");
+                    return;
+                }
+
+                if (!window.showDirectoryPicker) {
+                    alert("Il tuo browser non supporta questa tecnologia. Usa Chrome o Edge aggiornati.");
+                    return;
+                }
+
+                try {
+                    // 1. Richiesta accesso esplicito in SOLA LETTURA
+                    const dirHandle = await window.showDirectoryPicker({
+                        mode: 'read'
+                    });
+                    /*
+                    Garanzia mode: 'read': La configurazione iniziale blocca qualsiasi
+                    tentativo accidentale di scrittura.
+                    */
+
+                    // Reset interfaccia
+                    logElement.innerHTML = "";
+
+                    statusElement.innerText = "Scansione in corso (Sola Lettura)...";
+
+                    const stats = { total: 0 }; // Inizializza i conteggi
+                    document.getElementById('fileCount').innerText = "0";
+
+                    const startTime = performance.now();
+
+                    // 2. Avvio scansione ottimizzata
+
+                    await scanEfficient(dirHandle, selectedDate, stats, dirHandle.name);
+
+
+                    const endTime = performance.now();
+                    const duration = ((endTime - startTime) / 1000).toFixed(2);
+
+                    // Aggiornamento finale del contatore per precisione
+                    document.getElementById('fileCount').innerText = stats.total;
+                    statusElement.innerText = `Scansione completata in ${duration} secondi.`;
+                    writeLog("<br>✅ Operazione terminata con successo.", "highlight");
+
+                } catch (err) {
+                    if (err.name === 'AbortError') {
+                        statusElement.innerText = "Operazione annullata.";
+                    } else {
+                        console.error(err);
+                        statusElement.innerText = "Errore critico: " + err.message;
+                    }
+                } finally {
+                    btnStart.disabled = false;
+                }
+            });
+
+
+            // Allinea il numero del controllo file e la data
+            const check_at = document.getElementById('check_at');
+            const btnAllinea = document.getElementById('btnAllinea');
+            const fileCount = document.getElementById('fileCount');
+
+            btnAllinea.addEventListener('click', () => {
+                console.log(fileCount.innerText);
+            });
+
+
+        </script>
+
 
 
 
         <script>
-            // 4. IL TUO CODICE JAVASCRIPT
-        // Inizializza la mappa su Milano
-        var map = L.map('map').setView([45.852455, 9.395464], 10);
 
-        // Aggiungi il layer di OpenStreetMap (le "mattonelle" della mappa)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+            // Inizializza la mappa centrata sul Lecco
+            var map = L.map('map').setView([45.890284, 9.3783311], 9);
 
-        // recupero le coordinate
-        @js($practice->coordinate).split("|").forEach(coordinata => {
-            // Aggiungi il marker
-            L.marker(coordinata.split(",")).addTo(map)
-                .bindPopup('{{ $practice->titolo_esteso }}');
-                //.openPopup();
-        });
-            
-            
-        // RETE STRADE PROVINCIALI
-        const geojsonUrl = '/assets/gis/strade_provinciali.geojson';
-        
-        fetch(geojsonUrl)
-            .then(response => {
-                // Verifica se la risposta è corretta (status 200)
-                if (!response.ok) {
-                    throw new Error('Errore nel caricamento del file: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Aggiungi i dati GeoJSON alla mappa
-                L.geoJSON(data, {
-                    // Opzionale: aggiungi stile o popup
-                    onEachFeature: function (feature, layer) {
-                        //console.log(feature);
-                        if (feature.properties && feature.properties.Sigla) {
-                            layer.bindPopup(feature.properties.Sigla);
-                            //console.log("nome: "+feature.properties.Sigla);
-                        }
-                    },
-                    style: function(feature) {
-                        // Esempio: stile personalizzato per le linee/poligoni
-                        return { color: "#ff2200", weight: 2, opacity: 1.00 };
+            // Aggiunge il layer di OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Recupero le coordinate memorizzate
+
+            const coo = @js($practice->coordinate);
+            if (coo != null && coo != "") {
+                @js($practice->coordinate).split("|").forEach(coordinata => {
+                    // Aggiungi il marker
+                    L.marker(coordinata.split(",")).addTo(map)
+                        .bindPopup('{{ $practice->titolo_esteso }}');
+                    //.openPopup();         // Mostra il popup
+                });
+            } else {
+                console.log("Coordinate non presenti");
+            }
+
+            // RETE STRADE PROVINCIALI
+            const geojsonUrl = '/assets/gis/strade_provinciali.geojson';
+
+            fetch(geojsonUrl)
+                .then(response => {
+                    // Verifica se la risposta è corretta (status 200)
+                    if (!response.ok) {
+                        throw new Error('Errore nel caricamento del file: ' + response.statusText);
                     }
-                }).addTo(map);
-                
-                console.log("Dati caricati con successo!");
-            })
-            .catch(error => {
-                console.error("Si è verificato un problema con l'operazione fetch:", error);
-            });
+                    return response.json();
+                })
+                .then(data => {
+                    // Aggiungi i dati GeoJSON alla mappa
+                    L.geoJSON(data, {
+                        // Opzionale: aggiungi stile o popup
+                        onEachFeature: function (feature, layer) {
+                            //console.log(feature);
+                            if (feature.properties && feature.properties.Sigla) {
+                                layer.bindPopup(feature.properties.Sigla);
+                                //console.log("nome: "+feature.properties.Sigla);
+                            }
+                        },
+                        style: function (feature) {
+                            // Esempio: stile personalizzato per le linee/poligoni
+                            return { color: "#ff2200", weight: 2, opacity: 1.00 };
+                        }
+                    }).addTo(map);
+
+                    console.log("Dati caricati con successo!");
+                })
+                .catch(error => {
+                    console.error("Si è verificato un problema con l'operazione fetch:", error);
+                });
         </script>
 
 
