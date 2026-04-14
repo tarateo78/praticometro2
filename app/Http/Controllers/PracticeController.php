@@ -103,7 +103,7 @@ class PracticeController extends Controller
             'alias' => 'nullable',
             'scadenza_progetto' => 'nullable',
             'scadenza_affidamento' => 'nullable',
-            'scadenza_esecutivo' => 'nullable',
+            'scadenza_esecuzione' => 'nullable',
             'gruppo' => 'nullable',
             'coordinate' => 'nullable',
         ]);

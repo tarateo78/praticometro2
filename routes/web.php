@@ -28,3 +28,5 @@ Route::get('/elenco/{practice}', [PracticeController::class, 'show'])->name("pra
 Route::get('/elenco/{practice}/edit', [PracticeController::class, 'edit'])->name("practices.edit");
 Route::put('/elenco/{practice}/edit', [PracticeController::class, 'update'])->name('practices.update');
 
+
+Route::view('/griglia', 'griglia');

@@ -63,7 +63,7 @@ class Practice extends Model
         'alias',
         'scadenza_progetto',
         'scadenza_affidamento',
-        'scadenza_esecutivo',
+        'scadenza_esecuzione',
         'gruppo',
         'coordinate',
         'strade',
