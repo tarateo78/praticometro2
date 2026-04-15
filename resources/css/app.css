@@ -115,7 +115,7 @@
     /* */
 
     .filtra {
-        @apply border border-2 flex p-2
+        @apply border flex p-2
     }
 
     .filtra input[type="text"] {

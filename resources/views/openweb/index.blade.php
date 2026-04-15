@@ -32,18 +32,23 @@
     <div class="filtra">
         <div class="form">
             <form action="{{ route('openweb.index') }}" method="GET">
-                <input type="text" name="filtra" id="filtra"
-                    placeholder="{{ isset($_GET['filtra']) ? $_GET['filtra'] : "" }}" />
+                <input type="text" name="filtra" id="filtra" />
                 <button type="submit">Applica filtro</button>
             </form>
         </div>
+        <span>
 
+            @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
+                Filtro impostato: {{ $_GET['filtra'] }} <a href="{{ route('openweb.index') }}"><span
+                        class="text-xs bg-red-300 px-1 rounded-lg">x</span></a>
+            @endif
+        </span>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-2">
         <div class="col-span-9 my-4">
             <div class="h-160 overflow-auto">
-                <table>
+                <table class="table-auto">
                     <thead>
                         <tr>
                             <th>Codice</th>
@@ -63,21 +68,21 @@
                                 <td>
                                     <a href="{{ route('openweb.show', $practice) }}"
                                         class="link">{{ $practice->codice
-                                                                                                                                                                                                                                            }}</a>
+                                                                                                                                                                                                                                                                                                                        }}</a>
                                 </td>
                                 <td>{{ $practice->titolo }}</td>
                                 <td>
                                     @if($practice->is_cre)
-                                        <span class="tag bg-violet-100">Lavori conclusi</span>
+                                        <span class="tag bg-violet-100 whitespace-nowrap">Lavori conclusi</span>
                                     @else
                                         @if($practice->is_lavori_in_corso)
-                                            <span class="tag bg-blue-100">Lavori in corso</span>
+                                            <span class="tag bg-blue-100 whitespace-nowrap">Lavori in corso</span>
                                         @else
                                             @if($practice->is_avvio_gara)
-                                                <span class="tag bg-green-100">Gara d'Appalto</span>
+                                                <span class="tag bg-green-100 whitespace-nowrap">Gara d'Appalto</span>
                                             @else
                                                 @if ($practice->is_avvio_progettazione)
-                                                    <span class="tag bg-yellow-100">Progettazione</span>
+                                                    <span class="tag bg-yellow-100 whitespace-nowrap">Progettazione</span>
                                                 @endif
                                             @endif
                                         @endif
@@ -85,7 +90,7 @@
 
                                 </td>
                                 <td>{{ $practice->zona }}</td>
-                                <td>
+                                <td class="whitespace-nowrap">
                                     @if($practice->strade)
                                         @foreach (explode(",", $practice->strade) as $sp)
                                             <span class='tag bg-gray-200 '>{{ $sp }}</span>
@@ -103,7 +108,7 @@
                                 <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
 
                                 <td>{{ $practice->finanziamento }}</td>
-                                <td>
+                                <td class="whitespace-nowrap">
                                     @if(isset($practice->cre_at))
                                         {{ $practice->cre_at }}
                                     @else
@@ -119,8 +124,8 @@
 
 
                             <?php 
-                                                                                                                                                                                                                                $importo_totale += $importo;
-                                                                                                                                                                                                                                ?>
+                                                                                                                                                                                                                                                                                                            $importo_totale += $importo;
+                                                                                                                                                                                                                                                                                                            ?>
 
                         @endforeach
                     </tbody>

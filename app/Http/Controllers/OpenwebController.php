@@ -14,9 +14,12 @@ class OpenwebController extends Controller
 
         $practices = Practice::when($request->filtra, function ($query) use ($request) {
 
-            //$termini = explode("+", $request->filtra);
+            $termini = explode("+", $request->filtra);
 
-            return $query->whereAny(['codice', 'titolo', 'titolo_esteso', 'zona', 'strade', 'finanziamento'], 'like', "%" . $request->filtra . "%");
+            foreach ($termini as $termine) {
+                $query->whereAny(['codice', 'titolo', 'stato_pratica', 'zona', 'strade', 'importo', 'finanziamento'], 'like', "%" . $termine . "%");
+            }
+            return $query;
         })
             ->where('is_avvio_progettazione', true)
             ->where(function ($query) {
