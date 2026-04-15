@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         #map {
-            height: 640px;
-            width: 500px;
+            height: 672px;
+            /* width: 440px; */
+            width: 100%;
             border: 2px solid #ccc;
         }
 
@@ -32,112 +33,117 @@
         <div class="form">
             <form action="{{ route('openweb.index') }}" method="GET">
                 <input type="text" name="filtra" id="filtra"
-                    placeholder="{{ isset($_GET['filtra'])?$_GET['filtra']:"" }}" />
+                    placeholder="{{ isset($_GET['filtra']) ? $_GET['filtra'] : "" }}" />
                 <button type="submit">Applica filtro</button>
             </form>
         </div>
 
     </div>
 
-    <div class="grid grid-cols-12 gap-2">
-        <div class="col-span-8 h-160 overflow-auto my-4">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-2">
+        <div class="col-span-9 my-4">
+            <div class="h-160 overflow-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Codice</th>
+                            <th>Titolo Intervento</th>
+                            <th>Stato Pratica</th>
+                            <th>Area</th>
+                            <th>Strade</th>
+                            <th>Importo</th>
+                            <th>Finanziamento</th>
+                            <th>Data fine lavori</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($practices as $practice)
+                            <tr>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Codice</th>
-                        <th>Titolo Intervento</th>
-                        <th>Stato Pratica</th>
-                        <th>Area</th>
-                        <th>Strade</th>
-                        <th>Importo</th>
-                        <th>Finanziamento</th>
-                        <th>Data fine lavori</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($practices as $practice)
-                    <tr>
+                                <td>
+                                    <a href="{{ route('openweb.show', $practice) }}"
+                                        class="link">{{ $practice->codice
+                                                                                                                                                                                                                                            }}</a>
+                                </td>
+                                <td>{{ $practice->titolo }}</td>
+                                <td>
+                                    @if($practice->is_cre)
+                                        <span class="tag bg-violet-100">Lavori conclusi</span>
+                                    @else
+                                        @if($practice->is_lavori_in_corso)
+                                            <span class="tag bg-blue-100">Lavori in corso</span>
+                                        @else
+                                            @if($practice->is_avvio_gara)
+                                                <span class="tag bg-green-100">Gara d'Appalto</span>
+                                            @else
+                                                @if ($practice->is_avvio_progettazione)
+                                                    <span class="tag bg-yellow-100">Progettazione</span>
+                                                @endif
+                                            @endif
+                                        @endif
+                                    @endif
 
-                        <td>
-                            <a href="{{ route('openweb.show', $practice) }}" class="link">{{ $practice->codice
-                                }}</a>
-                        </td>
-                        <td>{{ $practice->titolo }}</td>
-                        <td>
-                            @if( $practice->is_cre )
-                            <span class="tag bg-violet-100">Lavori conclusi</span>
-                            @else
-                            @if($practice->is_lavori_in_corso)
-                            <span class="tag bg-blue-100">Lavori in corso</span>
-                            @else
-                            @if($practice->is_avvio_gara)
-                            <span class="tag bg-green-100">Gara d'Appalto</span>
-                            @else
-                            @if ($practice->is_avvio_progettazione)
-                            <span class="tag bg-yellow-100">Progettazione</span>
-                            @endif
-                            @endif
-                            @endif
-                            @endif
+                                </td>
+                                <td>{{ $practice->zona }}</td>
+                                <td>
+                                    @if($practice->strade)
+                                        @foreach (explode(",", $practice->strade) as $sp)
+                                            <span class='tag bg-gray-200 '>{{ $sp }}</span>
+                                        @endforeach
+                                    @endif
+                                </td>
+                                @php
 
-                        </td>
-                        <td>{{ $practice->zona }}</td>
-                        <td>
-                            @if($practice->strade)
-                            @foreach (explode(",", $practice->strade) as $sp)
-                            <span class='tag bg-gray-200 '>{{ $sp }}</span>
-                            @endforeach
-                            @endif
-                        </td>
-                        @php
+                                    $importo = (float) str_replace(",", ".", str_replace(".", "", $practice->importo));
+                                @endphp
+                                {{-- <td class="">{{
+                                    number_format((float)str_replace(str_replace($practice->importo,".",""),",",".") , 2,
+                                    "," ,
+                                    ".")}} €</td> --}}
+                                <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
 
-                        $importo = (float) str_replace( ",",".", str_replace(".","", $practice->importo) );
-                        @endphp
-                        {{-- <td class="">{{
-                            number_format((float)str_replace(str_replace($practice->importo,".",""),",",".") , 2,
-                            "," ,
-                            ".")}} €</td> --}}
-                        <td class="text-right pr-2">{{ number_format( $importo, 2,",",".") }} €</td>
+                                <td>{{ $practice->finanziamento }}</td>
+                                <td>
+                                    @if(isset($practice->cre_at))
+                                        {{ $practice->cre_at }}
+                                    @else
+                                        @if (isset($practice->scadenza_esecuzione))
+                                            {{ $practice->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
+                                        @else
+                                            <span class="text-xs italic">IN DEFINIZIONE</span>
+                                        @endif
+                                    @endif
 
-                        <td>{{ $practice->finanziamento }}</td>
-                        <td>
-                            @if(isset($practice->cre_at))
-                            {{ $practice->cre_at }}
-                            @else
-                            @if (isset($practice->scadenza_esecuzione))
-                            {{ $practice->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
-                            @else
-                            <span class="text-xs italic">IN DEFINIZIONE</span>
-                            @endif
-                            @endif
-
-                        </td>
-                    </tr>
+                                </td>
+                            </tr>
 
 
-                    <?php 
-                    $importo_totale += $importo;
-                    ?>
+                            <?php 
+                                                                                                                                                                                                                                $importo_totale += $importo;
+                                                                                                                                                                                                                                ?>
 
-                    @endforeach
-                </tbody>
-                <tfoot>
-                </tfoot>
-            </table>
-
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="bg-gray-100 h-8 py-1 px-2">
+                Numero di interventi: <span class="font-bold">{{ $practices->count() }}</span> |
+                Importo
+                totale: <span class="font-bold">€ {{ number_format($importo_totale, 2, ",", ".") }}</span>
+            </div>
         </div>
-        <div class="col-span-4 p-4">
+        <div class="col-span-3 p-4">
 
             <div id="map"></div>
 
         </div>
     </div>
-    <div>
-        Numero di pratiche: <span class="text-bold">{{ $practices->count() }}</span> - Importo totale: <span
-            class="text-bold">{{ number_format( $importo_totale,
-            2,",",".") }}</span>
-    </div>
+
+
+
+
 
     <script>
         // 4. IL TUO CODICE JAVASCRIPT
@@ -149,30 +155,35 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
+        // const m = document.getElementById("map");
+        // window.onload = function () {
+        //     m.className = "!w-full";
+        //     // m.style = "width:100%";
+        // };
 
         // recupero le coordinate
 
         @if (isset($practice))
-        
-        
-            // practices = array di oggetti relativi a ogni singola pratica 
-            @js($practices).forEach( practice => {
 
-                if(practice.coordinate != null) {
-                    practice.coordinate.split("|").forEach(coordinata=>{
+
+            // practices = array di oggetti relativi a ogni singola pratica 
+            @js($practices).forEach(practice => {
+
+                if (practice.coordinate != null) {
+                    practice.coordinate.split("|").forEach(coordinata => {
                         L.marker(coordinata.split(",")).addTo(map)
-                        .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso );
-                    });                
-                    
+                            .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso);
+                    });
+
                 }
 
             });
         @endif
 
-            
+
         // RETE STRADE PROVINCIALI
         const geojsonUrl = '/assets/gis/strade_provinciali.geojson';
-        
+
         fetch(geojsonUrl)
             .then(response => {
                 // Verifica se la risposta è corretta (status 200)
@@ -192,19 +203,18 @@
                             //console.log("nome: "+feature.properties.Sigla);
                         }
                     },
-                    style: function(feature) {
+                    style: function (feature) {
                         // Esempio: stile personalizzato per le linee/poligoni
                         return { color: "#ff2200", weight: 2, opacity: 1.00 };
                     }
                 }).addTo(map);
-                
+
                 console.log("Dati caricati con successo!");
             })
             .catch(error => {
                 console.error("Si è verificato un problema con l'operazione fetch:", error);
             });
     </script>
-
 
 </body>
 

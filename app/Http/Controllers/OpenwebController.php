@@ -13,6 +13,9 @@ class OpenwebController extends Controller
         // Query: QUANDO è partita la progettazione e non è ancora stato fatto il CRE o il CRE è successivo al 2022
 
         $practices = Practice::when($request->filtra, function ($query) use ($request) {
+
+            //$termini = explode("+", $request->filtra);
+
             return $query->whereAny(['codice', 'titolo', 'titolo_esteso', 'zona', 'strade', 'finanziamento'], 'like', "%" . $request->filtra . "%");
         })
             ->where('is_avvio_progettazione', true)
