@@ -13,7 +13,7 @@ class OpenwebController extends Controller
         // Query: QUANDO è partita la progettazione e non è ancora stato fatto il CRE o il CRE è successivo al 2022
 
         $practices = Practice::when($request->filtra, function ($query) use ($request) {
-            return $query->whereAny(['codice', 'titlo', 'titolo_esteso', 'zona', 'strade', 'finanziamento'], 'like', "%" . $request->filtra . "%");
+            return $query->whereAny(['codice', 'titolo', 'titolo_esteso', 'zona', 'strade', 'finanziamento'], 'like', "%" . $request->filtra . "%");
         })
             ->where('is_avvio_progettazione', true)
             ->where(function ($query) {
@@ -28,7 +28,11 @@ class OpenwebController extends Controller
         // dd($practice);
         return view("openweb.index", compact("practices"));
     }
-
+    public function show(Practice $practice)
+    {
+        // Se l'ID non esiste, Laravel restituirà automaticamente un errore 404
+        return view('openweb.show', compact('practice'));
+    }
     public function form(Practice $practice)
     {
         // Se l'ID non esiste, Laravel restituirà automaticamente un errore 404

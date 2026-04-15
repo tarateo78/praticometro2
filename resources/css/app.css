@@ -30,15 +30,15 @@
     }
 
     label {
-        @apply text-lg text-gray-700  m-1 mr-2
+        @apply text-sm text-gray-700  m-1 mr-2
     }
 
     input {
-        @apply text-xl bg-white m-1
+        @apply bg-white m-1
     }
 
     textarea {
-        @apply text-xl bg-white m-1
+        @apply  bg-white m-1
     }
 
     input::placeholder {
@@ -56,7 +56,7 @@
     /* TABLE */
 
     table {
-        @apply w-full my-4
+        @apply w-full
     }
 
     thead {

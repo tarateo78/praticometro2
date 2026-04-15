@@ -21,6 +21,7 @@ Route::resource('posts', PostController::class);
 */
 
 Route::get('/', [OpenwebController::class, 'index'])->name("openweb.index");
+Route::get('/show/{practice}', [OpenwebController::class, 'show'])->name("openweb.show");
 
 Route::get('/elenco', [PracticeController::class, 'index'])->name("practices.index");
 
