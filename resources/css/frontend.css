@@ -11,13 +11,17 @@
 }
 
 @layer components {
+
+    body {
+        @apply bg-gray-200
+    }
     
     dl {
         @apply text-2xl
     }
 
     dt {
-        @apply text-right p-4
+        @apply text-right p-4 text-gray-700
 
     }
 

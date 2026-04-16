@@ -12,5 +12,6 @@
 
 @layer components {
     body {
+       @apply bg-gray-300
     }
 }
