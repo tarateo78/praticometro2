@@ -18,6 +18,11 @@
         @apply bg-gray-200
     }
 
+
+    h1 {
+        @apply text-center text-4xl text-green-900 my-3
+    }
+
     .titolo-colonna {
         @apply text-lg  font-bold
     }
@@ -75,9 +80,6 @@
         @apply p-3 text-sm text-gray-700
     }
 
-    h1 {
-        @apply text-center text-4xl text-green-900 my-4
-    }
 
     .link {
         @apply text-blue-800 hover:underline
@@ -115,11 +117,11 @@
     /* */
 
     .filtra {
-        @apply border flex p-2
+        
     }
 
     .filtra input[type="text"] {
-        @apply border-2 bg-orange-100
+        @apply border bg-white
     }
 
     .filtra button {

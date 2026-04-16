@@ -7,7 +7,7 @@
     <title>Praticometro - Pratica {{ $practice->codice }}</title>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/backend.css','resources/js/app.js'])
     <style>
         #map {
             height: 300px;
@@ -41,7 +41,7 @@
 
             {{-- Se stiamo modificando, Laravel ha bisogno del metodo PUT --}}
             @if($practice->exists)
-                @method('PUT')
+            @method('PUT')
             @endif
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-2 p-2">
@@ -54,12 +54,11 @@
                         </div>
                         <div>
                             <label for="is_in_corso">In corso</label>
-                            <input type="checkbox" value="1" name="is_in_corso" {{ old(
-    'is_in_corso',
-    $practice->is_in_corso
-) ?
-    "checked" :
-    "" }} />
+                            <input type="checkbox" value="1" name="is_in_corso" {{ old( 'is_in_corso' ,
+                                $practice->is_in_corso
+                            ) ?
+                            "checked" :
+                            "" }} />
                             <br>
 
                             <label for="cup">cup</label>
@@ -121,12 +120,12 @@
 
                     <label for="is_rl">is_rl</label>
                     <input type="checkbox" value="1" name="is_rl" {{ old('is_rl', $practice->is_rl) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
                     <br>
 
                     <label for="is_mims">is_mims</label>
                     <input type="checkbox" value="1" name="is_mims" {{ old('is_mims', $practice->is_mims) ? "checked" :
-    "" }} />
+                    "" }} />
                     <br>
 
                     <label for="rl_codice">rl_codice</label>
@@ -147,11 +146,10 @@
 
 
                         <label for="is_avvio_progettazione">is_avvio_progettazione</label>
-                        <input type="checkbox" value="1" name="is_avvio_progettazione" {{ old(
-    'is_avvio_progettazione',
-    $practice->is_avvio_progettazione
-) ?
-    "checked" : "" }} />
+                        <input type="checkbox" value="1" name="is_avvio_progettazione" {{ old( 'is_avvio_progettazione'
+                            , $practice->is_avvio_progettazione
+                        ) ?
+                        "checked" : "" }} />
                         <br>
                         <label for="avvio_servizio_at">avvio_servizio_at</label>
                         <input type="date" name="avvio_servizio_at"
@@ -185,11 +183,10 @@
                         <div class="titolo-colonna text-green-700">Gara</div>
 
                         <label for="is_avvio_gara">is_avvio_gara</label>
-                        <input type="checkbox" value="1" name="is_avvio_gara" {{ old(
-    'is_avvio_gara',
-    $practice->is_avvio_gara
-) ?
-    "checked" : ""
+                        <input type="checkbox" value="1" name="is_avvio_gara" {{ old( 'is_avvio_gara' ,
+                            $practice->is_avvio_gara
+                        ) ?
+                        "checked" : ""
                         }} />
                         <br>
                         <label for="contratto_at">contratto_at</label>
@@ -205,11 +202,10 @@
                         <div class="titolo-colonna text-yellow-700">Lavori</div>
 
                         <label for="is_lavori_in_corso">is_lavori_in_corso</label>
-                        <input type="checkbox" value="1" name="ish_lavori_in_corso" {{ old(
-    'is_lavori_in_corso',
-    $practice->is_lavori_in_corso
-) ?
-    "checked" : "" }} />
+                        <input type="checkbox" value="1" name="ish_lavori_in_corso" {{ old( 'is_lavori_in_corso' ,
+                            $practice->is_lavori_in_corso
+                        ) ?
+                        "checked" : "" }} />
 
                         <label for="direttore_lavori">direttore_lavori</label>
                         <input name="direttore_lavori"
@@ -240,7 +236,7 @@
                         <div class="titolo-colonna text-blue-700">Cre</div>
                         <label for="is_cre">is_cre</label>
                         <input type="checkbox" value="1" name="is_cre" {{ old('is_cre', $practice->is_cre) ? "checked" :
-    ""
+                        ""
                         }} />
 
                         <label for="cre_at">cre_at</label>
@@ -359,7 +355,6 @@
         <button id="btnAllinea">Allinea il conteggio</button>
 
         <script>
-
             // Gestione controllo aggiornamenti
             const btnStart = document.getElementById('btnStart');
             const logElement = document.getElementById('log');
@@ -492,7 +487,6 @@
 
 
         <script>
-
             // Inizializza la mappa centrata sul Lecco
             var map = L.map('map').setView([45.890284, 9.3783311], 9);
 
