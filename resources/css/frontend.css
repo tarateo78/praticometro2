@@ -28,5 +28,9 @@
     dd {
         @apply p-4
     }
-    
+
+
+    .map {
+        @apply h-140 md:h-170 w-full
+    }
 }
