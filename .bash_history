@@ -34,3 +34,6 @@ ls -l
 chmod 775 praticometro.sqlite 
 ls -l
 exit
+ls
+pwd
+exit

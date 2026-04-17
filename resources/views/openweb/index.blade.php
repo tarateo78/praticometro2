@@ -23,7 +23,7 @@
             max-height: none !important;
         }
     </style>
-    @vite(['resources/css/app.css','resources/css/frontend.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/frontend.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -49,68 +49,67 @@
                     </thead>
                     <tbody>
                         @foreach($practices as $practice)
-                        <tr>
+                            <tr>
 
-                            <td>
-                                <a href="{{ route('openweb.show', $practice) }}" class="link">{{ $practice->codice
-                                    }}</a>
-                            </td>
-                            <td>{{ $practice->titolo }}</td>
-                            <td>
-                                @if($practice->is_cre)
-                                <span class="tag bg-violet-100 whitespace-nowrap">Lavori conclusi</span>
-                                @else
-                                @if($practice->is_lavori_in_corso)
-                                <span class="tag bg-blue-100 whitespace-nowrap">Lavori in corso</span>
-                                @else
-                                @if($practice->is_avvio_gara)
-                                <span class="tag bg-green-100 whitespace-nowrap">Gara d'Appalto</span>
-                                @else
-                                @if ($practice->is_avvio_progettazione)
-                                <span class="tag bg-yellow-100 whitespace-nowrap">Progettazione</span>
-                                @endif
-                                @endif
-                                @endif
-                                @endif
+                                <td>
+                                    <a href="{{ route('openweb.show', $practice) }}"
+                                        class="link">{{ $practice->codice
+                                                                                                                                                                                                                                                                                                                                                                                                }}</a>
+                                </td>
+                                <td>{{ $practice->titolo }}</td>
+                                <td>
+                                    @if($practice->is_cre)
+                                        <span class="tag bg-violet-100 whitespace-nowrap">Lavori conclusi</span>
+                                    @else
+                                        @if($practice->is_lavori_in_corso)
+                                            <span class="tag bg-blue-100 whitespace-nowrap">Lavori in corso</span>
+                                        @else
+                                            @if($practice->is_avvio_gara)
+                                                <span class="tag bg-green-100 whitespace-nowrap">Gara d'Appalto</span>
+                                            @else
+                                                @if ($practice->is_avvio_progettazione)
+                                                    <span class="tag bg-yellow-100 whitespace-nowrap">Progettazione</span>
+                                                @endif
+                                            @endif
+                                        @endif
+                                    @endif
 
-                            </td>
-                            <td>{{ $practice->zona }}</td>
-                            <td class="whitespace-nowrap">
-                                @if($practice->strade)
-                                @foreach (explode(",", $practice->strade) as $sp)
-                                <span class='tag bg-gray-200 '>{{ $sp }}</span>
-                                @endforeach
-                                @endif
-                            </td>
-                            @php
+                                </td>
+                                <td>{{ $practice->zona }}</td>
+                                <td class="whitespace-nowrap">
+                                    @if($practice->strade)
+                                        @foreach (explode(",", $practice->strade) as $sp)
+                                            <span class='tag bg-gray-200 '>{{ $sp }}</span>
+                                        @endforeach
+                                    @endif
+                                </td>
+                                @php
 
-                            $importo = (float) str_replace(",", ".", str_replace(".", "", $practice->importo));
-                            @endphp
-                            {{-- <td class="">{{
-                                number_format((float)str_replace(str_replace($practice->importo,".",""),",",".") , 2,
-                                "," ,
-                                ".")}} €</td> --}}
-                            <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
+                                    $importo = (float) str_replace(",", ".", str_replace(".", "", $practice->importo));
+                                @endphp
+                                {{-- <td class="">{{
+                                    number_format((float)str_replace(str_replace($practice->importo,".",""),",",".") , 2,
+                                    "," ,
+                                    ".")}} €</td> --}}
+                                <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
 
-                            <td>{{ $practice->finanziamento }}</td>
-                            <td class="whitespace-nowrap">
-                                @if(isset($practice->cre_at))
-                                {{ $practice->cre_at }}
-                                @else
-                                @if (isset($practice->scadenza_esecuzione))
-                                {{ $practice->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
-                                @else
-                                <span class="text-xs italic">IN DEFINIZIONE</span>
-                                @endif
-                                @endif
+                                <td>{{ $practice->finanziamento }}</td>
+                                <td class="whitespace-nowrap">
+                                    @if(isset($practice->cre_at))
+                                        {{ $practice->cre_at }}
+                                    @else
+                                        @if (isset($practice->scadenza_esecuzione))
+                                            {{ $practice->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
+                                        @else
+                                            <span class="text-xs italic">IN DEFINIZIONE</span>
+                                        @endif
+                                    @endif
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
 
 
-                        <?php 
-                                                                                                                                                                                                                                                                                                            $importo_totale += $importo;
-                                                                                                                                                                                                                                                                                                            ?>
+                            <?php    $importo_totale += $importo; ?>
 
                         @endforeach
                     </tbody>
@@ -134,10 +133,9 @@
                 <div class="">
                     <span>
                         @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
-                        <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">{{
-                            $_GET['filtra']
-                            }}<a href="{{ route('openweb.index') }}"><span
-                                    class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a></div>
+                                            <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">{{
+                            $_GET['filtra'] }}<a href="{{ route('openweb.index') }}"><span
+                                                        class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a></div>
                         @endif
                     </span>
                 </div>
@@ -161,42 +159,97 @@
 
 
     <script>
-        // 4. IL TUO CODICE JAVASCRIPT
-        // Inizializza la mappa su Milano
-        
-        // 45.852455, 9.395464
-        // abbadia 45.895237,9.341697
-        //ballabio 45.896247,9.425201
-        var map = L.map('map').setView([45.895237,9.341697], 10);
 
-        // Aggiungi il layer di OpenStreetMap (le "mattonelle" della mappa)
+        // Inizializza la mappa centrata sulle coordinate fornite con fattore zoom
+        var map = L.map('map').setView([45.895237, 9.341697], 10);
+        // lecco 45.852455, 9.395464
+        // abbadia 45.895237,9.341697
+        // ballabio 45.896247,9.425201
+
+        // Aggiunge il layer di OpenStreetMap (le "mattonelle" della mappa)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // const m = document.getElementById("map");
-        // window.onload = function () {
-        //     m.className = "!w-full";
-        //     // m.style = "width:100%";
-        // };
+        // Definizione dei Marker per la mappa
+        var greenIcon = new L.Icon({
+            iconUrl: '/assets/images/marker/marker-green.svg',
+            shadowUrl: '/assets/images/marker/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        var redIcon = new L.Icon({
+            iconUrl: '/assets/images/marker/marker-red.svg',
+            shadowUrl: '/assets/images/marker/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        var yellowIcon = new L.Icon({
+            iconUrl: '/assets/images/marker/marker-yellow.svg',
+            shadowUrl: '/assets/images/marker/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        var blueIcon = new L.Icon({
+            iconUrl: '/assets/images/marker/marker-blue.svg',
+            shadowUrl: '/assets/images/marker/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        var purpleIcon = new L.Icon({
+            iconUrl: '/assets/images/marker/marker-purple.svg',
+            shadowUrl: '/assets/images/marker/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
 
-        // recupero le coordinate
-
+        // Verifica che vi sia almeno una pratica filtrata
         @if (isset($practice))
 
+            let practice
+            let context_icon = "";
 
-            // practices = array di oggetti relativi a ogni singola pratica 
-            @js($practices).forEach(practice => {
+            // practices è un array di oggetti pratica 
+            @foreach ($practices as $practice)
+                practice = @js($practice);
 
                 if (practice.coordinate != null) {
+
+                    // Determina il Marker in base allo stato della pratica 
+                    if (practice.is_cre) {
+                        context_icon = purpleIcon;
+                    } else {
+                        if (practice.is_lavori_in_corso) {
+                            context_icon = blueIcon;
+                        } else {
+                            if (practice.is_avvio_gara) {
+                                context_icon = greenIcon;
+                            } else {
+                                context_icon = yellowIcon;
+                            }
+                        }
+                    }
+
+                    // Rileva coordinate multiple
                     practice.coordinate.split("|").forEach(coordinata => {
-                        L.marker(coordinata.split(",")).addTo(map)
-                            .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso);
+
+                        // Aggiunge il Marker alla mappa
+                        L.marker(coordinata.split(","), { icon: context_icon }).addTo(map)
+                            .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso + '<br><a href="' + @js(route('openweb.show', $practice->id)) + '">Vedi dettaglio</a>');
+
                     });
-
                 }
-
-            });
+            @endforeach
         @endif
 
 
