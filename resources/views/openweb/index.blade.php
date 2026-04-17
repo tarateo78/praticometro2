@@ -48,26 +48,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($practices as $practice)
-                            <tr>
+                        @foreach($practices as $prac)
+                            <tr id="prat-{{ $prac->id }}">
 
                                 <td>
-                                    <a href="{{ route('openweb.show', $practice) }}"
-                                        class="link">{{ $practice->codice
-                                                                                                                                                                                                                                                                                                                                                                                                }}</a>
+                                    <a href="{{ route('openweb.show', $prac) }}" class="link">{{ $prac->codice }}</a>
                                 </td>
-                                <td>{{ $practice->titolo }}</td>
+                                <td>{{ $prac->titolo }}</td>
                                 <td>
-                                    @if($practice->is_cre)
+                                    @if($prac->is_cre)
                                         <span class="tag bg-violet-100 whitespace-nowrap">Lavori conclusi</span>
                                     @else
-                                        @if($practice->is_lavori_in_corso)
+                                        @if($prac->is_lavori_in_corso)
                                             <span class="tag bg-blue-100 whitespace-nowrap">Lavori in corso</span>
                                         @else
-                                            @if($practice->is_avvio_gara)
+                                            @if($prac->is_avvio_gara)
                                                 <span class="tag bg-green-100 whitespace-nowrap">Gara d'Appalto</span>
                                             @else
-                                                @if ($practice->is_avvio_progettazione)
+                                                @if ($prac->is_avvio_progettazione)
                                                     <span class="tag bg-yellow-100 whitespace-nowrap">Progettazione</span>
                                                 @endif
                                             @endif
@@ -75,31 +73,31 @@
                                     @endif
 
                                 </td>
-                                <td>{{ $practice->zona }}</td>
+                                <td>{{ $prac->zona }}</td>
                                 <td class="whitespace-nowrap">
-                                    @if($practice->strade)
-                                        @foreach (explode(",", $practice->strade) as $sp)
+                                    @if($prac->strade)
+                                        @foreach (explode(",", $prac->strade) as $sp)
                                             <span class='tag bg-gray-200 '>{{ $sp }}</span>
                                         @endforeach
                                     @endif
                                 </td>
                                 @php
 
-                                    $importo = (float) str_replace(",", ".", str_replace(".", "", $practice->importo));
+                                    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo));
                                 @endphp
                                 {{-- <td class="">{{
-                                    number_format((float)str_replace(str_replace($practice->importo,".",""),",",".") , 2,
+                                    number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") , 2,
                                     "," ,
                                     ".")}} €</td> --}}
                                 <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
 
-                                <td>{{ $practice->finanziamento }}</td>
+                                <td>{{ $prac->finanziamento }}</td>
                                 <td class="whitespace-nowrap">
-                                    @if(isset($practice->cre_at))
-                                        {{ $practice->cre_at }}
+                                    @if(isset($prac->cre_at))
+                                        {{ $prac->cre_at }}
                                     @else
-                                        @if (isset($practice->scadenza_esecuzione))
-                                            {{ $practice->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
+                                        @if (isset($prac->scadenza_esecuzione))
+                                            {{ $prac->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
                                         @else
                                             <span class="text-xs italic">IN DEFINIZIONE</span>
                                         @endif
@@ -108,10 +106,10 @@
                                 </td>
                             </tr>
 
-
                             <?php    $importo_totale += $importo; ?>
 
                         @endforeach
+
                     </tbody>
                     <tfoot>
                     </tfoot>
@@ -171,122 +169,24 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Definizione dei Marker per la mappa
-        var greenIcon = new L.Icon({
-            iconUrl: '/assets/images/marker/marker-green.svg',
-            shadowUrl: '/assets/images/marker/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-        });
-        var redIcon = new L.Icon({
-            iconUrl: '/assets/images/marker/marker-red.svg',
-            shadowUrl: '/assets/images/marker/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-        });
-        var yellowIcon = new L.Icon({
-            iconUrl: '/assets/images/marker/marker-yellow.svg',
-            shadowUrl: '/assets/images/marker/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-        });
-        var blueIcon = new L.Icon({
-            iconUrl: '/assets/images/marker/marker-blue.svg',
-            shadowUrl: '/assets/images/marker/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-        });
-        var purpleIcon = new L.Icon({
-            iconUrl: '/assets/images/marker/marker-purple.svg',
-            shadowUrl: '/assets/images/marker/marker-shadow.png',
-            iconSize: [25, 41],
-            iconAnchor: [12, 41],
-            popupAnchor: [1, -34],
-            shadowSize: [41, 41]
-        });
 
-        // Verifica che vi sia almeno una pratica filtrata
-        @if (isset($practice))
+        // Assegna l'arrey degli oggetti pratiche filtrate
+        const practices = @js($practices);
 
-            let practice
-            let context_icon = "";
-
-            // practices è un array di oggetti pratica 
-            @foreach ($practices as $practice)
-                practice = @js($practice);
-
-                if (practice.coordinate != null) {
-
-                    // Determina il Marker in base allo stato della pratica 
-                    if (practice.is_cre) {
-                        context_icon = purpleIcon;
-                    } else {
-                        if (practice.is_lavori_in_corso) {
-                            context_icon = blueIcon;
-                        } else {
-                            if (practice.is_avvio_gara) {
-                                context_icon = greenIcon;
-                            } else {
-                                context_icon = yellowIcon;
-                            }
-                        }
-                    }
-
-                    // Rileva coordinate multiple
-                    practice.coordinate.split("|").forEach(coordinata => {
-
-                        // Aggiunge il Marker alla mappa
-                        L.marker(coordinata.split(","), { icon: context_icon }).addTo(map)
-                            .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso + '<br><a href="' + @js(route('openweb.show', $practice->id)) + '">Vedi dettaglio</a>');
-
-                    });
-                }
-            @endforeach
-        @endif
+        // la variabile practice è istanziata nella pagina di dettaglio (show)
+        let practice = null;
+        const paginaDettaglio = false;
 
 
-        // RETE STRADE PROVINCIALI
-        const geojsonUrl = '/assets/gis/strade_provinciali.geojson';
+        // Segue: marker-lavori.js e strade-provincia.js
 
-        fetch(geojsonUrl)
-            .then(response => {
-                // Verifica se la risposta è corretta (status 200)
-                if (!response.ok) {
-                    throw new Error('Errore nel caricamento del file: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Aggiungi i dati GeoJSON alla mappa
-                L.geoJSON(data, {
-                    // Opzionale: aggiungi stile o popup
-                    onEachFeature: function (feature, layer) {
-                        //console.log(feature);
-                        if (feature.properties && feature.properties.Sigla) {
-                            layer.bindPopup(feature.properties.Sigla);
-                            //console.log("nome: "+feature.properties.Sigla);
-                        }
-                    },
-                    style: function (feature) {
-                        // Esempio: stile personalizzato per le linee/poligoni
-                        return { color: "#ff2200", weight: 2, opacity: 1.00 };
-                    }
-                }).addTo(map);
 
-                console.log("Dati caricati con successo!");
-            })
-            .catch(error => {
-                console.error("Si è verificato un problema con l'operazione fetch:", error);
-            });
+
+
     </script>
+
+    @vite(['resources/js/strade-provincia.js', 'resources/js/marker-lavori.js'])
+
 
 </body>
 

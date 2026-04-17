@@ -19,9 +19,7 @@
     }
 
 
-    h1 {
-        @apply text-center text-4xl text-green-900 my-3
-    }
+
 
     .titolo-colonna {
         @apply text-lg  font-bold

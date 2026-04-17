@@ -15,18 +15,22 @@
     body {
         @apply bg-gray-200
     }
+
+    h1 {
+        @apply text-center text-2xl md:text-4xl text-green-900 my-3
+    }
     
     dl {
-        @apply text-2xl
+        @apply  md:text-2xl font-bold
     }
 
     dt {
-        @apply text-right p-4 text-gray-700
+        @apply col-span-5 text-sm text-right p-4 text-gray-700
 
     }
 
     dd {
-        @apply p-4
+        @apply col-span-7 p-4
     }
 
 
