@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css','resources/css/frontend.css','resources/css/backend.css', 'resources/js/app.js'],
+            input: ['resources/css/app.css','resources/css/frontend.css','resources/css/backend.css', 'resources/js/app.js','resources/js/marker-lavori.js','resources/js/strade-provincia.js'],
             refresh: true,
         }),
         tailwindcss(),
@@ -19,3 +19,4 @@ export default defineConfig({
         },
     },
 });
+
