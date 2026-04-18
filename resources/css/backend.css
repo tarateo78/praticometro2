@@ -13,10 +13,18 @@
 @layer components {
     
     body {
-       @apply bg-gray-300
+       @apply bg-gray-200
     }
 
         h1 {
         @apply text-center text-4xl text-green-900 my-3
+    }
+        .map {
+        @apply h-140 md:h-170 w-full
+    }
+
+
+    td {
+        @apply whitespace-nowrap
     }
 }

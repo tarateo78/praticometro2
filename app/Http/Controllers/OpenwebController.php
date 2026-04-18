@@ -62,6 +62,8 @@ class OpenwebController extends Controller
     {
         // 1. Valida i dati
 
+        // VERIFICARE SE VIENE USATO
+
         $validated = $request->validate([
             'codice' => 'required|max:255',
             'titolo' => 'nullable',

@@ -71,7 +71,7 @@
     }
 
     tbody tr {
-        @apply odd:bg-white even:bg-gray-50  hover:bg-gray-200
+        @apply odd:bg-white even:bg-gray-100  hover:bg-gray-200
     }
 
     tbody td {

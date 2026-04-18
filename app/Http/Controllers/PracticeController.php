@@ -12,14 +12,36 @@ class PracticeController extends Controller
     {
 
         $practices = Practice::when($request->filtra, function ($query) use ($request) {
-            return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->filtra . "%");
-        })->when($request->is_in_corso, function ($query) use ($request) {
-            return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
-        })->orderBy("codice", "desc")->get();
 
-        //$practices = Practice::all();
+            $termini = explode("+", $request->filtra);
+
+            foreach ($termini as $termine) {
+                $query->whereAny(['codice', 'titolo', 'stato_pratica', 'zona', 'strade', 'importo', 'finanziamento'], 'like', "%" . $termine . "%");
+            }
+            return $query;
+        })
+            ->when($request->is_in_corso, function ($query) use ($request) {
+                return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
+            })
+
+            ->orderBy("codice", "desc")
+            ->get();
+
+        // $practices = Practice::all();
         // dd($practice);
         return view("practices.index", compact("practices"));
+
+
+
+
+
+        // VECCHIO PROCEDIMENTO
+        // $practices = Practice::when($request->filtra, function ($query) use ($request) {
+        //     return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->filtra . "%");
+        // })->when($request->is_in_corso, function ($query) use ($request) {
+        //     return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
+        // })->orderBy("codice", "desc")->get();
+        // return view("practices.index", compact("practices"));
     }
 
     public function form(Practice $practice)
@@ -86,10 +108,6 @@ class PracticeController extends Controller
             'appunti_progettazione' => 'nullable',
             'rup_note' => 'nullable',
             'capitolo' => 'nullable',
-            'urgente' => 'nullable',
-            'urgente_nota' => 'nullable',
-            'prossima_scadenza_nota' => 'nullable',
-            'prossima_scadenza_at' => 'nullable',
             'bdap' => 'nullable',
             'bdap_convalidato' => 'nullable',
             'bdap_note' => 'nullable',
