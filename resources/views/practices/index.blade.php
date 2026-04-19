@@ -34,6 +34,7 @@
                             <th>Stato</th>
                             <th>Area</th>
                             <th>Strade</th>
+                            <th>Coordinate</th>
                             <th>Cup</th>
                             <th>Importo</th>
                             <th>Finanziamento</th>
@@ -83,6 +84,11 @@
                                         @endforeach
                                     @endif
                                 </td>
+                                <td>
+                                    @if($prac->coordinate != "")
+                                        <img src="assets/images/marker/marker-red.svg" alt="tag">
+                                    @endif
+                                </td>
                                 <td>{{ $prac->cup }}</td>
 
                                 <?php    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo)) ?>
@@ -105,8 +111,8 @@
                             </tr>
 
                             <?php 
-                                                                                                                                                            $importo_totale += $importo;
-                                                                                                                                                            ?>
+                                                                                                                                                                                            $importo_totale += $importo;
+                                                                                                                                                                                            ?>
 
                         @endforeach
                     </tbody>
@@ -184,6 +190,8 @@
         let practice = null;
         const paginaDettaglio = false;
 
+        const pathDettaglio = "elenco";
+        const pathOperazione = "/edit";
 
         // Segue: marker-lavori.js e strade-provincia.js
 

@@ -177,6 +177,8 @@
         let practice = null;
         const paginaDettaglio = false;
 
+        const pathDettaglio = "show";
+        const pathOperazione = "";
 
         // Segue: marker-lavori.js e strade-provincia.js
 

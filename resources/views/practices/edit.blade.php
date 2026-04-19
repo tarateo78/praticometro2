@@ -534,19 +534,83 @@
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Recupero le coordinate memorizzate
 
+
+            // Array di oggetti marker
+            let objNuovoMarker = {};
+
+            // Aggiunge un Marker definito dall'utente
+            map.on('click', function (e) {
+                // e.latlng contiene le coordinate dove l'utente ha cliccato
+                creaNuovoMarker(e.latlng.lat, e.latlng.lng);
+            });
+
+
+            // Aggiorna il campo delle coordinate
+            const coord = document.getElementById("coordinate");
+            function aggiornaCoordinate() {
+                let count = 0;
+                let stringa = "";
+                Object.keys(objNuovoMarker).forEach(function (id) {
+                    if (count != 0) stringa += "|";
+                    stringa += objNuovoMarker[id].getLatLng().lat + "," + objNuovoMarker[id].getLatLng().lng;
+                    count++;
+                });
+                coord.value = stringa;
+            }
+
+            function creaNuovoMarker(lat, lng, msg) {
+                let rnd_id = Math.floor(Math.random() * 11000);
+                var nuovoMarker = L.marker([lat, lng], {
+                    id: rnd_id,
+                    draggable: true, // Permette di spostarlo dopo la creazione
+                    title: "Trascina per spostare, Click destro per eliminare"
+                }).addTo(map)
+                    .bindPopup(msg);
+
+                console.log("Nuovo marker #" + rnd_id + " creato a:", lat, lng);
+
+                objNuovoMarker[rnd_id] = nuovoMarker;
+
+                aggiornaCoordinate();
+
+
+                // --- Gestione Eventi del singolo Marker ---
+
+                // 1. Intercettare la fine dello spostamento (Drag)
+                nuovoMarker.on('dragend', function (event) {
+                    var markerSpostato = event.target;
+                    var nuovaPosizione = markerSpostato.getLatLng();
+                    console.log("Marker spostato #" + markerSpostato.options.id + " a:", nuovaPosizione.lat, nuovaPosizione.lng);
+                    aggiornaCoordinate();
+                });
+
+                // 2. Cancellazione (con il tasto destro / Context Menu)
+                nuovoMarker.on('contextmenu', function (event) {
+                    map.removeLayer(event.target);
+                    console.log("Marker rimosso");
+                    delete objNuovoMarker[event.target.options.id];
+                    aggiornaCoordinate();
+                });
+            }
+
+            // Recupero le coordinate memorizzate e creo i marker
             const coo = @js($practice->coordinate);
             if (coo != null && coo != "") {
                 @js($practice->coordinate).split("|").forEach(coordinata => {
-                    // Aggiungi il marker
-                    L.marker(coordinata.split(",")).addTo(map)
-                        .bindPopup('{{ $practice->titolo_esteso }}');
-                    //.openPopup();         // Mostra il popup
+
+                    creaNuovoMarker(coordinata.split(",")[0], coordinata.split(",")[1], '{{ $practice->titolo_esteso }}');
+
+
                 });
+
+
             } else {
                 console.log("Coordinate non presenti");
             }
+
+
+
 
             // RETE STRADE PROVINCIALI
             const geojsonUrl = '/assets/gis/strade_provinciali.geojson';

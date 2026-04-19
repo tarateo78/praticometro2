@@ -85,8 +85,8 @@ if ( typeof practices !== 'undefined' ) {
 
                 // Aggiunge il Marker alla mappa
                 let m = L.marker(coordinata.split(","), { id: 1, icon: context_icon }).addTo(map)
-                    .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso + '<br><a href="/show/' + practice.id + '">Vedi dettaglio</a>');
-                obj_marker[practice.id]=m;
+                    .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso + '<br><a href="/'+ pathDettaglio +'/' + practice.id + pathOperazione +'">Vedi dettaglio</a>');
+                obj_marker[practice.id]=m
             });
             
         }
@@ -108,7 +108,7 @@ if(!paginaDettaglio)
         // mouseover scatta anche passando da un <td> all'altro nella stessa <tr>
         riga.onmouseenter = (e) => {
             // console.log("OVER");
-            c = L.marker([marker.getLatLng().lat,marker.getLatLng().lng], { icon: blueIcon }).addTo(map)
+            c = L.marker([marker.getLatLng().lat,marker.getLatLng().lng], { icon: redIcon }).addTo(map)
         }
         
         riga.onmouseleave = (e) => {
