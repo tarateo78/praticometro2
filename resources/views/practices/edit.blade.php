@@ -73,7 +73,6 @@
                     <textarea name="titolo_esteso" id="titolo_esteso"
                         class="w-full h-20">{{ old('titolo_esteso', $practice->titolo_esteso) }}</textarea>
 
-
                 </div>
 
                 <div class="p-2 rounded-xs">
@@ -123,13 +122,12 @@
                     <br>
 
                     <label for="is_rl">is_rl</label>
-                    <input type="checkbox" value="1" name="is_rl" id="is_rl" {{ old('is_rl', $practice->is_rl) ?
-    "checked" : "" }} />
+                    <input type="checkbox" value="1" name="is_rl" id="is_rl" {{ old('is_rl', $practice->is_rl) ? "checked" : "" }} />
+
                     <br>
 
                     <label for="is_mims">is_mims</label>
-                    <input type="checkbox" value="1" name="is_mims" id="is_mims" {{ old('is_mims', $practice->is_mims) ? "checked" :
-    "" }} />
+                    <input type="checkbox" value="1" name="is_mims" id="is_mims" {{ old('is_mims', $practice->is_mims) ? "checked" : "" }} />
                     <br>
 
                     <label for="rl_codice">rl_codice</label>
@@ -148,83 +146,94 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="grid-rows-2">
 
-                        <div class="border border-l-8 border-yellow-400 rounded-xs">
+                        <div
+                            class="border border-l-8 border-yellow-400 rounded-xs {{  $practice->is_avvio_progettazione ? "bg-yellow-100" : "" }}">
                             <div class="titolo-colonna bg-yellow-400 text-white">1. Progettazione</div>
 
 
-                            <label for="is_avvio_progettazione">is_avvio_progettazione</label>
                             <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione"
                                 {{ old(
     'is_avvio_progettazione',
     $practice->is_avvio_progettazione
 ) ? "checked" : "" }} />
+                            <label for="is_avvio_progettazione">Fase progettazione avviata</label>
                             <br>
-                            <label for="avvio_servizio_at">avvio_servizio_at</label>
+                            <label for="avvio_servizio_at">Avvio servizio il</label>
                             <input type="date" name="avvio_servizio_at" id="avvio_servizio_at"
-                                value="{{ old('avvio_servizio_at', $practice->avvio_servizio_at) }}" />
+                                value="{{ old('avvio_servizio_at', $practice->avvio_servizio_at) }}"
+                                class="{{ !isset($practice->avvio_servizio) ? "date-vuoto" : "" }}" />
                             <br>
                             <label for="progettista">progettista</label>
                             <input name="progettista" id="progettista"
                                 value="{{ old('progettista', $practice->progettista) }}" />
                             <br>
-                            <label for="fte_at">fte_at</label>
-                            <input type="date" name="fte_at" id="fte_at"
-                                value="{{ old('fte_at', $practice->fte_at) }}" />
+                            <label for="fte_at">appr. Fattibilità</label>
+                            <input type="date" name="fte_at" id="fte_at" value="{{ old('fte_at', $practice->fte_at) }}"
+                                class="{{ !isset($practice->fte_at) ? "date-vuoto" : "" }}" />
                             <br>
-                            <label for="def_at">def_at</label>
-                            <input type="date" name="def_at" id="def_at"
-                                value="{{ old('def_at', $practice->def_at) }}" />
+                            <label for="def_at">appr. Definitivo</label>
+                            <input type="date" name="def_at" id="def_at" value="{{ old('def_at', $practice->def_at) }}"
+                                class="{{ !isset($practice->def_at) ? "date-vuoto" : "" }}" />
                             <br>
-                            <label for="cds_at">cds_at</label>
-                            <input type="date" name="cds_at" id="cds_at"
-                                value="{{ old('cds_at', $practice->cds_at) }}" />
+                            Check -> Conferenza dei servizi
                             <br>
-                            <label for="cds_chiusa_at">cds_chiusa_at</label>
+                            <label for="cds_at">indetta CDS</label>
+                            <input type="date" name="cds_at" id="cds_at" value="{{ old('cds_at', $practice->cds_at) }}"
+                                class="{{ !isset($practice->cds_at) ? "date-vuoto" : "" }}" />
+                            <br>
+                            <label for="cds_chiusa_at">chiusura CDS</label>
                             <input type="date" name="cds_chiusa_at" id="cds_chiusa_at"
-                                value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at) }}" />
+                                value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at) }}"
+                                class="{{ !isset($practice->cds_chiusa_at) ? "date-vuoto" : "" }}" />
                             <br>
-                            <label for="ese_at">ese_at</label>
-                            <input type="date" name="ese_at" id="ese_at"
-                                value="{{ old('ese_at', $practice->ese_at) }}" />
+                            <label for="ese_at">appr. Esecutivo</label>
+                            <input type="date" name="ese_at" id="ese_at" value="{{ old('ese_at', $practice->ese_at) }}"
+                                class="{{ !isset($practice->ese_at) ? "date-vuoto" : "" }}" />
                             <br>
                             <label for="scadenza_progetto">scadenza_progetto</label>
                             <input type="date" name="scadenza_progetto" id="scadenza_progetto"
-                                value="{{ old('scadenza_progetto', $practice->scadenza_progetto) }}" />
+                                value="{{ old('scadenza_progetto', $practice->scadenza_progetto) }}"
+                                class="{{ !isset($practice->scadenza_progetto) ? "date-vuoto" : "" }}" />
                         </div>
                         <br>
-                        <div class="border border-l-8 border-green-500 rounded-xs">
-                            <div class="titolo-colonna bg-green-500 text-white">2. Gara appalto</div>
-
-                            <label for="is_avvio_gara">is_avvio_gara</label>
-                            <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old(
+                        <div
+                            class="border border-l-8 border-green-500 rounded-xs  {{ $practice->is_avvio_gara ? "bg-green-100" : "" }}">
+                            <div class="titolo-colonna bg-green-500 text-white">
+                                2. Gara appalto</div>
+                            <div class="check">
+                                <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old(
     'is_avvio_gara',
     $practice->is_avvio_gara
-) ?
-    "checked" : ""
-                            }} />
+) ? "checked" : ""  }} />
+                                <label for="is_avvio_gara">Fase gara d'appalto avviata</label>
+                            </div>
                             <br>
                             <label for="contratto_at">contratto_at</label>
                             <input type="date" name="contratto_at" id="contratto_at"
-                                value="{{ old('contratto_at', $practice->contratto_at) }}" />
+                                value="{{ old('contratto_at', $practice->contratto_at) }}"
+                                class="{{ !isset($practice->contratto_at) ? "date-vuoto" : "" }}" />
                             <br>
                             <label for="scadenza_affidamento">scadenza_affidamento</label>
                             <input type="date" name="scadenza_affidamento" id="scadenza_affidamento"
-                                value="{{ old('scadenza_affidamento', $practice->scadenza_affidamento) }}" />
+                                value="{{ old('scadenza_affidamento', $practice->scadenza_affidamento) }}"
+                                class="{{ !isset($practice->scadenza_affidamento) ? "date-vuoto" : "" }}" />
                         </div>
 
                     </div>
 
 
                     <div class="grid-rows-2">
-                        <div class="border border-l-8 border-blue-600 rounded-xs">
+                        <div
+                            class="border border-l-8 border-blue-600 rounded-xs {{ $practice->is_lavori_in_corso ? "bg-blue-100" : "" }}">
                             <div class="titolo-colonna bg-blue-600 text-white">3. Lavori</div>
-
-                            <label for="is_lavori_in_corso">is_lavori_in_corso</label>
-                            <input type="checkbox" value="1" name="ish_lavori_in_corso" id="is_lavori_in_corso" {{ old(
+                            <div class="check">
+                                <label for="is_lavori_in_corso">Lavori avviati</label>
+                                <input type="checkbox" value="1" name="is_lavori_in_corso" id="is_lavori_in_corso" {{ old(
     'is_lavori_in_corso',
     $practice->is_lavori_in_corso
 ) ?
     "checked" : "" }} />
+                            </div>
 
                             <label for="direttore_lavori">direttore_lavori</label>
                             <input name="direttore_lavori" id="direttore_lavori"
@@ -236,7 +245,8 @@
 
                             <label for="consegna_lavori_at">consegna_lavori_at</label>
                             <input type="date" name="consegna_lavori_at" id="consegna_lavori_at"
-                                value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at) }}" />
+                                value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at) }}"
+                                class="{{ !isset($practice->consegna_lavori_at) ? "date-vuoto" : "" }}" />
 
                             <label for="impresa">impresa</label>
                             <input name="impresa" id="impresa" value="{{ old('impresa', $practice->impresa) }}" />
@@ -256,28 +266,29 @@
 
                         <br>
 
-                        <div class="border border-l-8 border-purple-500 rounded-xs">
+                        <div
+                            class="border border-l-8 border-purple-500 rounded-xs {{ $practice->is_cre ? "bg-purple-100" : "" }}">
                             <div class="titolo-colonna bg-purple-500 text-white">4. CRE</div>
-                            <label for="is_cre">is_cre</label>
                             <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old('is_cre', $practice->is_cre) ? "checked" :
     ""
-                            }} />
+    }} />
 
+                            <label for="is_cre">Fase CRE effettuata</label>
+                            <br>
                             <label for="cre_at">cre_at</label>
-                            <input type="date" name="cre_at" id="cre_at"
-                                value="{{ old('cre_at', $practice->cre_at) }}" />
+                            <input type="date" name="cre_at" id="cre_at" value="{{ old('cre_at', $practice->cre_at) }}"
+                                class="{{ !isset($practice->cre_at) ? "date-vuoto" : "" }}" />
 
                             <label for="scadenza_esecuzione">scadenza_esecuzione</label>
                             <input type="date" name="scadenza_esecuzione" id="scadenza_esecuzione"
-                                value="{{ old('scadenza_esecuzione', $practice->scadenza_esecuzione) }}" />
-
-
+                                value="{{ old('scadenza_esecuzione', $practice->scadenza_esecuzione) }}"
+                                class="{{ !isset($practice->scadenza_esecuzione) ? "date-vuoto" : "" }}" />
                         </div>
                     </div>
 
 
-                    <div class="border-l-8 border-blue-700 p-6 rounded-xs">
-                        <div class="titolo-colonna text-red-700">Dati tecnici</div>
+                    <div class="">
+                        <div class="titolo-colonna ">Dati tecnici</div>
 
                         <label for="zona">zona</label>
                         <input name="zona" id="zona" value="{{ old('zona', $practice->zona) }}" />
@@ -296,13 +307,13 @@
 
                     <div class="grid-rows-2">
 
-                        <div class="border-l-8 border-blue-700 p-6 rounded-xs">
-                            <div class="titolo-colonna text-blue-700">Bdap</div>
+                        <div class="">
+                            <div class="titolo-colonna">Bdap</div>
                             <label for="bdap">bdap</label>
-                            <input name="bdap" id="bdap" value="{{ old('bdap', $practice->bdap) }}" />
+                            <input type="checkbox" name="bdap" id="bdap" value="{{ old('bdap', $practice->bdap) }}" />
 
                             <label for="bdap_convalidato">bdap_convalidato</label>
-                            <input name="bdap_convalidato" id="bdap_convalidato"
+                            <input type="checkbox" name="bdap_convalidato" id="bdap_convalidato"
                                 value="{{ old('bdap_convalidato', $practice->bdap_convalidato) }}" />
 
                             <label for="bdap_note">bdap_note</label>
@@ -310,7 +321,7 @@
                                 value="{{ old('bdap_note', $practice->bdap_note) }}" />
 
                             <label for="sito_internet">sito_internet</label>
-                            <input name="sito_internet" id="sito_internet"
+                            <input type="checkbox" name="sito_internet" id="sito_internet"
                                 value="{{ old('sito_internet', $practice->sito_internet) }}" />
 
                             <label for="sito_internet_nota">sito_internet_nota</label>
@@ -321,19 +332,19 @@
                             <input name="rif_llpp" id="rif_llpp" value="{{ old('rif_llpp', $practice->rif_llpp) }}" />
                         </div>
 
-
+                        <br>
 
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
 
-                            <div class="border-l-8 border-blue-700 p-6 rounded-xs">
-                                <div class="titolo-colonna text-blue-700">Check</div>
+                            <div class="">
+                                <div class="titolo-colonna ">Check</div>
 
                                 <label for="file_count">file_count</label>
-                                <input name="file_count" id="file_count"
+                                <input name="file_count" id="file_count" class="in-sm"
                                     value="{{ old('file_count', $practice->file_count) }}" />
 
                                 <label for="file_effettivi_count">file_effettivi_count</label>
-                                <input name="file_effettivi_count" id="file_effettivi_count"
+                                <input name="file_effettivi_count" id="file_effettivi_count" class="in-sm"
                                     value="{{ old('file_effettivi_count', $practice->file_effettivi_count) }}" />
 
                                 <label for="check_at">check_at</label>

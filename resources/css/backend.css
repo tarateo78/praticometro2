@@ -27,4 +27,37 @@
     td {
         @apply whitespace-nowrap
     }
+
+    dl.check {
+        @apply grid grid-cols-12
+    }
+
+    dd.check {
+        @apply col-span-10
+    }
+
+    dt.check {
+        @apply col-span-2
+    }
+
+    div.check {
+        /* @apply grid grid-cols-12 */
+    }
+
+    .check label {
+        /* @apply col-span-10 */
+    }
+
+    .check input{
+        /* @apply col-span-2 */
+    }
+
+    .in-sm {
+        @apply w-12
+    }
+
+    .date-vuoto {
+        @apply text-gray-400
+    }
+
 }

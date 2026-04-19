@@ -80,7 +80,7 @@ class PracticeController extends Controller
             'rup' => 'nullable',
             'fascicolo' => 'nullable',
             'importo' => 'nullable',
-            'is_rl' => 'nullable',
+            'is_rl' => '',
             'is_mims' => 'nullable',
             'rl_codice' => 'nullable',
             'mims_codice' => 'nullable',
@@ -125,6 +125,20 @@ class PracticeController extends Controller
             'gruppo' => 'nullable',
             'coordinate' => 'nullable',
         ]);
+
+        // Impone che anche i check non flaggati vengano registrati
+        $validated['is_in_corso'] = $request->has('is_in_corso');
+        $validated['is_rl'] = $request->has('is_rl');
+        $validated['is_mims'] = $request->has('is_mims');
+        $validated['is_avvio_progettazione'] = $request->has('is_avvio_progettazione');
+        $validated['is_lavori_in_corso'] = $request->has('is_lavori_in_corso');
+        $validated['is_avvio_gara'] = $request->has('is_avvio_gara');
+        $validated['is_cre'] = $request->has('is_cre');
+        $validated['bdap'] = $request->has('bdap');
+        $validated['bdap_convalidato'] = $request->has('bdap_convalidato');
+        $validated['sito_internet'] = $request->has('sito_internet');
+
+
 
         // 2. Aggiorna il modello
         $practice->update($validated);

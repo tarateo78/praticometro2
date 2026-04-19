@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Praticometro</title>
+    <title>Lavori Viabilità</title>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <h1>Praticometro</h1>
+    <h1>Lavori Viabilità</h1>
     <?php $importo_totale = 0; ?>
 
     <?php $importo_totale = 0; ?>
@@ -105,8 +105,8 @@
                             </tr>
 
                             <?php 
-                                                                                                                                            $importo_totale += $importo;
-                                                                                                                                            ?>
+                                                                                                                                                            $importo_totale += $importo;
+                                                                                                                                                            ?>
 
                         @endforeach
                     </tbody>
