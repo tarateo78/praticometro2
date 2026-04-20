@@ -54,7 +54,7 @@
                             <td>
                                 <a href="{{ route('openweb.show', $prac) }}" class="link">{{ $prac->codice }}</a>
                             </td>
-                            <td>{{ $prac->titolo }}</td>
+                            <td>{{ $prac->titolo_esteso }}</td>
                             <td>
                                 @if($prac->is_cre)
                                 <span class="tag bg-violet-100 whitespace-nowrap">Lavori conclusi</span>

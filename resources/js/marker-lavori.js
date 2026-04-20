@@ -91,7 +91,7 @@ if ( typeof practices !== 'undefined' ) {
                 let idMarker = practice.id + "-" + i + "-" + nCoord;
 
                 // Aggiunge il Marker alla mappa
-                let m = L.marker(coordinata.split(","), { id: idMarker, icon: context_icon }).addTo(map)
+                let m = L.marker(coordinata.split(","), { id: idMarker, icon: context_icon, zIndexOffset:-1000 }).addTo(map)
                     .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso + '<br><a href="/'+ pathDettaglio +'/' + practice.id + pathOperazione +'">Vedi dettaglio</a>');
                 obj_marker[idMarker]=m
                 i++;
