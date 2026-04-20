@@ -81,12 +81,20 @@ if ( typeof practices !== 'undefined' ) {
 
             
             // Rileva coordinate multiple
+            let i = 1;
+            const nCoord = practice.coordinate.split("|").length;
+
             practice.coordinate.split("|").forEach(coordinata => {
 
+                // Formato di idMarker: 523-2-3 -> id, contatore, n. totale
+                // mi serve per sapre quanti marker devo conteggiare
+                let idMarker = practice.id + "-" + i + "-" + nCoord;
+
                 // Aggiunge il Marker alla mappa
-                let m = L.marker(coordinata.split(","), { id: 1, icon: context_icon }).addTo(map)
+                let m = L.marker(coordinata.split(","), { id: idMarker, icon: context_icon }).addTo(map)
                     .bindPopup('<b>' + practice.codice + '</b> - ' + practice.titolo_esteso + '<br><a href="/'+ pathDettaglio +'/' + practice.id + pathOperazione +'">Vedi dettaglio</a>');
-                obj_marker[practice.id]=m
+                obj_marker[idMarker]=m
+                i++;
             });
             
         }
@@ -98,22 +106,30 @@ if ( typeof practices !== 'undefined' ) {
 if(!paginaDettaglio)
 {
     
-    Object.keys(obj_marker).forEach(function(id) {
-        var marker = obj_marker[id]; // Recupero il marker tramite l'ID
-        
+    Object.keys(obj_marker).forEach(function(markerId) {
+    
+        // console.log(markerId);
+        let id = markerId.split("-")[0];
+        let nMarker = markerId.split("-")[2];
+
         const riga = document.getElementById("prat-" + id);
         
-        let c;
+        let markerTemp = [];
         
         // mouseover scatta anche passando da un <td> all'altro nella stessa <tr>
         riga.onmouseenter = (e) => {
             // console.log("OVER");
-            c = L.marker([marker.getLatLng().lat,marker.getLatLng().lng], { icon: redIcon }).addTo(map)
+            for (let i = 1; i <= nMarker; i++) {
+                let marker = obj_marker[id + "-" + i + "-" + nMarker]; // Recupero il marker tramite l'ID
+        // console.log(marker);
+                markerTemp[i] = L.marker([marker.getLatLng().lat,marker.getLatLng().lng], { icon: redIcon }).addTo(map)
+            }
         }
         
         riga.onmouseleave = (e) => {
-            // console.log("LEAVE");
-            c.remove();
+            for (let i = 1; i <= nMarker; i++) {
+                markerTemp[i].remove();
+            }
         }
         
     });

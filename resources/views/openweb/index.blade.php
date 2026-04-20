@@ -49,64 +49,64 @@
                     </thead>
                     <tbody>
                         @foreach($practices as $prac)
-                            <tr id="prat-{{ $prac->id }}">
+                        <tr id="prat-{{ $prac->id }}">
 
-                                <td>
-                                    <a href="{{ route('openweb.show', $prac) }}" class="link">{{ $prac->codice }}</a>
-                                </td>
-                                <td>{{ $prac->titolo }}</td>
-                                <td>
-                                    @if($prac->is_cre)
-                                        <span class="tag bg-violet-100 whitespace-nowrap">Lavori conclusi</span>
-                                    @else
-                                        @if($prac->is_lavori_in_corso)
-                                            <span class="tag bg-blue-100 whitespace-nowrap">Lavori in corso</span>
-                                        @else
-                                            @if($prac->is_avvio_gara)
-                                                <span class="tag bg-green-100 whitespace-nowrap">Gara d'Appalto</span>
-                                            @else
-                                                @if ($prac->is_avvio_progettazione)
-                                                    <span class="tag bg-yellow-100 whitespace-nowrap">Progettazione</span>
-                                                @endif
-                                            @endif
-                                        @endif
-                                    @endif
+                            <td>
+                                <a href="{{ route('openweb.show', $prac) }}" class="link">{{ $prac->codice }}</a>
+                            </td>
+                            <td>{{ $prac->titolo }}</td>
+                            <td>
+                                @if($prac->is_cre)
+                                <span class="tag bg-violet-100 whitespace-nowrap">Lavori conclusi</span>
+                                @else
+                                @if($prac->is_lavori_in_corso)
+                                <span class="tag bg-blue-100 whitespace-nowrap">Lavori in corso</span>
+                                @else
+                                @if($prac->is_avvio_gara)
+                                <span class="tag bg-green-100 whitespace-nowrap">Gara d'Appalto</span>
+                                @else
+                                @if ($prac->is_avvio_progettazione)
+                                <span class="tag bg-yellow-100 whitespace-nowrap">Progettazione</span>
+                                @endif
+                                @endif
+                                @endif
+                                @endif
 
-                                </td>
-                                <td>{{ $prac->zona }}</td>
-                                <td class="whitespace-nowrap">
-                                    @if($prac->strade)
-                                        @foreach (explode(",", $prac->strade) as $sp)
-                                            <span class='tag bg-gray-200 '>{{ $sp }}</span>
-                                        @endforeach
-                                    @endif
-                                </td>
-                                @php
+                            </td>
+                            <td>{{ $prac->zona }}</td>
+                            <td class="whitespace-nowrap">
+                                @if($prac->strade)
+                                @foreach (explode(",", $prac->strade) as $sp)
+                                <span class='tag bg-gray-200 '>{{ $sp }}</span>
+                                @endforeach
+                                @endif
+                            </td>
+                            @php
 
-                                    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo));
-                                @endphp
-                                {{-- <td class="">{{
-                                    number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") , 2,
-                                    "," ,
-                                    ".")}} €</td> --}}
-                                <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
+                            $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo));
+                            @endphp
+                            {{-- <td class="">{{
+                                number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") , 2,
+                                "," ,
+                                ".")}} €</td> --}}
+                            <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
 
-                                <td>{{ $prac->finanziamento }}</td>
-                                <td class="whitespace-nowrap">
-                                    @if(isset($prac->cre_at))
-                                        {{ $prac->cre_at }}
-                                    @else
-                                        @if (isset($prac->scadenza_esecuzione))
-                                            {{ $prac->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
-                                        @else
-                                            <span class="text-xs italic">IN DEFINIZIONE</span>
-                                        @endif
-                                    @endif
+                            <td>{{ $prac->finanziamento }}</td>
+                            <td class="whitespace-nowrap">
+                                @if(isset($prac->cre_at))
+                                {{ $prac->cre_at }}
+                                @else
+                                @if (isset($prac->scadenza_esecuzione))
+                                {{ $prac->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
+                                @else
+                                <span class="text-xs italic">IN DEFINIZIONE</span>
+                                @endif
+                                @endif
 
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
 
-                            <?php    $importo_totale += $importo; ?>
+                        <?php    $importo_totale += $importo; ?>
 
                         @endforeach
 
@@ -131,9 +131,9 @@
                 <div class="">
                     <span>
                         @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
-                                            <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">{{
+                        <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">{{
                             $_GET['filtra'] }}<a href="{{ route('openweb.index') }}"><span
-                                                        class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a></div>
+                                    class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a></div>
                         @endif
                     </span>
                 </div>
@@ -157,7 +157,6 @@
 
 
     <script>
-
         // Inizializza la mappa centrata sulle coordinate fornite con fattore zoom
         var map = L.map('map').setView([45.895237, 9.341697], 10);
         // lecco 45.852455, 9.395464
