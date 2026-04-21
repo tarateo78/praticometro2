@@ -93,7 +93,7 @@ class PracticeController extends Controller
             'fte_at' => 'nullable',
             'def_at' => 'nullable',
             'ese_at' => 'nullable',
-            'cds_at' => 'nullable',
+            'is_cds' => 'nullable',
             'cds_chiusa_at' => 'nullable',
             'is_avvio_gara' => 'nullable',
             'contratto_at' => 'nullable',
@@ -106,24 +106,22 @@ class PracticeController extends Controller
             'is_cre' => 'nullable',
             'cre_at' => 'nullable',
             'appunti_progettazione' => 'nullable',
-            'rup_note' => 'nullable',
-            'capitolo' => 'nullable',
+            'pratica_note' => 'nullable',
             'bdap' => 'nullable',
             'bdap_convalidato' => 'nullable',
             'bdap_note' => 'nullable',
             'sito_internet' => 'nullable',
             'sito_internet_nota' => 'nullable',
-            'rif_llpp' => 'nullable',
             'determina_gruppo' => 'nullable',
             'check_at' => 'nullable',
             'modifica_at' => 'nullable',
             'modifica_utente' => 'nullable',
-            'alias' => 'nullable',
             'scadenza_progetto' => 'nullable',
             'scadenza_affidamento' => 'nullable',
             'scadenza_esecuzione' => 'nullable',
             'gruppo' => 'nullable',
             'coordinate' => 'nullable',
+            'file_nuovi' => 'nullable',
         ]);
 
         // Impone che anche i check non flaggati vengano registrati
@@ -134,6 +132,7 @@ class PracticeController extends Controller
         $validated['is_lavori_in_corso'] = $request->has('is_lavori_in_corso');
         $validated['is_avvio_gara'] = $request->has('is_avvio_gara');
         $validated['is_cre'] = $request->has('is_cre');
+        $validated['is_cds'] = $request->has('is_cds');
         $validated['bdap'] = $request->has('bdap');
         $validated['bdap_convalidato'] = $request->has('bdap_convalidato');
         $validated['sito_internet'] = $request->has('sito_internet');
