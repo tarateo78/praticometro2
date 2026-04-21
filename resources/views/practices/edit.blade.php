@@ -393,12 +393,19 @@
 
         <script>
             // Gestione controllo aggiornamenti
+
+            const dd = @js($practice->check_at);
+            console.log(dd);
+            let d = new Date();
             const selectedDate = new Date(@js($practice->check_at)).getTime();
+            console.log("data: " + selectedDate);
+            // console.log((new Date(selectedDate)).toLocaleString());
 
             const btnStart = document.getElementById('btnStart');
             const logElement = document.getElementById('log');
             const statusElement = document.getElementById('statusText');
             const file_effettivi_count = document.getElementById('file_effettivi_count');
+            const check_at = document.getElementById('check_at');
 
             function writeLog(text, className = "") {
                 const span = document.createElement('div');
@@ -409,10 +416,15 @@
                 logElement.scrollTop = logElement.scrollHeight;
             }
 
-            async function scanEfficient(directoryHandle, targetTimestamp, stats, path = "") {
+            async function scanEfficient(directoryHandle, targetTimestamp, stats, path = "", iterazione = 0) {
 
                 // .values() è un iteratore asincrono che non carica tutto in memoria
                 for await (const entry of directoryHandle.values()) {
+
+                    // Identazione visiva per la'iterazione'
+                    // const indent = "  ".repeat(iterazione);
+                    // console.log(`${indent}[Livello ${iterazione}] ${entry.name} (${entry.kind})`);
+
                     const currentPath = path ? `${path}/${entry.name}` : entry.name;
                     if (entry.kind === 'file') {
 
@@ -428,19 +440,22 @@
                             const file = await entry.getFile();
 
                             if (file.lastModified > targetTimestamp) {
+                                const miaData = new Date(file.lastModified).toISOString();
                                 const dateStr = new Date(file.lastModified).toLocaleString();
-                                writeLog(`<span class="file-entry">������ ${currentPath}</span> <span class="highlight">[Modificato: ${dateStr}]</span>`);
+                                writeLog(`<span class="file-entry">������ ${currentPath}</span> <span class="highlight">[Modificato: ${dateStr}]</span>( ${miaData} )`);
                             }
                         } catch (err) {
                             writeLog(`⚠️ Errore accesso file: ${entry.name}`, "dir-entry");
                         }
                     } else if (entry.kind === 'directory') {
                         // Ricorsione asincrona per le sottocartelle
-                        // console.log(entry.name);
-                        if( entry.name.toLowerCase().search("amministrativi") != -1){
-                            console.log(entry.name);
+                        // Sulle cartelle specifiche
+                        if( iterazione == 0 && entry.name.toLowerCase().search("atti amministrativi") != -1 
+                        || iterazione == 0 && entry.name.toLowerCase().search("cantiere") != -1
+                        || iterazione == 0 && entry.name.toLowerCase().search("conferenza dei servizi") != -1
+                        || iterazione != 0){
+                            await scanEfficient(entry, targetTimestamp, stats, currentPath, iterazione+1);
                         }
-                            await scanEfficient(entry, targetTimestamp, stats, currentPath);
                     }
 
                     // Trucco per la memoria: cede il controllo alla UI ogni tanto
@@ -484,6 +499,7 @@
                     statusElement.innerText = "Scansione in corso (Sola Lettura)...";
 
                     const stats = { total: 0 }; // Inizializza i conteggi
+
                     document.getElementById('fileCount').innerText = "0";
 
                     const startTime = performance.now();
@@ -498,6 +514,10 @@
 
                     // Aggiornamento finale del contatore per precisione
                     document.getElementById('fileCount').innerText = stats.total;
+                    file_effettivi_count.value = stats.total;
+                    check_at.value = (new Date()).toISOString();
+
+
                     statusElement.innerText = `Scansione completata in ${duration} secondi.`;
                     writeLog("<br>✅ Operazione terminata con successo.", "highlight");
 
@@ -515,9 +535,12 @@
 
 
             // Allinea il numero del controllo file e la data
-            const check_at = document.getElementById('check_at');
+
             const btnAllinea = document.getElementById('btnAllinea');
             const fileCount = document.getElementById('fileCount');
+            
+
+
 
             btnAllinea.addEventListener('click', () => {
                 event.preventDefault();
