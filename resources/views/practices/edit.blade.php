@@ -39,7 +39,7 @@
 
             {{-- Se stiamo modificando, Laravel ha bisogno del metodo PUT --}}
             @if($practice->exists)
-                @method('PUT')
+            @method('PUT')
             @endif
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-2 p-2">
@@ -50,15 +50,15 @@
                             <label for="codice">Pratica</label>
                             <input name="codice" id="codice" value="{{ old('codice', $practice->codice) }}"
                                 class="text-3xl w-30" />
+                            {{ $practice->file_count != $practice->file_effettivi_count ? "🗘" : "" }}
                         </div>
                         <div>
                             <label for="is_in_corso">In corso</label>
-                            <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old(
-    'is_in_corso',
-    $practice->is_in_corso
-) ?
-    "checked" :
-    "" }} />
+                            <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old( 'is_in_corso' ,
+                                $practice->is_in_corso
+                            ) ?
+                            "checked" :
+                            "" }} />
                             <br>
 
                             <label for="cup">CUP</label>
@@ -118,7 +118,7 @@
 
                     <label for="is_rl">Finanziamento RL</label>
                     <input type="checkbox" value="1" name="is_rl" id="is_rl" {{ old('is_rl', $practice->is_rl) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
 
                     <br>
 
@@ -128,7 +128,7 @@
 
                     <label for="is_mims">Finanziamento MIMS</label>
                     <input type="checkbox" value="1" name="is_mims" id="is_mims" {{ old('is_mims', $practice->is_mims) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
                     <br>
 
                     <label for="mims_codice">Codice MIMS</label>
@@ -148,10 +148,8 @@
 
 
                             <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione"
-                                {{ old(
-    'is_avvio_progettazione',
-    $practice->is_avvio_progettazione
-) ? "checked" : "" }} />
+                                {{ old( 'is_avvio_progettazione' , $practice->is_avvio_progettazione
+                            ) ? "checked" : "" }} />
                             <label for="is_avvio_progettazione">Fase progettazione avviata</label>
                             <br><br>
                             <label for="avvio_servizio_at">Avvio servizio il</label>
@@ -173,8 +171,9 @@
                             <br>
 
                             <label for="is_cds">Necessaria CDS</label>
-                            <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old('is_cds', $practice->is_cds) ?
-    "checked" : "" }} />
+                            <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old('is_cds',
+                                $practice->is_cds) ?
+                            "checked" : "" }} />
                             <label for="cds_chiusa_at">→ Cds Verbale</label>
                             <input type="date" name="cds_chiusa_at" id="cds_chiusa_at"
                                 value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at) }}"
@@ -202,10 +201,8 @@
                                 2. Gara appalto</div>
                             <div class="check">
                                 <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{
-    old(
-        'is_avvio_gara',
-        $practice->is_avvio_gara
-    ) ? "checked" : "" }} />
+                                    old( 'is_avvio_gara' , $practice->is_avvio_gara
+                                ) ? "checked" : "" }} />
                                 <label for="is_avvio_gara">Fase gara d'appalto avviata</label>
                             </div>
                             <br>
@@ -230,11 +227,9 @@
                             <div class="titolo-colonna bg-blue-600 text-white">3. Lavori</div>
 
                             <input type="checkbox" value="1" name="is_lavori_in_corso" id="is_lavori_in_corso" {{
-    old(
-        'is_lavori_in_corso',
-        $practice->is_lavori_in_corso
-    ) ?
-    "checked" : "" }} />
+                                old( 'is_lavori_in_corso' , $practice->is_lavori_in_corso
+                            ) ?
+                            "checked" : "" }} />
                             <label for="is_lavori_in_corso">Fase Esecuzione Lavori avviata</label>
                             <br><br>
                             <label for="direttore_lavori">Dirett. Lavori</label>
@@ -269,11 +264,10 @@
                         <div class="border border-l-8 border-purple-500 rounded-xs {{ $practice->is_cre ? "
                             bg-purple-100" : "" }}">
                             <div class="titolo-colonna bg-purple-500 text-white">4. CRE</div>
-                            <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old(
-    'is_cre',
-    $practice->is_cre
-) ? "checked" :
-    ""
+                            <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old( 'is_cre' ,
+                                $practice->is_cre
+                            ) ? "checked" :
+                            ""
                             }} />
                             <label for="is_cre">Fase CRE effettuata</label>
                             <br>
@@ -352,7 +346,7 @@
                 </div>
 
                 <br>
-
+                <hr class="border-gray-500 mb-3">
                 <div>
 
                     <span class="titolo-colonna ">Check</span>
@@ -364,18 +358,18 @@
                     <label for="file_effettivi_count">file_effettivi_count</label>
                     <input name="file_effettivi_count" id="file_effettivi_count" class="in-sm"
                         value="{{ old('file_effettivi_count', $practice->file_effettivi_count) }}" />
-                    <br>
+
                     <label for="check_at">check_at</label>
                     <input name="check_at" id="check_at" value="{{ old('check_at', $practice->check_at) }}" />
-                    <br>
+
                     <label for="modifica_at">modifica_at</label>
                     <input name="modifica_at" id="modifica_at"
                         value="{{ old('modifica_at', $practice->modifica_at) }}" />
-                    <br>
+
                     <label for="modifica_utente">modifica_utente</label>
                     <input name="modifica_utente" id="modifica_utente"
                         value="{{ old('modifica_utente', $practice->modifica_utente) }}" />
-                    <br>
+
                     <button id="btnStart" class="outer border-green-600 text-green-600 font-bold">Verifica</button>
                     <br>
                     <label for="file_nuovi">Nuovi File</label>
@@ -400,26 +394,13 @@
         <script>
             // Gestione controllo aggiornamenti
             const selectedDate = new Date(@js($practice->check_at)).getTime();
-            console.log("data: " + selectedDate);
-            // console.log((new Date(selectedDate)).toLocaleString());
 
             const btnStart = document.getElementById('btnStart');
-            //           const logElement = document.getElementById('log');
-            //           const statusElement = document.getElementById('statusText');
             const file_effettivi_count = document.getElementById('file_effettivi_count');
             const check_at = document.getElementById('check_at');
             const file_nuovi = document.getElementById('file_nuovi');
             const btnAllinea = document.getElementById('btnAllinea');
             const file_count = document.getElementById('file_count');
-
-            function writeLog(text, className = "") {
-                //                const span = document.createElement('div');
-                //                if (className) span.className = className;
-                //                span.innerHTML = text;
-                //                logElement.appendChild(span);
-                // Autoscroll verso il basso
-                //                logElement.scrollTop = logElement.scrollHeight;
-            }
 
             async function scanEfficient(directoryHandle, targetTimestamp, stats, path = "", iterazione = 0) {
 
@@ -451,7 +432,7 @@
                                 file_nuovi.value += dateStr.substr(0, 10) + " .. " + currentPath.substr(currentPath.search("/") + 1) + " " + '\n';
                             }
                         } catch (err) {
-                            //                            writeLog(`⚠️ Errore accesso file: ${entry.name}`, "dir-entry");
+                            console.log(`Errore accesso file: ${entry.name}`, "dir-entry");
                         }
                     } else if (entry.kind === 'directory') {
                         // Ricorsione asincrona per le sottocartelle
@@ -499,32 +480,28 @@
                     tentativo accidentale di scrittura.
                     */
 
-                    // Reset interfaccia
-                    //                   logElement.innerHTML = "";
+                    // Verifica la corrispondenza della pratica selezionata
+                    if(  dirHandle.name.substr(0,5) == document.getElementById('codice').value ) {
 
-                    //                 statusElement.innerText = "Scansione in corso (Sola Lettura)...";
+                        file_nuovi.value = ""; // Cancella la casella dei nuovi file
 
-                    const stats = { total: 0 }; // Inizializza i conteggi
+                        const stats = { total: 0 }; // Inizializza i conteggi
 
-                    //                    document.getElementById('fileCount').innerText = "0";
+                        const startTime = performance.now();
 
-                    const startTime = performance.now();
+                        // 2. Avvio scansione ottimizzata
+                        await scanEfficient(dirHandle, selectedDate, stats, dirHandle.name);
 
-                    // 2. Avvio scansione ottimizzata
-                    await scanEfficient(dirHandle, selectedDate, stats, dirHandle.name);
+                        const endTime = performance.now();
+                        const duration = ((endTime - startTime) / 1000).toFixed(2);
 
+                        file_effettivi_count.value = stats.total;
 
-                    const endTime = performance.now();
-                    const duration = ((endTime - startTime) / 1000).toFixed(2);
+                        file_nuovi.value += `\n___ Scansione completata in ${duration} secondi ___`;
 
-                    // Aggiornamento finale del contatore per precisione
-                    //                    document.getElementById('fileCount').innerText = stats.total;
-                    file_effettivi_count.value = stats.total;
-
-
-
-                    //                    statusElement.innerText = `Scansione completata in ${duration} secondi.`;
-                    //                    writeLog("<br>✅ Operazione terminata con successo.", "highlight");
+                    } else {
+                        file_nuovi.value += "ATTENZIONE: La cartella selezionata non corrisponde alla presente pratica!"
+                    }
 
                 } catch (err) {
                     if (err.name === 'AbortError') {
@@ -537,11 +514,6 @@
                     btnStart.disabled = false;
                 }
             });
-
-
-
-
-
 
 
 
