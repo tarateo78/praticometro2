@@ -42,6 +42,7 @@
                             <th>Stato Pratica</th>
                             <th>Area</th>
                             <th>Strade</th>
+                            <th>Mappa</th>
                             <th>Importo</th>
                             <th>Finanziamento</th>
                             <th>Data fine lavori</th>
@@ -57,16 +58,16 @@
                             <td>{{ $prac->titolo_esteso }}</td>
                             <td>
                                 @if($prac->is_cre)
-                                <span class="tag bg-violet-100 whitespace-nowrap">Lavori conclusi</span>
+                                <span class="tag bg-violet-200 whitespace-nowrap">Concluso</span>
                                 @else
                                 @if($prac->is_lavori_in_corso)
-                                <span class="tag bg-blue-100 whitespace-nowrap">Lavori in corso</span>
+                                <span class="tag bg-blue-200 whitespace-nowrap">Lavori in corso</span>
                                 @else
                                 @if($prac->is_avvio_gara)
-                                <span class="tag bg-green-100 whitespace-nowrap">Gara d'Appalto</span>
+                                <span class="tag bg-green-200 whitespace-nowrap">Gara d'Appalto</span>
                                 @else
                                 @if ($prac->is_avvio_progettazione)
-                                <span class="tag bg-yellow-100 whitespace-nowrap">Progettazione</span>
+                                <span class="tag bg-yellow-200 whitespace-nowrap">Progettazione</span>
                                 @endif
                                 @endif
                                 @endif
@@ -81,8 +82,12 @@
                                 @endforeach
                                 @endif
                             </td>
+                            <td>
+                                @if($prac->coordinate != "")
+                                <img src="assets/images/marker/marker-red.svg" alt="tag">
+                                @endif
+                            </td>
                             @php
-
                             $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo));
                             @endphp
                             {{-- <td class="">{{

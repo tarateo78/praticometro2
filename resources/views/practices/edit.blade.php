@@ -25,7 +25,7 @@
 <body>
     {{-- <h1>PRATICA <b>{{ $practice->codice }}</b></h1> --}}
 
-    <a href="{{ route('practices.index') }}?is_in_corso=on">← Elenco Pratiche</a>
+
 
     {{-- <small>Creato il: {{ $practice->created_at->format('d/m/Y') }}</small> --}}
 
@@ -44,57 +44,70 @@
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-2 p-2">
                 <div class=" p-2 rounded-xs md:col-span-2">
-                    <div class="grid grd-cols-1 sm:grid-cols-2 gap-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div>
-                            {{-- Usiamo l'helper old() per mantenere i dati in caso di errore di validazione --}}
-                            <label for="codice">Pratica</label>
-                            <input name="codice" id="codice" value="{{ old('codice', $practice->codice) }}"
-                                class="text-3xl w-30" />
-                            {{ $practice->file_count != $practice->file_effettivi_count ? "🗘" : "" }}
+                            <div class="grid grid-cols-2">
+                                <div>
+                                    <a href="{{ route('practices.index') }}?is_in_corso=on">← Torna a Elenco</a>
+                                </div>
+                                <div>
+
+                                    {{-- Usiamo l'helper old() per mantenere i dati in caso di errore di validazione
+                                    --}}
+                                    <label for="codice">Pratica</label>
+                                    <input name="codice" id="codice" value="{{ old('codice', $practice->codice) }}"
+                                        class="text-3xl w-30" />
+                                    {{ $practice->file_count != $practice->file_effettivi_count ? "🗘" : "" }}
+                                </div>
+                            </div>
                         </div>
-                        <div>
+                        <div class="">
                             <label for="is_in_corso">In corso</label>
                             <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old( 'is_in_corso' ,
                                 $practice->is_in_corso
                             ) ?
                             "checked" :
                             "" }} />
-                            <br>
+
 
                             <label for="cup">CUP</label>
                             <input name="cup" id="cup" value="{{ old('cup', $practice->cup) }}" class="w-50" />
                         </div>
                     </div>
-                    <label for="titolo">Titolo</label>
-                    <input name="titolo" id="titolo" value="{{ old('titolo', $practice->titolo) }}" class="w-full" />
-                    <br>
-                    <label for="titolo_esteso">Titolo esteso</label>
-                    <textarea name="titolo_esteso" id="titolo_esteso"
-                        class="w-full h-20">{{ old('titolo_esteso', $practice->titolo_esteso) }}</textarea>
-
+                    <div class="flex w-full">
+                        <label for="titolo">Titolo</label>
+                        <input name="titolo" id="titolo" class="flex-1" value="{{ old('titolo', $practice->titolo) }}"
+                            class="w-full" />
+                    </div>
+                    <div class="flex w-full">
+                        <label for="titolo_esteso">Titolo esteso</label>
+                        <textarea name="titolo_esteso" id="titolo_esteso"
+                            class="flex-1 h-20">{{ old('titolo_esteso', $practice->titolo_esteso) }}</textarea>
+                    </div>
                 </div>
 
                 <div class="p-2 rounded-xs">
 
-                    <label for="fascicolo">Fascicolo</label>
-                    <input name="fascicolo" id="fascicolo" value="{{ old('fascicolo', $practice->fascicolo) }}"
-                        class="w-40" />
-                    <br>
+                    <div class="flex w-full">
+                        <label for="fascicolo">Fascicolo</label>
+                        <input name="fascicolo" id="fascicolo" value="{{ old('fascicolo', $practice->fascicolo) }}"
+                            class="flex-1" />
+                    </div>
 
+                    <div class="flex w-full">
+                        <label for="rup">RUP</label>
+                        <input name="rup" id="rup" class="flex-1" value="{{ old('rup', $practice->rup) }}" />
+                    </div>
 
-                    <label for="rup">RUP</label>
-                    <input name="rup" id="rup" value="{{ old('rup', $practice->rup) }}" />
-                    <br>
+                    <div class="flex w-full">
+                        <label for="pratica_note">Note</label>
+                        <textarea name="pratica_note" id="pratica_note" class="flex-1">{{ old('pratica_note',
+                            $practice->pratica_note) }}</textarea>
+                    </div>
 
-                    <label for="pratica_note">Note Pratica</label>
-                    <input name="pratica_note" id="pratica_note"
-                        value="{{ old('pratica_note', $practice->pratica_note) }}" class="w-full" />
-                    <br>
-
-                    <label for="determina_gruppo">Determina Gruppo di Lavoro</label>
+                    <label for="determina_gruppo">Det. GdL</label>
                     <input name="determina_gruppo" id="determina_gruppo"
                         value="{{ old('determina_gruppo', $practice->determina_gruppo) }}" class="w-30" />
-                    <br>
                     <label for="gruppo">gruppo</label>
                     <input name="gruppo" id="gruppo" value="{{ old('gruppo', $practice->gruppo) }}" class="w-30" />
                     <br>
@@ -157,10 +170,11 @@
                                 value="{{ old('avvio_servizio_at', $practice->avvio_servizio_at) }}"
                                 class="{{ !isset($practice->avvio_servizio) ? " date-vuoto" : "" }}" />
                             <br>
-                            <label for="progettista">Progettista</label>
-                            <input name="progettista" id="progettista"
-                                value="{{ old('progettista', $practice->progettista) }}" />
-                            <br>
+                            <div class="flex w-full">
+                                <label for="progettista">Progettista</label>
+                                <input name="progettista" id="progettista" class="flex-1"
+                                    value="{{ old('progettista', $practice->progettista) }}" />
+                            </div>
                             <label for="fte_at">Fattibilità approvazione</label>
                             <input type="date" name="fte_at" id="fte_at" value="{{ old('fte_at', $practice->fte_at) }}"
                                 class="{{ !isset($practice->fte_at) ? " date-vuoto" : "" }}" />
@@ -179,15 +193,17 @@
                                 value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at) }}"
                                 class="{{ !isset($practice->cds_chiusa_at) ? " date-vuoto" : "" }}" />
                             <br>
+
                             <label for="ese_at">Esecutivo approvazione</label>
                             <input type="date" name="ese_at" id="ese_at" value="{{ old('ese_at', $practice->ese_at) }}"
                                 class="{{ !isset($practice->ese_at) ? " date-vuoto" : "" }}" />
 
                             <br>
-                            <label for="appunti_progettazione">Appunti Prog.</label>
-                            <textarea name="appunti_progettazione"
-                                id="appunti_progettazione">{{ old('appunti_progettazione', $practice->appunti_progettazione) }}</textarea>
-                            <br>
+                            <div class="flex w-full">
+                                <label for="appunti_progettazione">Note</label>
+                                <textarea name="appunti_progettazione" id="appunti_progettazione"
+                                    class="flex-1">{{ old('appunti_progettazione', $practice->appunti_progettazione) }}</textarea>
+                            </div>
                             <hr class="border-yellow-400">
                             <label for="scadenza_progetto">Termine Progettazione</label>
                             <input type="date" name="scadenza_progetto" id="scadenza_progetto"
@@ -232,31 +248,35 @@
                             "checked" : "" }} />
                             <label for="is_lavori_in_corso">Fase Esecuzione Lavori avviata</label>
                             <br><br>
-                            <label for="direttore_lavori">Dirett. Lavori</label>
-                            <input name="direttore_lavori" id="direttore_lavori"
-                                value="{{ old('direttore_lavori', $practice->direttore_lavori) }}" />
-                            <br>
-                            <label for="assistente_dl">assistente_dl</label>
-                            <input name="assistente_dl" id="assistente_dl"
-                                value="{{ old('assistente_dl', $practice->assistente_dl) }}" />
-                            <br>
+                            <div class="flex w-full">
+                                <label for="direttore_lavori">Dirett. Lavori</label>
+                                <input name="direttore_lavori" id="direttore_lavori" class="flex-1"
+                                    value="{{ old('direttore_lavori', $practice->direttore_lavori) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="assistente_dl">assistente_dl</label>
+                                <input name="assistente_dl" id="assistente_dl" class="flex-1"
+                                    value="{{ old('assistente_dl', $practice->assistente_dl) }}" />
+                            </div>
                             <label for="consegna_lavori_at">Consegna Lavori</label>
                             <input type="date" name="consegna_lavori_at" id="consegna_lavori_at"
                                 value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at) }}"
                                 class="{{ !isset($practice->consegna_lavori_at) ? " date-vuoto" : "" }}" />
-                            <br>
-                            <label for="impresa">Impresa</label>
-                            <input name="impresa" id="impresa" value="{{ old('impresa', $practice->impresa) }}" />
-                            <br>
-                            <label for="lavori_note">Note lavori</label>
-                            <textarea name="lavori_note"
-                                id="lavori_note">{{ old('lavori_note', $practice->lavori_note) }}</textarea>
-                            <br>
-                            <label for="sicurezza">sicurezza</label>
-                            <input name="sicurezza" id="sicurezza"
-                                value="{{ old('sicurezza', $practice->sicurezza) }}" />
-
-
+                            <div class="flex w-full">
+                                <label for="sicurezza">Sicurezza</label>
+                                <input name="sicurezza" id="sicurezza" class="flex-1"
+                                    value="{{ old('sicurezza', $practice->sicurezza) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="impresa">Impresa</label>
+                                <input name="impresa" id="impresa" class="flex-1"
+                                    value="{{ old('impresa', $practice->impresa) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="lavori_note">Note</label>
+                                <textarea name="lavori_note" id="lavori_note"
+                                    class="flex-1">{{ old('lavori_note', $practice->lavori_note) }}</textarea>
+                            </div>
                         </div>
 
                         <br>
@@ -297,16 +317,22 @@
 
                     <div class="grid-rows-3">
                         <div>
-                            <span class="titolo-colonna">Dati tecnici</span>
-                            <label for="zona">Area</label>
-                            <input name="zona" id="zona" value="{{ old('zona', $practice->zona) }}" />
-                            <br>
-                            <label for="strade">Strade</label>
-                            <input name="strade" id="strade" value="{{ old('strade', $practice->strade) }}" />
-                            <br>
-                            <label for="coordinate">Coordinate</label>
-                            <textarea name="coordinate"
-                                id="coordinate">{{ old('coordinate', $practice->coordinate) }}</textarea>
+                            <div class="flex w-full">
+                                <span class="titolo-colonna">Dati tecnici</span>
+                                <label for="zona">Area</label>
+                                <input name="zona" id="zona" class="flex-1"
+                                    value="{{ old('zona', $practice->zona) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="strade">Strade</label>
+                                <input name="strade" id="strade" class="flex-1"
+                                    value="{{ old('strade', $practice->strade) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="coordinate">Coordinate</label>
+                                <textarea name="coordinate" class="flex-1"
+                                    id="coordinate">{{ old('coordinate', $practice->coordinate) }}</textarea>
+                            </div>
                         </div>
 
                         <br>
@@ -315,24 +341,27 @@
 
                             <span class="titolo-colonna">Bdap</span>
                             <label for="bdap">Monitorato</label>
-                            <input type="checkbox" name="bdap" id="bdap" value="{{ old('bdap', $practice->bdap) }}" />
+                            <input type="checkbox" name="bdap" id="bdap" value="1" {{ old( 'bdap' , $practice->bdap ) ?
+                            "checked" : "" }} />
 
                             <label for="bdap_convalidato">Bdap Convalidato</label>
-                            <input type="checkbox" name="bdap_convalidato" id="bdap_convalidato"
-                                value="{{ old('bdap_convalidato', $practice->bdap_convalidato) }}" />
+                            <input type="checkbox" name="bdap_convalidato" id="bdap_convalidato" value="1" {{
+                                old( 'bdap_convalidato' , $practice->bdap_convalidato ) ? "checked" : "" }} />
                             <br>
-                            <label for="bdap_note">bdap_note</label>
-                            <input name="bdap_note" id="bdap_note"
-                                value="{{ old('bdap_note', $practice->bdap_note) }}" />
-                            <br>
-                            <label for="sito_internet">sito_internet</label>
-                            <input type="checkbox" name="sito_internet" id="sito_internet"
-                                value="{{ old('sito_internet', $practice->sito_internet) }}" />
-                            <br>
-                            <label for="sito_internet_nota">sito_internet_nota</label>
-                            <input name="sito_internet_nota" id="sito_internet_nota"
-                                value="{{ old('sito_internet_nota', $practice->sito_internet_nota) }}" />
+                            <div class="flex w-full">
+                                <label for="bdap_note">bdap_note</label>
+                                <textarea name="bdap_note" class="flex-1"
+                                    id="bdap_note">{{ old('bdap_note', $practice->bdap_note) }}</textarea>
+                            </div>
 
+                            <label for="sito_internet">sito_internet</label>
+                            <input type="checkbox" name="sito_internet" id="sito_internet" value="1" {{
+                                old( 'bdap_convalidato' , $practice->bdap_convalidato ) ? "checked" : "" }} />
+                            <div class="flex w-full">
+                                <label for="sito_internet_nota">sito_internet_nota</label>
+                                <input name="sito_internet_nota" id="sito_internet_nota" class="flex-1"
+                                    value="{{ old('sito_internet_nota', $practice->sito_internet_nota) }}" />
+                            </div>
                         </div>
 
                         <br>
