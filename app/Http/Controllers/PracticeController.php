@@ -16,7 +16,7 @@ class PracticeController extends Controller
             $termini = explode("+", $request->filtra);
 
             foreach ($termini as $termine) {
-                $query->whereAny(['codice', 'titolo', 'stato_pratica', 'zona', 'strade', 'importo', 'finanziamento'], 'like', "%" . $termine . "%");
+                $query->whereAny(['codice', 'titolo', 'titolo_esteso', 'stato_pratica', 'zona', 'strade', 'importo', 'finanziamento'], 'like', "%" . $termine . "%");
             }
             return $query;
         })
