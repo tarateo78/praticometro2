@@ -13,7 +13,10 @@ class PracticeController extends Controller
 
         $practices = Practice::when($request->filtra, function ($query) use ($request) {
 
-            $termini = explode("+", $request->filtra);
+            // $termini = explode("+", $request->filtra);
+            $termini = preg_split("/[\s,+]+/", $request->filtra);
+            // split the phrase by any number of commas or space characters: \s    which include " ", \r, \t, \n and \f
+            // comma , and plus + e il + finale indica per qualsiasi ricorrenza
 
             foreach ($termini as $termine) {
                 $query->whereAny(['codice', 'titolo', 'titolo_esteso', 'stato_pratica', 'zona', 'strade', 'importo', 'finanziamento'], 'like', "%" . $termine . "%");
