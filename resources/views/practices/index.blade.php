@@ -162,8 +162,10 @@
 
                 </div> --}}
             </div>
-
-
+            <div class="flex justify-end">
+                <a href="{{ route('openweb.index') }}" class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
+                    OpenWeb</a>
+            </div>
             <script>
                 // Inizializza la mappa centrata sulle coordinate fornite con fattore zoom
         var map = L.map('map').setView([45.895237, 9.341697], 10);

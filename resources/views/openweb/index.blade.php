@@ -157,6 +157,11 @@
 
         </div>
     </div>
+    <div class="flex justify-end">
+        <a href="{{ route('practices.index') }}"
+            class="m-2 p-2 border border-blue-600 rounded-2xl whitespace-nowrap">Vai a
+            Area riservata</a>
+    </div>
 
 
 
