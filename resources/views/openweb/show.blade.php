@@ -20,7 +20,7 @@
 
 <body>
     <h1>{{ $practice->titolo }}</h1>
-    <a href="{{ route('openweb.index') }}">← Elenco Pratiche</a>
+    <a href="{{ route('openweb.index') }}" class="m-2 p-2 border border-blue-600 rounded-2xl">← Torna a Elenco</a>
 
     <div class="grid grid-cols-1 md:grid-cols-8">
         <div class="col-span-4">
