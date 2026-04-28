@@ -55,7 +55,7 @@
                             <td>
                                 <a href="{{ route('openweb.show', $prac) }}" class="link">{{ $prac->codice }}</a>
                             </td>
-                            <td>{{ $prac->titolo_esteso }}</td>
+                            <td class="min-w-70">{{ $prac->titolo_esteso }}</td>
                             <td>
                                 @if($prac->is_cre)
                                 <span class="tag bg-violet-200 whitespace-nowrap">Concluso</span>
@@ -94,7 +94,8 @@
                                 number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") , 2,
                                 "," ,
                                 ".")}} €</td> --}}
-                            <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
+                            <td class="text-right pr-2 whitespace-nowrap">{{ number_format($importo, 2, ",", ".") }} €
+                            </td>
 
                             <td>{{ $prac->finanziamento }}</td>
                             <td class="whitespace-nowrap">
@@ -155,6 +156,11 @@
             <div id="map" class="map"></div>
 
         </div>
+    </div>
+    <div class="flex justify-end">
+        <a href="{{ route('practices.index') }}"
+            class="m-2 p-2 border border-blue-600 rounded-2xl whitespace-nowrap">Vai a
+            Area riservata</a>
     </div>
 
 

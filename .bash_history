@@ -37,3 +37,10 @@ exit
 ls
 pwd
 exit
+cd /var/www/
+ls
+cd database/
+ls
+ll
+ls
+exit

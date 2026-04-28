@@ -48,7 +48,8 @@
                         <div>
                             <div class="grid grid-cols-2">
                                 <div>
-                                    <a href="{{ route('practices.index') }}?is_in_corso=on">← Torna a Elenco</a>
+                                    <a href="{{ route('practices.index') }}?is_in_corso=on"
+                                        class="m-2 p-2 border border-blue-600 rounded-2xl">← Torna a Elenco</a>
                                 </div>
                                 <div>
 
