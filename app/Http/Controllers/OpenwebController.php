@@ -25,6 +25,7 @@ class OpenwebController extends Controller
             }
             return $query;
         })
+            ->where('is_in_corso', true)
             ->where('is_avvio_progettazione', true)
             ->where(function ($query) {
                 $query->where('cre_at', '=', '')
