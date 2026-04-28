@@ -51,140 +51,72 @@
                                     <th>Impresa</th>
                                     <th>det Grup Lav</th>
 
-<<<<<<< HEAD
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($practices as $prac)
-                            <tr id="prat-{{ $prac->id }}">
-
-                                <td>
-                                    <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice }}</a>
-                                    {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
-                                </td>
-                                <td>{{ $prac->titolo }}</td>
-                                <td>
-                                    @if ($prac->is_avvio_progettazione)
-                                        <span class="tag bg-yellow-200/60">Prog</span>
-                                    @endif
-
-                                    @if($prac->is_avvio_gara)
-                                        <span class="tag bg-green-200/60">Gara</span>
-                                    @endif
-
-                                    @if($prac->is_lavori_in_corso)
-                                        <span class="tag bg-blue-200/60">Lavori</span>
-                                    @endif
-
-                                    @if($prac->is_cre)
-                                        <span class="tag bg-violet-200/60">Cre</span>
-                                    @endif
-                                </td>
-                                <td>{{ $prac->zona }}</td>
-                                <td class="whitespace-nowrap">
-                                    @if($prac->strade)
-                                        @foreach (explode(",", $prac->strade) as $sp)
-                                            <span class='tag bg-gray-200 '>{{ $sp }}</span>
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td>
-                                    @if($prac->coordinate != "")
-                                        <img src="assets/images/marker/marker-red.svg" alt="tag">
-                                    @endif
-                                </td>
-                                <td>{{ $prac->cup }}</td>
-
-                                <?php    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo)) ?>
-                                {{-- <td class="">{{
-                                    number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") ,
-                                    2, "," , ".")}} €</td> --}}
-                                <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
-
-                                <td>{{ $prac->finanziamento }}</td>
-                                <td>{{ $prac->rup }}</td>
-                                <td>{{ $prac->fascicolo }}</td>
-                                <td>{{ $prac->is_rl }}</td>
-                                <td>{{ $prac->is_mims }}</td>
-                                <td>{{ $prac->progettista }}</td>
-                                <td>{{ $prac->sicurezza }}</td>
-                                <td>{{ $prac->cds_chiusa_at }}</td>
-                                <td>{{ $prac->direttore_lavori }}</td>
-                                <td>{{ $prac->impresa }}</td>
-                                <td>{{ $prac->determina_gruppo }}</td>
-                            </tr>
-
-                            <?php 
-                                                                                                                                                                                                                                                        $importo_totale += $importo;
-                                                                                                                                                                                                                                                        ?>
-=======
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($practices as $prac)
-                                <tr id="prat-{{ $prac->id }}">
+                                    <tr id="prat-{{ $prac->id }}">
 
-                                    <td>
-                                        <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice
-                                            }}</a>
-                                        {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
-                                    </td>
-                                    <td>{{ $prac->titolo }}</td>
-                                    <td>
-                                        @if ($prac->is_avvio_progettazione)
-                                        <span class="tag bg-yellow-200/60">Prog</span>
-                                        @endif
+                                        <td>
+                                            <a href="{{ route('practices.edit', $prac) }}"
+                                                class="link">{{ $prac->codice }}</a>
+                                            {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
+                                        </td>
+                                        <td>{{ $prac->titolo }}</td>
+                                        <td>
+                                            @if ($prac->is_avvio_progettazione)
+                                                <span class="tag bg-yellow-200/60">Prog</span>
+                                            @endif
 
-                                        @if($prac->is_avvio_gara)
-                                        <span class="tag bg-green-200/60">Gara</span>
-                                        @endif
+                                            @if($prac->is_avvio_gara)
+                                                <span class="tag bg-green-200/60">Gara</span>
+                                            @endif
 
-                                        @if($prac->is_lavori_in_corso)
-                                        <span class="tag bg-blue-200/60">Lavori</span>
-                                        @endif
+                                            @if($prac->is_lavori_in_corso)
+                                                <span class="tag bg-blue-200/60">Lavori</span>
+                                            @endif
 
-                                        @if($prac->is_cre)
-                                        <span class="tag bg-violet-200/60">Cre</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $prac->zona }}</td>
-                                    <td class="whitespace-nowrap">
-                                        @if($prac->strade)
-                                        @foreach (explode(",", $prac->strade) as $sp)
-                                        <span class='tag bg-gray-200 '>{{ $sp }}</span>
-                                        @endforeach
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($prac->coordinate != "")
-                                        <img src="assets/images/marker/marker-red.svg" alt="tag">
-                                        @endif
-                                    </td>
-                                    <td>{{ $prac->cup }}</td>
+                                            @if($prac->is_cre)
+                                                <span class="tag bg-violet-200/60">Cre</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $prac->zona }}</td>
+                                        <td class="whitespace-nowrap">
+                                            @if($prac->strade)
+                                                @foreach (explode(",", $prac->strade) as $sp)
+                                                    <span class='tag bg-gray-200 '>{{ $sp }}</span>
+                                                @endforeach
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($prac->coordinate != "")
+                                                <img src="assets/images/marker/marker-red.svg" alt="tag">
+                                            @endif
+                                        </td>
+                                        <td>{{ $prac->cup }}</td>
 
-                                    <?php    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo)) ?>
-                                    {{-- <td class="">{{
-                                        number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") ,
-                                        2, "," , ".")}} €</td> --}}
-                                    <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
+                                        <?php    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo)) ?>
+                                        {{-- <td class="">{{
+                                            number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") ,
+                                            2, "," , ".")}} €</td> --}}
+                                        <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
 
-                                    <td>{{ $prac->finanziamento }}</td>
-                                    <td>{{ $prac->rup }}</td>
-                                    <td>{{ $prac->fascicolo }}</td>
-                                    <td>{{ $prac->is_rl ? "✔":"" }}</td>
-                                    <td>{{ $prac->is_mims ? "✔":"" }}</td>
-                                    <td>{{ $prac->progettista }}</td>
-                                    <td>{{ $prac->sicurezza }}</td>
-                                    <td>{{ $prac->cds_chiusa_at }}</td>
-                                    <td>{{ $prac->direttore_lavori }}</td>
-                                    <td>{{ $prac->impresa }}</td>
-                                    <td>{{ $prac->determina_gruppo }}</td>
-                                </tr>
+                                        <td>{{ $prac->finanziamento }}</td>
+                                        <td>{{ $prac->rup }}</td>
+                                        <td>{{ $prac->fascicolo }}</td>
+                                        <td>{{ $prac->is_rl }}</td>
+                                        <td>{{ $prac->is_mims }}</td>
+                                        <td>{{ $prac->progettista }}</td>
+                                        <td>{{ $prac->sicurezza }}</td>
+                                        <td>{{ $prac->cds_chiusa_at }}</td>
+                                        <td>{{ $prac->direttore_lavori }}</td>
+                                        <td>{{ $prac->impresa }}</td>
+                                        <td>{{ $prac->determina_gruppo }}</td>
+                                    </tr>
 
-                                <?php 
-                                                                                                                                                                                            $importo_totale += $importo;
-                                                                                                                                                                                            ?>
->>>>>>> 7053d5acdc21ed7bc2746e84254dfbcc6f2fd070
+                                    <?php 
+                                                                                                                                                                                                                                                                        $importo_totale += $importo;
+                                                                                                                                                                                                                                                                        ?>
 
                                 @endforeach
                             </tbody>
@@ -207,11 +139,11 @@
                         <div class="">
                             <span>
                                 @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
-                                <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">{{
+                                                            <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">{{
                                     $_GET['filtra'] }}<a
-                                        href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? "
-                                        ?is_in_corso=on" : "" }}"><span
-                                            class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a></div>
+                                                                    href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? "
+                                                                                                                                                        ?is_in_corso=on" : "" }}"><span
+                                                                        class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a></div>
                                 @endif
                             </span>
                         </div>
@@ -224,60 +156,44 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
-                <div class="">
-                    <span>
-                        @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
-                            <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">
-                                {{  $_GET['filtra'] }}<a
-                                    href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? "?is_in_corso=on" : "" }}"><span
-                                        class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a>
-                            </div>
-                        @endif
-                    </span>
-                </div>
-                <div class="text-center">
-                    Numero di interventi: <span class="font-bold">{{ $practices->count() }}</span>
-                </div>
-                <div class="text-center md:text-right">
-                    Importo totale: <span class="font-bold">€ {{ number_format($importo_totale, 2, ",", ".") }}</span>
-                </div>
-=======
+
+
                 {{-- <div class="col-span-3 p-4">
 
                     <div id="map" class="map"></div>
 
                 </div> --}}
->>>>>>> 7053d5acdc21ed7bc2746e84254dfbcc6f2fd070
+
             </div>
             <div class="flex justify-end">
                 <a href="{{ route('openweb.index') }}" class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
                     OpenWeb</a>
             </div>
+
             <script>
                 // Inizializza la mappa centrata sulle coordinate fornite con fattore zoom
-        var map = L.map('map').setView([45.895237, 9.341697], 10);
-        // lecco 45.852455, 9.395464
-        // abbadia 45.895237,9.341697
-        // ballabio 45.896247,9.425201
+                var map = L.map('map').setView([45.895237, 9.341697], 10);
+                // lecco 45.852455, 9.395464
+                // abbadia 45.895237,9.341697
+                // ballabio 45.896247,9.425201
 
-        // Aggiunge il layer di OpenStreetMap (le "mattonelle" della mappa)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+                // Aggiunge il layer di OpenStreetMap (le "mattonelle" della mappa)
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
 
 
-        // Assegna l'arrey degli oggetti pratiche filtrate
-        const practices = @js($practices);
+                // Assegna l'arrey degli oggetti pratiche filtrate
+                const practices = @js($practices);
 
-        // la variabile practice è istanziata nella pagina di dettaglio (show)
-        let practice = null;
-        const paginaDettaglio = false;
+                // la variabile practice è istanziata nella pagina di dettaglio (show)
+                let practice = null;
+                const paginaDettaglio = false;
 
-        const pathDettaglio = "elenco";
-        const pathOperazione = "/edit";
+                const pathDettaglio = "elenco";
+                const pathOperazione = "/edit";
 
-        // Segue: marker-lavori.js e strade-provincia.js
+                // Segue: marker-lavori.js e strade-provincia.js
 
 
 
