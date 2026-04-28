@@ -25,3 +25,5 @@ Thumbs.db
 /database/*.sqlite
 .npm/
 .composer/
+.parcel-cache/
+.vite/
