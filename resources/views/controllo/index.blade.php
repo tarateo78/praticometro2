@@ -11,160 +11,175 @@
     <h1>Controllo</h1>
     <p>Effettua controllo su intero archivio</p>
 
+
     @foreach ($practices as $prac)
     {{-- <span>{{ $prac->codice }}</span><br> --}}
 
     @endforeach
-
-    <button id="btnStart">Verifica</button>
+    <br>
+    <button id="btnStart">AVVIA</button>
     <br>
 
 </body>
 
+
+
 <script>
-    const obj_practis = {};
+    const btnStart = document.getElementById("btnStart");
+
+    // Array di Oggetti
     const practices = @js( $practices );
-    practices.forEach(element => {
-     
-        obj_practis[element.codice] = element;
-        
-    });
 
-    // Object.keys(obj_practis).forEach( (prac) => {
-    //     console.log(prac);
-    //     console.log(obj_practis[prac]);
-    // });
+	// array fittizio (da adeguare al progetto)
+	// const listCodice = ['V2806', 'V2533', 'V2518', 'V2612', 'V2601'];
 
-    // const p = "V2327";
-    // console.log( typeof obj_practis[p] );
-    // console.log( typeof obj_practis[p] !== 'undefined' ? "c'è" : "none" );
-    // if ( typeof obj_practis[p] !== 'undefined' ){
-    //     console.log( obj_practis[p] );
-    // }
+    // VERIFICA SE L'ARRAY CONTIENE UN OGGETTO CON ATTRIBUTO CODICE = ""
+    // console.log( practices.some(obj => obj.codice === "V2613"));
 
-    /* ================================================================ */
 
-    const btnStart = document.getElementById('btnStart');
+	// Data controllo aggiornamenti 
+	const selectedDate = new Date('2025-01-01');
+	
 
 
 
-    async function scanEfficient(directoryHandle, path = "") {
+	async function scanEfficient(directoryHandle, targetTimestamp, path = "") {
+	
+		let stats = {
+			rootFolderName: directoryHandle.name,
+			totalFiles: 0,
+			recentFiles: [] // Nomi dei file modificati dopo targetDate
+		};
 
-        // .values() è un iteratore asincrono che non carica tutto in memoria
-        for await (const entry of directoryHandle.values()) {
+		async function recursiveScan(directoryHandle, targetTimestamp,  path = "", iterazione = 0) {
+			
+			// .values() è un iteratore asincrono che non carica tutto in memoria
+			for await (const entry of directoryHandle.values()) {
+			
+				const currentPath = path ? `${path}/${entry.name}` : entry.name;
+				
+				if (entry.kind === 'file') {
+				
+					stats.totalFiles++; // Incrementa il conteggio dei files
 
-            // Identazione visiva per la'iterazione'
-            // const indent = "  ".repeat(iterazione);
-            // console.log(`${indent}[Livello ${iterazione}] ${entry.name} (${entry.kind})`);
+					// Aggiorna l'interfaccia ogni 50 file per performance
+					// if (sta.total % 50 === 0) {
+					//     document.getElementById('fileCount').innerText = sta.total;
+					// }
 
-            const currentPath = path ? `${path}/${entry.name}` : entry.name;
-            if (entry.kind === 'file') {
-                
+					try {
+						
+						const file = await entry.getFile();
 
-                // stats.total++; // Incrementa il contatore totale
+						if (file.lastModified > targetTimestamp) {
+							const dateStr = new Date(file.lastModified).toLocaleString();
+         
+							// Aggiunge i nomi dei file aggiornati di recente rispetto al targetTime
+							stats.recentFiles.push( dateStr.substr(0, 10) + " .. " + currentPath.substr(currentPath.search("/") + 1));
+						}
+						
+					} catch (err) {
+						console.log(`Errore accesso file: ${entry.name}`, "dir-entry");
+					}
+					
+				} else if (entry.kind === 'directory') {
 
-                // Aggiorna l'interfaccia ogni 50 file per performance
-                // if (stats.total % 50 === 0) {
-                //     document.getElementById('fileCount').innerText = stats.total;
-                // }
-                
-                try {
-                    // Otteniamo solo i metadati (operazione leggera)
-                    const file = await entry.getFile();
-                    console.log(entry);
-                    
-                    // if (file.lastModified > targetTimestamp) {
-                    //     const miaData = new Date(file.lastModified).toISOString();
-                    //     const dateStr = new Date(file.lastModified).toLocaleString();
-                    //     //                               writeLog(`<span class="file-entry">������ ${currentPath}</span> <span class="highlight">[Modificato: ${dateStr}]</span>( ${miaData} )`);
-                    //     // file_nuovi.value += dateStr.substr(0, 10) + " .. " + currentPath.substr(currentPath.search("/") + 1) + " " + '\n';
-                    // }
-                } catch (err) {
-                    console.log(`Errore accesso file: ${entry.name}`, "dir-entry");
-                }
-            } else if (entry.kind === 'directory') {
-                // Ricorsione asincrona per le sottocartelle
-                // Sulle cartelle specifiche
-                // if (iterazione == 0 && entry.name.toLowerCase().search("atti amministrativi") != -1
-                //     || iterazione == 0 && entry.name.toLowerCase().search("cantiere") != -1
-                //     || iterazione == 0 && entry.name.toLowerCase().search("conferenza dei servizi") != -1
-                //     || iterazione != 0) {
-                //     await scanEfficient(entry, targetTimestamp, stats, currentPath, iterazione + 1);
-                // }
-            }
+					// Ricorsione asincrona per le sottocartelle specifiche			
+					if (iterazione == 0 && entry.name.toLowerCase().search("atti amministrativi") != -1
+						|| iterazione == 0 && entry.name.toLowerCase().search("cantiere") != -1
+						|| iterazione == 0 && entry.name.toLowerCase().search("conferenza dei servizi") != -1
+						|| iterazione != 0) {
 
-            // Trucco per la memoria: cede il controllo alla UI ogni tanto
-            // Impedisce al browser di segnalare "Pagina bloccata"
-            await new Promise(resolve => setTimeout(resolve, 0));
-            /*
-            setTimeout(resolve, 0): Durante la scansione ricorsiva, questa riga permette al 
-            browser di "respirare", aggiornare il log a video e non mostrare il messaggio di 
-            "Pagina che non risponde" anche se scansiona 10.000 file.
-            */
-        }
-    }
+						await recursiveScan(entry, targetTimestamp, currentPath, iterazione + 1);
+					}
+				}
+
+				// Trucco per la memoria: cede il controllo alla UI ogni tanto
+				// Impedisce al browser di segnalare "Pagina bloccata"
+				await new Promise(resolve => setTimeout(resolve, 0));
+				/*
+				setTimeout(resolve, 0): Durante la scansione ricorsiva, questa riga permette al 
+				browser di "respirare", aggiornare il log a video e non mostrare il messaggio di 
+				"Pagina che non risponde" anche se scansiona 10.000 file.
+				*/
+			}	
+		}
+		
+		await recursiveScan(directoryHandle, targetTimestamp,path);
+		return stats;
+	}
 
 
 
 
-    btnStart.addEventListener('click', async () => {
+	btnStart.addEventListener('click', async () => {
 
-                event.preventDefault();
+		event.preventDefault();
+		let buffer = [];
 
-                // if (isNaN(selectedDate)) {
-                //     alert("Data dell'ultimo check non presente.");
-                //     return;
-                // }
+		if (isNaN(selectedDate)) {
+			alert("Data dell'ultimo check non presente.");
+			return;
+		}
 
-                if (!window.showDirectoryPicker) {
-                    alert("Il tuo browser non supporta questa tecnologia. Usa Chrome o Edge aggiornati.");
-                    return;
-                }
+		if (!window.showDirectoryPicker) {
+			alert("Il tuo browser non supporta questa tecnologia. Usa Chrome o Edge aggiornati.");
+			return;
+		}
 
-                try {
-                    // 1. Richiesta accesso esplicito in SOLA LETTURA
-                    const dirHandle = await window.showDirectoryPicker({
-                        mode: 'read'
-                    });
-                    /*
-                    Garanzia mode: 'read': La configurazione iniziale blocca qualsiasi
-                    tentativo accidentale di scrittura.
-                    */
+		try {
+			
+			const dirHandle = await window.showDirectoryPicker({
+				mode: 'read' // Richiesta accesso esplicito in SOLA LETTURA
+			});
 
-                    // Verifica la corrispondenza della pratica selezionata
-                    if(  true ){ //dirHandle.name.substr(0,5) == document.getElementById('codice').value ) {
+			// Itera solo le directory presenti nella RADICE
+			for await (const entry of dirHandle.values()) {
+			
+				if (entry.kind === 'directory') {
+				
+					// Verifica se il codice della directory corrisponde al codice DB
+					if( practices.some(obj => obj.codice === ( entry.name.substring(0,5)))) {
+						
+						const startTime = performance.now();
 
-                        // file_nuovi.value = ""; // Cancella la casella dei nuovi file
+						// Procede con la scansione in profndità
+						const directory = await scanEfficient(entry, selectedDate, entry.name);
+						
+						// Aggiunge l'oggetto al buffer
+						buffer.push(directory);
+												
+						const endTime = performance.now();
+						const duration = ((endTime - startTime) / 1000).toFixed(2);
+						
+						console.log("Fatto: " + entry.name.substring(0, 25) + "... " + directory.totalFiles + " files in " + duration + "s");
 
-                        // const stats = { total: 0 }; // Inizializza i conteggi
+					}
 
-                        // const startTime = performance.now();
+					
+					// Invio a Laravel quando il buffer raggiunge una certa soglia
+					//if (buffer.length >= 5) { 
+					//	await sendToLaravel(buffer);
+					//	buffer = [];
+					//}
+					
+				}
+			}
+			
+			console.log(buffer);
 
-                        // 2. Avvio scansione ottimizzata
-                        await scanEfficient(dirHandle, dirHandle.name);
+		} catch (err) {
+			if (err.name === 'AbortError') {
+				console.log("Operazione showDirectoryPicker annullata.");
+			} else {
+				console.error(err);
+				console.log("Errore critico showDirectoryPicker: " + err.message);
+			}
+		} finally {
+			btnStart.disabled = false;
+		}
+	});
 
-                        // const endTime = performance.now();
-                        // const duration = ((endTime - startTime) / 1000).toFixed(2);
-
-                        // file_effettivi_count.value = stats.total;
-
-                        // file_nuovi.value += `\n___ Scansione completata in ${duration} secondi ___`;
-
-                    } else {
-                        // file_nuovi.value += "ATTENZIONE: La cartella selezionata non corrisponde alla presente pratica!"
-                    }
-
-                } catch (err) {
-                    if (err.name === 'AbortError') {
-                        console.log("Operazione showDirectoryPicker annullata.");
-                    } else {
-                        console.error(err);
-                        console.log("Errore critico showDirectoryPicker: " + err.message);
-                    }
-                } finally {
-                btnStart.disabled = false;
-                }
-            });
 
 </script>
 
