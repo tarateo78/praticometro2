@@ -4,13 +4,52 @@ namespace App\Http\Controllers;
 use App\Models\Practice;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+
 
 class ControlloController extends Controller
 {
 
+
+    public function updateBuffer(Request $request)
+    {
+        $items = $request->input('items');
+
+        try {
+            DB::transaction(function () use ($items) {
+                foreach ($items as $item) {
+
+                    Practice::updateOrCreate(
+                        ['id' => $item['idPractice']],
+                        [
+                            'file_effettivi_count' => $item['totalFiles'],
+                            'file_nuovi' => $item['recentFiles'],
+                            'check_at' => $item['dateCheck'],
+                        ]
+                    );
+                }
+            });
+
+            return response()->json([
+                'status' => 'success',
+                'message' => count($items) . ' pratiche aggiornate.'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
+
     public function index(Request $request): View
     {
-     
+
         $practices = Practice::where('is_in_corso', true)
             ->where('is_avvio_progettazione', true)
             ->orderBy("codice", "desc")
@@ -23,14 +62,14 @@ class ControlloController extends Controller
 
 
 
-        // VECCHIO PROCEDIMENTO
-        // $practices = Practice::when($request->filtra, function ($query) use ($request) {
-        //     return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->filtra . "%");
-        // })->when($request->is_in_corso, function ($query) use ($request) {
-        //     return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
-        // })->orderBy("codice", "desc")->get();
-        // return view("practices.index", compact("practices"));
-    
+    // VECCHIO PROCEDIMENTO
+    // $practices = Practice::when($request->filtra, function ($query) use ($request) {
+    //     return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->filtra . "%");
+    // })->when($request->is_in_corso, function ($query) use ($request) {
+    //     return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
+    // })->orderBy("codice", "desc")->get();
+    // return view("practices.index", compact("practices"));
+
     public function form(Practice $practice)
     {
         // Se l'ID non esiste, Laravel restituirà automaticamente un errore 404

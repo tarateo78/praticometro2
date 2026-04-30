@@ -33,4 +33,5 @@ Route::get('/elenco/{practice}/edit', [PracticeController::class, 'edit'])->name
 Route::put('/elenco/{practice}/edit', [PracticeController::class, 'update'])->name('practices.update');
 
 
+
 Route::view('/griglia', 'griglia');
