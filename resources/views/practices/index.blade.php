@@ -115,8 +115,8 @@
                                     </tr>
 
                                     <?php 
-                                                                                                                                                                                                                                                                        $importo_totale += $importo;
-                                                                                                                                                                                                                                                                        ?>
+                                                                                                                                                                                                                                                                                    $importo_totale += $importo;
+                                                                                                                                                                                                                                                                                    ?>
 
                                 @endforeach
                             </tbody>
@@ -142,7 +142,7 @@
                                                             <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">{{
                                     $_GET['filtra'] }}<a
                                                                     href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? "
-                                                                                                                                                        ?is_in_corso=on" : "" }}"><span
+                                                                                                                                                                                                                                            ?is_in_corso=on" : "" }}"><span
                                                                         class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a></div>
                                 @endif
                             </span>
@@ -168,7 +168,10 @@
             <div class="flex justify-end">
                 <a href="{{ route('openweb.index') }}" class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
                     OpenWeb</a>
+                <a href="{{ route('report.index') }}" class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
+                    Report</a>
             </div>
+
 
             <script>
                 // Inizializza la mappa centrata sulle coordinate fornite con fattore zoom

@@ -16,10 +16,14 @@
        @apply bg-gray-200
     }
 
-        h1 {
+    h1 {
         @apply text-center text-4xl text-green-900 my-3
     }
-        .map {
+
+    h2 {
+        @apply text-2xl text-gray-800 my-2 pl-4
+    }
+    .map {
         @apply h-140 md:h-170 w-full
     }
 
