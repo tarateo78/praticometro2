@@ -34,15 +34,15 @@
                 <dt>Strade interessate:</dt>
                 <dd>
                     @if($practice->strade)
-                    @foreach (explode(",", $practice->strade) as $sp)
-                    <span>{{ $sp }}</span>
-                    @endforeach
+                        @foreach (explode(",", $practice->strade) as $sp)
+                            <span>{{ $sp }}</span>
+                        @endforeach
                     @endif
                 </dd>
                 <dt>Importo:</dt>
                 <dd>
                     @php
-                    $importo = (float) str_replace(",", ".", str_replace(".", "", $practice->importo));
+                        $importo = (float) str_replace(",", ".", str_replace(".", "", $practice->importo));
                     @endphp
 
                     {{ number_format($importo, 2, ",", ".") }} €
@@ -52,37 +52,56 @@
                 <dt>Stato attuale:</dt>
                 <dd>
                     @if($practice->is_cre)
-                    <span>Lavori conclusi</span>
+                        <span>Lavori conclusi</span>
                     @else
-                    @if($practice->is_lavori_in_corso)
-                    <span>Lavori in corso</span>
-                    @else
-                    @if($practice->is_avvio_gara)
-                    <span>Procedura di Appalto</span>
-                    @else
-                    @if ($practice->is_avvio_progettazione)
-                    <span>Progettazione</span>
-                    @endif
-                    @endif
-                    @endif
+                        @if($practice->is_lavori_in_corso)
+                            <span>Lavori in corso</span>
+                        @else
+                            @if($practice->is_avvio_gara)
+                                <span>Procedura di Appalto</span>
+                            @else
+                                @if ($practice->is_avvio_progettazione)
+                                    <span>Progettazione</span>
+                                @endif
+                            @endif
+                        @endif
                     @endif
                 </dd>
+                @php
+
+                    // Adegua al Formato data
+                    $ese_at = isset($practice->ese_at) ? Date("d/m/Y", strtotime($practice->ese_at)) : null;
+                    $cds_chiusa_at = isset($practice->cds_chiusa_at) ? Date("d/m/Y", strtotime($practice->cds_chiusa_at)) : null;
+                    $contratto_at = isset($practice->contratto_at) ? Date("d/m/Y", strtotime($practice->contratto_at)) : null;
+                    $consegna_lavori_at = isset($practice->consegna_lavori_at) ? Date("d/m/Y", strtotime($practice->consegna_lavori_at)) : null;
+
+                
+                @endphp
+                <dt>Progettazione:</dt>
+                <dd>{{ $ese_at  }}</dd>
+                <dt>Conf. Servizi:</dt>
+                <dd>{{ $cds_chiusa_at  }}</dd>
+                <dt>Gara d'appalto:</dt>
+                <dd>{{ $contratto_at  }}</dd>
+                <dt>Consegna Lavori</dt>
+                <dd>{{ $consegna_lavori_at  }}</dd>
+
                 <dt>Fine Lavori:</dt>
                 <dd>
                     @if(isset($practice->cre_at))
-                    @php
-                    $data = new DateTime($practice->cre_at);
-                    @endphp
-                    {{ $data->format('d/m/Y')}}
+                        @php
+                            $data = new DateTime($practice->cre_at);
+                        @endphp
+                        {{ $data->format('d/m/Y')}}
                     @else
-                    @if (isset($practice->scadenza_esecuzione))
-                    @php
-                    $data = new DateTime($practice->scadenza_esecuzione);
-                    @endphp
-                    {{ $data->format('d/m/Y') }} <span class="text-sm italic">PRESUNTA</span>
-                    @else
-                    <span class="text-xs italic">IN DEFINIZIONE</span>
-                    @endif
+                        @if (isset($practice->scadenza_esecuzione))
+                            @php
+                                $data = new DateTime($practice->scadenza_esecuzione);
+                            @endphp
+                            {{ $data->format('d/m/Y') }} <span class="text-sm italic">PRESUNTA</span>
+                        @else
+                            <span class="text-xs italic">IN DEFINIZIONE</span>
+                        @endif
                     @endif
                 </dd>
             </dl>
@@ -129,7 +148,7 @@
         const paginaDettaglio = true;
 
         const pathDettaglio = "show";
-        const pathOperazione = "";
+const pathOperazione = "";
         
         // Segue: marker-lavori.js e strade-provincia.js
 

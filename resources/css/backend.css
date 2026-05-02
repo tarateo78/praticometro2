@@ -13,7 +13,7 @@
 @layer components {
     
     body {
-       @apply bg-gray-200
+       @apply bg-gray-300
     }
 
     h1 {
@@ -23,14 +23,11 @@
     h2 {
         @apply text-2xl text-gray-800 my-2 pl-4
     }
+
     .map {
         @apply h-140 md:h-170 w-full
     }
 
-
-    td {
-        @apply whitespace-nowrap
-    }
 
     dl.check {
         @apply grid grid-cols-12
@@ -62,6 +59,55 @@
 
     .date-vuoto {
         @apply text-gray-400
+    }
+
+    button {
+        @apply px-2 my-1 border rounded-lg cursor-pointer
+    }
+
+        /* TABLE */
+
+    table {
+        @apply w-full
+    }
+
+    thead tr {
+        @apply bg-amber-500/80
+    }
+
+    tbody tr {
+        @apply odd:bg-white even:bg-amber-100/50  hover:bg-amber-300/50
+    }
+
+    tbody td {
+        @apply p-3 text-sm text-gray-700
+    }
+
+    td {
+        @apply whitespace-nowrap
+    }
+
+    th {
+        @apply p-3 text-sm font-semibold tracking-wide text-left
+    }
+
+
+
+    .link {
+        @apply text-blue-800 hover:underline
+    }
+    /* */
+
+    .tfooter {
+        @apply bg-amber-600/30 py-2
+    }
+
+    input {
+        @apply bg-white
+    }
+
+    button {
+        @apply px-2 my-1 border rounded-lg cursor-pointer
     }
 
 }

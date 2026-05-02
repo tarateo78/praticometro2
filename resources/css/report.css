@@ -13,7 +13,7 @@
 @layer components {
     
     body {
-       @apply bg-white px-4
+       @apply px-4
     }
 
     h1 {
@@ -25,14 +25,26 @@
     }
 
     table{
-        @apply w-full bg-gray-50
+        @apply w-full  border
     }
  
     tr {
-        @apply border-b border-gray-500 h-12
+        @apply border-b h-12
     }
     th {
-        @apply text-center
+        @apply text-center px-2
+    }
+
+    thead tr {
+        @apply  bg-blue-200
+    }
+    
+    tbody tr {
+        @apply odd:bg-white even:bg-gray-100 
+    }
+    
+    tfoot tr {
+        @apply bg-gray-300
     }
 
 }

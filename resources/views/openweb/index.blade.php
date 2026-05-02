@@ -23,17 +23,17 @@
             max-height: none !important;
         }
     </style>
-    @vite(['resources/css/app.css', 'resources/css/frontend.css', 'resources/js/app.js'])
+    @vite(['resources/css/frontend.css', 'resources/js/app.js'])
 </head>
 
 <body>
-    <h1>Opere stradali</h1>
+    <h1>Open Data - Opere stradali</h1>
 
     <?php $importo_totale = 0; ?>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-0 md:gap-2">
-        <div class="col-span-9 p-4 pr-0">
-            <div class="h-120 md:h-160 overflow-auto bg-gray-300">
+        <div class="col-span-9 p-4 pr-0 ">
+            <div class="h-120 md:h-160 overflow-auto">
                 <table class="table-auto">
                     <thead>
                         <tr>
@@ -122,7 +122,7 @@
                 </table>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 bg-gray-100 py-1 px-2">
+            <div class="tfooter grid grid-cols-1 md:grid-cols-4 py-1 px-2 ">
                 <div class=" filtra flex">
                     <div class="form">
                         <form action="{{ route('openweb.index') }}" method="GET">
@@ -139,14 +139,14 @@
                         @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
                                             <div class="bg-green-300 rounded-lg ml-3 px-2 py-1 w-fit">{{
                             $_GET['filtra'] }}<a href="{{ route('openweb.index') }}"><span
-                                                        class="text-sm bg-white px-1 rounded-lg ml-2">x</span></a></div>
+                                                        class="text-sm bg-white px-1 rounded-lg ml-2">×</span></a></div>
                         @endif
                     </span>
                 </div>
-                <div class="text-center">
+                <div class="text-center py-1">
                     Numero di interventi: <span class="font-bold">{{ $practices->count() }}</span>
                 </div>
-                <div class="text-center md:text-right">
+                <div class="text-center md:text-right py-1">
                     Importo totale: <span class="font-bold">€ {{ number_format($importo_totale, 2, ",", ".") }}</span>
                 </div>
             </div>

@@ -10,15 +10,14 @@
 
 <body>
 
-    <h1>Report</h1>
     @php
-
         if (isset($_GET['annoBase']))
             $annoBase = $_GET['annoBase'];
         else
             $annoBase = date("Y"); // Anno corrente
-
     @endphp
+
+    <h1>Report annualità {{ $annoBase }}</h1>
 
     <div class="text-right">
 
@@ -37,13 +36,14 @@
     <script>
         const annoBase = document.getElementById('annoBase');
 
-        annoBase.addEventListener('click', () => {
+        annoBase.addEventListener('change', () => {
             window.location.href = "?annoBase=" + annoBase.value;
         });
     </script>
 
     @php
         $progettazione = [];
+        $cds = [];
         $gara = [];
         $lavori = [];
     @endphp
@@ -57,9 +57,16 @@
         @endif
     @endforeach
 
+    @foreach ($practices as $prac)
+        @if ($prac->is_avvio_progettazione && $prac->cds_chiusa_at > Date($annoBase . "-01-01") && Date($prac->cds_chiusa_at) < Date($annoBase . "-12-31"))
+            @php
+                $cds[$prac->codice] = $prac;
+            @endphp
+        @endif
+    @endforeach
 
     @foreach ($practices as $prac)
-        @if (($prac->is_avvio_progettazione && $prac->is_avvio_gara && $prac->contratto_at > Date($annoBase . "-01-01") && $prac->contratto_at < Date($annoBase . "-12-31")))
+        @if (($prac->is_avvio_gara && $prac->contratto_at > Date($annoBase . "-01-01") && $prac->contratto_at < Date($annoBase . "-12-31")))
             @php
                 $gara[$prac->codice] = $prac;
             @endphp
@@ -75,18 +82,23 @@
     @endforeach
 
 
-    <h2>Progettazioni svolte nel {{ $annoBase }}:</h2>
+    <h2>Progettazioni {{ $annoBase }}:</h2>
     <x-data-table :elencoPratiche=$progettazione :annoBase=$annoBase :titoloColonna="'Prog Esecutivo'"
         :campo="'ese_at'" />
     <br> <br>
 
-    <h2>Gare d'appalto svolte nel {{ $annoBase }}:</h2>
+
+    <h2>Conferenze dei servizi {{ $annoBase }}:</h2>
+    <x-data-table :elencoPratiche=$cds :annoBase=$annoBase :titoloColonna="'Conf. Servizi'" :campo="'cds_chiusa_at'" />
+    <br> <br>
+
+    <h2>Gare d'appalto {{ $annoBase }}:</h2>
     <x-data-table :elencoPratiche=$gara :annoBase=$annoBase :titoloColonna="'Firma Contratto'"
         :campo="'contratto_at'" />
     <br> <br>
 
-    <h2>Esecuzione Lavori svolte nel {{ $annoBase }}:</h2>
-    <x-data-table :elencoPratiche=$gara :annoBase=$annoBase :titoloColonna="'Fine Lavori'" :campo="'cre_at'" />
+    <h2>Esecuzione Lavori {{ $annoBase }}:</h2>
+    <x-data-table :elencoPratiche=$lavori :annoBase=$annoBase :titoloColonna="'Fine Lavori'" :campo="'cre_at'" />
     <br> <br>
 
     <div class="flex justify-end">

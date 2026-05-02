@@ -13,7 +13,7 @@
 @layer components {
 
     body {
-        @apply bg-gray-200
+        @apply bg-white
     }
 
     h1 {
@@ -37,4 +37,44 @@
     .map {
         @apply h-140 md:h-170 w-full
     }
+
+        /* TABLE */
+
+    table {
+        @apply w-full
+    }
+
+    thead {
+        @apply bg-gray-300 border-b-2 border-gray-200
+    }
+
+    th {
+        @apply p-3 text-sm font-semibold tracking-wide text-left
+    }
+
+    tbody tr {
+        @apply odd:bg-gray-50 even:bg-gray-200  hover:bg-blue-200
+    }
+
+    tbody td {
+        @apply p-3 text-sm text-gray-700
+    }
+
+    .link {
+        @apply text-blue-800 hover:underline
+    }
+
+    .tfooter {
+        @apply bg-gray-300 py-2
+    }
+
+    input {
+        @apply bg-white
+    }
+
+    button {
+        @apply px-2 my-1 border rounded-lg cursor-pointer
+    }
+    
+
 }

@@ -2,13 +2,12 @@
 
 <?php $importo_totale = 0; ?>
 
-
-<div class="">
+<div class="overflow-auto">
     <table class="table-auto">
         <thead>
-            <tr class="bg-cyan-200">
+            <tr>
                 <th>Codice</th>
-                <th>Titolo Intervento</th>
+                <th>Titolo Pratica</th>
                 <th>{{ $titoloColonna }}</th>
                 <th>Area</th>
                 <th>Strade</th>
@@ -48,15 +47,17 @@
 
         </tbody>
         <tfoot>
+            <tr>
+                <td></td>
+                <td class="text-center">Numero Pratiche: <span class="font-bold">{{ sizeof($elencoPratiche) }}</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="font-bold whitespace-nowrap text-right pr-2">
+                    {{ number_format($importo_totale, 2, ",", ".") }} €</td>
+                <td></td>
+            </tr>
         </tfoot>
     </table>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 bg-cyan-100 py-1">
-    <div class="text-center">
-        Numero di interventi: <span class="font-bold">{{ sizeof($elencoPratiche) }}</span>
-    </div>
-    <div class="text-center">
-        Importo totale: <span class="font-bold">€ {{ number_format($importo_totale, 2, ",", ".") }}</span>
-    </div>
 </div>
