@@ -16,14 +16,51 @@
        @apply bg-gray-300
     }
 
-    h1 {
-        @apply text-center text-4xl text-green-900 my-3
+    .banner {
+        @apply bg-blue-500 text-white m-2 md:m-4 p-2 md:p-4
     }
 
-    h2 {
-        @apply text-2xl text-gray-800 my-2 pl-4
+    .banner h1 {
+        @apply text-2xl font-bold text-center uppercase
     }
 
+    .banner h2 {
+        @apply text-xl px-4 md:py-1
+    }
+    .banner h3 {
+        @apply text-sm text-right px-4 md:py-2
+    }
+
+    .banner .btn {
+        @apply p-2 my-2 border rounded-lg cursor-pointer
+    }
+
+    .banner-filtro {
+        @apply bg-gray-500 text-white m-2 md:m-4 p-2 md:p-4
+    }
+
+    .filtro-button {
+        @apply hover:bg-white hover:border-black hover:text-black
+    }
+
+    .tag-filtro {
+        @apply bg-green-400 rounded-lg ml-3 px-2 py-1 w-fit;
+    }
+
+    .link {
+        @apply text-blue-800 hover:underline
+    }
+
+    input {
+        @apply bg-white
+    }
+
+    button {
+        @apply px-2 my-1 border rounded-lg cursor-pointer
+    }
+
+
+    /*
     .map {
         @apply h-140 md:h-170 w-full
     }
@@ -41,17 +78,7 @@
         @apply col-span-2
     }
 
-    div.check {
-        /* @apply grid grid-cols-12 */
-    }
-
-    .check label {
-        /* @apply col-span-10 */
-    }
-
-    .check input{
-        /* @apply col-span-2 */
-    }
+ 
 
     .in-sm {
         @apply w-12
@@ -62,52 +89,53 @@
     }
 
     button {
-        @apply px-2 my-1 border rounded-lg cursor-pointer
+        @apply px-2 my-1 border rounded-lg  cursor-pointer
     }
+*/
 
-        /* TABLE */
+    /* ================ TABLE ================ */
+
+    .table-container {
+        @apply h-100 md:h-150 overflow-auto m-4
+    }
 
     table {
-        @apply w-full
+        @apply w-full bg-white
     }
 
-    thead tr {
-        @apply bg-amber-500/80
+
+    thead th {
+        @apply bg-amber-400 sticky top-0 text-center font-normal py-3 
+    }
+
+    tfoot td {
+        @apply bg-amber-400 sticky bottom-0 text-center font-normal py-3 md:pb-5
     }
 
     tbody tr {
-        @apply odd:bg-white even:bg-amber-100/50  hover:bg-amber-300/50
+        @apply odd:bg-white even:bg-amber-100  hover:bg-amber-300/70
     }
 
     tbody td {
-        @apply p-3 text-sm text-gray-700
+        @apply p-3 
     }
 
-    td {
-        @apply whitespace-nowrap
+    td, th {
+        @apply whitespace-nowrap tracking-wide
     }
-
+/*
     th {
         @apply p-3 text-sm font-semibold tracking-wide text-left
     }
 
 
 
-    .link {
-        @apply text-blue-800 hover:underline
-    }
-    /* */
+
 
     .tfooter {
         @apply bg-amber-600/30 py-2
     }
 
-    input {
-        @apply bg-white
-    }
-
-    button {
-        @apply px-2 my-1 border rounded-lg cursor-pointer
-    }
+*/
 
 }

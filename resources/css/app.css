@@ -32,9 +32,9 @@
         
     }
 
-    label {
+    /* label {
         @apply text-sm text-gray-700  m-1 mr-2
-    }
+    } */
 
     input {
         @apply bg-white m-1
