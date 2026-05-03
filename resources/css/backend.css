@@ -40,7 +40,7 @@
     }
 
     .filtro-button {
-        @apply hover:bg-white hover:border-black hover:text-black
+        @apply hover:bg-white hover:border-black hover:text-black px-2 my-1 border rounded-lg cursor-pointer
     }
 
     .tag-filtro {
@@ -51,12 +51,12 @@
         @apply text-blue-800 hover:underline
     }
 
-    input {
+    .banner-filtro input {
         @apply bg-white
     }
 
-    button {
-        @apply px-2 my-1 border rounded-lg cursor-pointer
+    .btn-lg {
+        @apply  p-2 px-4 my-1 border rounded-lg cursor-pointer
     }
 
 
@@ -137,5 +137,19 @@
     }
 
 */
+
+    /* ================ EDIT PAGE ================ */
+    
+    .main-form label {
+        @apply m-2 
+    }
+
+    .main-form input {
+        @apply bg-white m-2  pl-1
+    }
+
+    .main-form textarea {
+        @apply bg-white m-2  pl-1
+    }
 
 }
