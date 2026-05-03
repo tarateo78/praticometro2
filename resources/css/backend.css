@@ -52,7 +52,7 @@
     }
 
     .banner-filtro input {
-        @apply bg-white
+        @apply bg-white text-black
     }
 
     .btn-lg {
@@ -150,6 +150,10 @@
 
     .main-form textarea {
         @apply bg-white m-2  pl-1
+    }
+
+    .date-vuoto {
+        @apply text-gray-400
     }
 
 }
