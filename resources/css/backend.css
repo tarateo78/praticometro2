@@ -17,7 +17,7 @@
     }
 
     .banner {
-        @apply bg-blue-500 text-white m-2 md:m-4 p-2 md:p-4
+        @apply bg-blue-500 text-white m-2 md:m-4 p-1 md:p-2
     }
 
     .banner h1 {
@@ -36,7 +36,7 @@
     }
 
     .banner-filtro {
-        @apply bg-gray-500 text-white m-2 md:m-4 p-2 md:p-4
+        @apply bg-gray-500 text-white m-2 md:m-4 p-1 md:p-2
     }
 
     .filtro-button {

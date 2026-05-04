@@ -21,13 +21,13 @@
     <div class="banner">
         <div class="grid grid-cols-1 md:grid-cols-3">
             <div>
-                <h2>Gestionale Viabilità</h2>
+
             </div>
             <div>
                 <h1>Elenco Pratiche</h1>
             </div>
             <div>
-                <h3>ver 1.0</h3>
+                <h3>Gestionale Viabilità ver 1.0</h3>
             </div>
         </div>
     </div>
@@ -62,65 +62,65 @@
             </thead>
             <tbody>
                 @foreach($practices as $prac)
-                    <tr id="prat-{{ $prac->id }}">
+                <tr id="prat-{{ $prac->id }}">
 
-                        <td>
-                            <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice }}</a>
-                            {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
-                        </td>
-                        <td>{{ $prac->titolo }}</td>
-                        <td>
-                            @if ($prac->is_avvio_progettazione)
-                                <span class="tag bg-yellow-200/60">Prog</span>
-                            @endif
+                    <td>
+                        <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice }}</a>
+                        {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
+                    </td>
+                    <td>{{ $prac->titolo }}</td>
+                    <td>
+                        @if ($prac->is_avvio_progettazione)
+                        <span class="tag bg-yellow-200/60">Prog</span>
+                        @endif
 
-                            @if($prac->is_avvio_gara)
-                                <span class="tag bg-green-200/60">Gara</span>
-                            @endif
+                        @if($prac->is_avvio_gara)
+                        <span class="tag bg-green-200/60">Gara</span>
+                        @endif
 
-                            @if($prac->is_lavori_in_corso)
-                                <span class="tag bg-blue-200/60">Lavori</span>
-                            @endif
+                        @if($prac->is_lavori_in_corso)
+                        <span class="tag bg-blue-200/60">Lavori</span>
+                        @endif
 
-                            @if($prac->is_cre)
-                                <span class="tag bg-violet-200/60">Cre</span>
-                            @endif
-                        </td>
-                        <td>{{ $prac->zona }}</td>
-                        <td class="whitespace-nowrap">
-                            @if($prac->strade)
-                                @foreach (explode(",", $prac->strade) as $sp)
-                                    <span class='tag bg-gray-200 '>{{ $sp }}</span>
-                                @endforeach
-                            @endif
-                        </td>
-                        <td>
-                            @if($prac->coordinate != "")
-                                <img src="assets/images/marker/marker-red.svg" alt="tag">
-                            @endif
-                        </td>
-                        <td>{{ $prac->cup }}</td>
+                        @if($prac->is_cre)
+                        <span class="tag bg-violet-200/60">Cre</span>
+                        @endif
+                    </td>
+                    <td>{{ $prac->zona }}</td>
+                    <td class="whitespace-nowrap">
+                        @if($prac->strade)
+                        @foreach (explode(",", $prac->strade) as $sp)
+                        <span class='tag bg-gray-200 '>{{ $sp }}</span>
+                        @endforeach
+                        @endif
+                    </td>
+                    <td>
+                        @if($prac->coordinate != "")
+                        <img src="assets/images/marker/marker-red.svg" alt="tag">
+                        @endif
+                    </td>
+                    <td>{{ $prac->cup }}</td>
 
-                        <?php    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo)) ?>
-                        {{-- <td class="">{{
-                            number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") ,
-                            2, "," , ".")}} €</td> --}}
-                        <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
+                    <?php    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo)) ?>
+                    {{-- <td class="">{{
+                        number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") ,
+                        2, "," , ".")}} €</td> --}}
+                    <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
 
-                        <td>{{ $prac->finanziamento }}</td>
-                        <td>{{ $prac->rup }}</td>
-                        <td>{{ $prac->fascicolo }}</td>
-                        <td>{{ $prac->is_rl }}</td>
-                        <td>{{ $prac->is_mims }}</td>
-                        <td>{{ $prac->progettista }}</td>
-                        <td>{{ $prac->sicurezza }}</td>
-                        <td>{{ $prac->cds_chiusa_at }}</td>
-                        <td>{{ $prac->direttore_lavori }}</td>
-                        <td>{{ $prac->impresa }}</td>
-                        <td>{{ $prac->determina_gruppo }}</td>
-                    </tr>
+                    <td>{{ $prac->finanziamento }}</td>
+                    <td>{{ $prac->rup }}</td>
+                    <td>{{ $prac->fascicolo }}</td>
+                    <td>{{ $prac->is_rl }}</td>
+                    <td>{{ $prac->is_mims }}</td>
+                    <td>{{ $prac->progettista }}</td>
+                    <td>{{ $prac->sicurezza }}</td>
+                    <td>{{ $prac->cds_chiusa_at }}</td>
+                    <td>{{ $prac->direttore_lavori }}</td>
+                    <td>{{ $prac->impresa }}</td>
+                    <td>{{ $prac->determina_gruppo }}</td>
+                </tr>
 
-                    <?php 
+                <?php 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $importo_totale += $importo;
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ?>
 
@@ -163,10 +163,10 @@
             </div>
             <div class="col-span-3 xl:col-span-4">
                 @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
-                            <div class="tag-filtro">{{
-                    $_GET['filtra'] }}<a
-                                    href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? "?is_in_corso=on" : "" }}"><span
-                                        class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a></div>
+                <div class="tag-filtro">{{
+                    $_GET['filtra'] }}<a href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? "
+                        ?is_in_corso=on" : "" }}"><span
+                            class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a></div>
                 @endif
             </div>
         </div>
@@ -182,7 +182,6 @@
 
 
     <script>
-
         // Assegna l'arrey degli oggetti pratiche filtrate
         const practices = @js($practices);
 

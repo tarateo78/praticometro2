@@ -26,7 +26,7 @@
 
     <div class="banner">
         <div class="grid grid-cols-1 md:grid-cols-3">
-            <div>
+            <div class="my-2">
                 <a href="{{ route('practices.index') }}?is_in_corso=on" class="btn">← Torna a Elenco</a>
             </div>
             <div>
@@ -45,7 +45,7 @@
 
         {{-- Se stiamo modificando, Laravel ha bisogno del metodo PUT --}}
         @if($practice->exists)
-            @method('PUT')
+        @method('PUT')
         @endif
 
 
@@ -61,19 +61,18 @@
                         <label for="codice">Pratica</label>
                         <input name="codice" id="codice" value="{{ old('codice', $practice->codice) }}"
                             class="font-bold w-30" />
-                        <span
-                            class="font-bold text-green-800">{{ $practice->file_count != $practice->file_effettivi_count ? "↺" : "" }}</span>
+                        <span class="font-bold text-green-800">{{ $practice->file_count !=
+                            $practice->file_effettivi_count ? "↺" : "" }}</span>
                     </div>
 
 
                     <div class="">
                         <label for="is_in_corso">In corso</label>
-                        <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old(
-    'is_in_corso',
-    $practice->is_in_corso
-) ?
-    "checked" :
-    "" }} />
+                        <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old( 'is_in_corso' ,
+                            $practice->is_in_corso
+                        ) ?
+                        "checked" :
+                        "" }} />
                     </div>
                 </div>
                 <div>
@@ -145,7 +144,7 @@
 
                     <label for="is_rl">Finanziamento RL</label>
                     <input type="checkbox" value="1" name="is_rl" id="is_rl" {{ old('is_rl', $practice->is_rl) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
 
                     <br>
                     <div class="flex w-full">
@@ -156,7 +155,7 @@
 
                     <label for="is_mims">Finanziamento MIMS</label>
                     <input type="checkbox" value="1" name="is_mims" id="is_mims" {{ old('is_mims', $practice->is_mims) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
                     <br>
 
                     <label for="mims_codice">Codice MIMS</label>
@@ -176,14 +175,13 @@
         <div class="grid grid-cols-1 xl:grid-cols-4 bg-gray-400/50 p-4 gap-4">
 
             <div class="border-2 border-l-8 border-yellow-400 rounded-xs bg-gray-200 {{  $practice->is_avvio_progettazione ? "
-                            bg-yellow-100" : "" }}">
+                bg-yellow-100" : "" }}">
                 <div class="titolo-colonna bg-yellow-400 text-white">1. Progettazione</div>
 
 
-                <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione" {{ old(
-    'is_avvio_progettazione',
-    $practice->is_avvio_progettazione
-) ? "checked" : "" }} />
+                <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione" {{
+                    old( 'is_avvio_progettazione' , $practice->is_avvio_progettazione
+                ) ? "checked" : "" }} />
                 <label for="is_avvio_progettazione">Fase progettazione avviata</label>
                 <br><br>
                 <label for="avvio_servizio_at">Avvio servizio il</label>
@@ -206,11 +204,9 @@
                 <br>
 
                 <label for="is_cds">Necessaria CDS</label>
-                <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old(
-    'is_cds',
-    $practice->is_cds
-) ?
-    "checked" : "" }} />
+                <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old( 'is_cds' , $practice->is_cds
+                ) ?
+                "checked" : "" }} />
                 <label for="cds_chiusa_at">→ Cds Verbale</label>
                 <input type="date" name="cds_chiusa_at" id="cds_chiusa_at"
                     value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at) }}"
@@ -236,15 +232,13 @@
 
 
             <div class="border-2 border-l-8 border-green-500 rounded-xs bg-gray-200 {{ $practice->is_avvio_gara ? "
-                            bg-green-100" : "" }}">
+                bg-green-100" : "" }}">
                 <div class="titolo-colonna bg-green-500 text-white">
                     2. Gara appalto</div>
                 <div class="check">
-                    <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{
-    old(
-        'is_avvio_gara',
-        $practice->is_avvio_gara
-    ) ? "checked" : "" }} />
+                    <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old( 'is_avvio_gara' ,
+                        $practice->is_avvio_gara
+                    ) ? "checked" : "" }} />
                     <label for="is_avvio_gara">Fase gara d'appalto avviata</label>
                 </div>
                 <br>
@@ -263,15 +257,13 @@
 
 
             <div class="border-2 border-l-8 border-blue-600 rounded-xs bg-gray-200 {{ $practice->is_lavori_in_corso ? "
-                            bg-blue-100" : "" }}">
+                bg-blue-100" : "" }}">
                 <div class="titolo-colonna bg-blue-600 text-white">3. Lavori</div>
 
                 <input type="checkbox" value="1" name="is_lavori_in_corso" id="is_lavori_in_corso" {{
-    old(
-        'is_lavori_in_corso',
-        $practice->is_lavori_in_corso
-    ) ?
-    "checked" : "" }} />
+                    old( 'is_lavori_in_corso' , $practice->is_lavori_in_corso
+                ) ?
+                "checked" : "" }} />
                 <label for="is_lavori_in_corso">Fase Esecuzione Lavori avviata</label>
                 <br><br>
                 <div class="flex w-full">
@@ -308,14 +300,12 @@
 
 
             <div class="border-2 border-l-8 border-purple-500 rounded-xs bg-gray-200 {{ $practice->is_cre ? "
-                            bg-purple-100" : "" }}">
+                bg-purple-100" : "" }}">
                 <div class="titolo-colonna bg-purple-500 text-white">4. CRE</div>
-                <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old(
-    'is_cre',
-    $practice->is_cre
-) ? "checked" :
-    ""
-                            }} />
+                <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old( 'is_cre' , $practice->is_cre
+                ) ? "checked" :
+                ""
+                }} />
                 <label for="is_cre">Fase CRE effettuata</label>
                 <br>
                 <br>
@@ -374,11 +364,11 @@
                 <br>
                 <label for="bdap">Monitorato</label>
                 <input type="checkbox" name="bdap" id="bdap" value="1" {{ old('bdap', $practice->bdap) ?
-    "checked" : "" }} />
+                "checked" : "" }} />
                 <br>
                 <label for="bdap_convalidato">Bdap Convalidato</label>
                 <input type="checkbox" name="bdap_convalidato" id="bdap_convalidato" value="1" {{
-    old('bdap_convalidato', $practice->bdap_convalidato) ? "checked" : "" }} />
+                    old('bdap_convalidato', $practice->bdap_convalidato) ? "checked" : "" }} />
                 <br>
                 <div class="flex w-full">
                     <label for="bdap_note">bdap_note</label>
@@ -387,8 +377,8 @@
                 </div>
 
                 <label for="sito_internet">sito_internet</label>
-                <input type="checkbox" name="sito_internet" id="sito_internet" value="1" {{
-    old('bdap_convalidato', $practice->bdap_convalidato) ? "checked" : "" }} />
+                <input type="checkbox" name="sito_internet" id="sito_internet" value="1" {{ old('bdap_convalidato',
+                    $practice->bdap_convalidato) ? "checked" : "" }} />
 
                 <div class="flex w-full">
                     <label for="sito_internet_nota">sito_internet_nota</label>
