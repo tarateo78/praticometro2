@@ -156,4 +156,9 @@
         @apply text-gray-400
     }
 
+    .titolo-colonna {
+        @apply text-lg  font-bold
+    }
+
+
 }
