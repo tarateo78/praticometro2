@@ -173,7 +173,9 @@
 
         {{-- ------------------------ Fasi ------------------------ --}}
 
-        <div class="grid grid-cols-1 xl:grid-cols-4 bg-gray-400/50 p-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 bg-gray-400/50 p-4 gap-4">
+
+            <div class="md:col-span-2 xl:col-span-4">Fasi Lavorative</div>
 
 
             @php
@@ -471,7 +473,7 @@
 
 
 
-        <div class="w-full p-4 text-right">
+        <div class="w-full p-4 text-center">
             <button type="submit"
                 class="btn-lg bg-green-600 text-white hover:bg-white hover:border-green-600 hover:text-green-600">Salva
                 aggiornamenti</button>
@@ -485,44 +487,45 @@
 
 
         <br>
-        <hr class="border-gray-500 mb-3">
+        <hr class="border-gray-500 border-dashed mb-3">
+        <br>
 
 
 
 
-        <div class="w-full bg-gray-400/70 p-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 w-full bg-gray-400/70 p-4">
 
+            <div class="col-span-1 sm:col-span-2 lg:col-span-1">
+                <span class="titolo-colonna ">Controllo automatico</span>
+                <br>
+                <span class="pr-4"><i>(Selezionare "Lavori Viabilità")</i></span>
+                <button id="btnStart"
+                    class="inline btn-lg bg-orange-600 text-white hover:bg-white hover:border-orange-600 hover:text-orange-600">Verifica</button>
 
+                <br>
 
-            <span class="titolo-colonna ">Check</span>
+                <label for="file_count">n. File DB</label>
+                <input name="file_count" id="file_count" class="w-10"
+                    value="{{ old('file_count', $practice->file_count) }}" />
+                /
+                <input name="file_effettivi_count" id="file_effettivi_count" class="w-10"
+                    value="{{ old('file_effettivi_count', $practice->file_effettivi_count) }}" />
+                <label for="file_effettivi_count">effettivi</label>
 
-            <label for="file_count">n. File</label>
-            <input name="file_count" id="file_count" class="w-20"
-                value="{{ old('file_count', $practice->file_count) }}" />
+                <br>
+                <label for="check_at">Controllo: </label>
+                <input name="check_at" id="check_at" value="{{ old('check_at', $practice->check_at) }}" />
 
-            <label for="file_effettivi_count">n. File effettivi</label>
-            <input name="file_effettivi_count" id="file_effettivi_count" class="w-20"
-                value="{{ old('file_effettivi_count', $practice->file_effettivi_count) }}" />
-
-            <label for="check_at">Data controllo</label>
-            <input name="check_at" id="check_at" value="{{ old('check_at', $practice->check_at) }}" />
-
-
-            <button id="btnStart" class="outer border-green-600 text-green-600 font-bold">Verifica</button>
-            <br>
-            <label for="file_nuovi">Nuovi File:</label>
-            <div class="flex w-full">
-                <textarea name="file_nuovi" id="file_nuovi"
-                    class="flex-1 h-80 ">{{ old('file_nuovi', $practice->file_nuovi) }}</textarea>
+                <button id="btnAllinea"
+                    class="btn-lg bg-blue-600 text-white hover:bg-white hover:border-blue-600 hover:text-orange-600">Allinea
+                    il conteggio</button>
+                <br>
             </div>
-            {{-- <div id="status-bar">
-                <div>Stato: <span id="statusText">Pronto</span></div>
-                <div>File analizzati: <strong id="fileCount">0</strong></div>
-            </div> --}}
-            {{-- <div id="log">I risultati appariranno qui...</div> --}}
 
-
-            <button id="btnAllinea">Allinea il conteggio</button>
+            <div class="flex col-span-1 sm:col-span-2 lg:col-span-3 pr-2">
+                <textarea name="file_nuovi" id="file_nuovi"
+                    class="flex-1 h-50 ">{{ old('file_nuovi', $practice->file_nuovi) }}</textarea>
+            </div>
 
         </div>
 
@@ -583,7 +586,7 @@
                             const miaData = new Date(file.lastModified).toISOString();
                             const dateStr = new Date(file.lastModified).toLocaleString();
                             //                               writeLog(`<span class="file-entry">������ ${currentPath}</span> <span class="highlight">[Modificato: ${dateStr}]</span>( ${miaData} )`);
-                            file_nuovi.value += dateStr.substr(0, 10) + " .. " + currentPath.substr(currentPath.search("/") + 1) + " " + '\n';
+                            file_nuovi.value += dateStr.substr(0, 10) + " .. " + currentPath.substr(currentPath.search("/") + 1).replaceAll("/", " ➜ ") + " " + '\n';
                         }
                     } catch (err) {
                         console.log(`Errore accesso file: ${entry.name}`, "dir-entry");
@@ -594,7 +597,8 @@
                     if (iterazione == 0 && entry.name.toLowerCase().search("atti amministrativi") != -1
                         || iterazione == 0 && entry.name.toLowerCase().search("cantiere") != -1
                         || iterazione == 0 && entry.name.toLowerCase().search("conferenza dei servizi") != -1
-                        || iterazione != 0) {
+                        || (iterazione > 0 && iterazione < 3) // Profondita dentro la cartella
+                    ) {
                         await scanEfficient(entry, targetTimestamp, stats, currentPath, iterazione + 1);
                     }
                 }
@@ -634,27 +638,30 @@
                 tentativo accidentale di scrittura.
                 */
 
-                // Verifica la corrispondenza della pratica selezionata
-                if (dirHandle.name.substr(0, 5) == document.getElementById('codice').value) {
+                // Itera solo le directory presenti nella RADICE
+                for await (const entry of dirHandle.values()) {
 
-                    file_nuovi.value = ""; // Cancella la casella dei nuovi file
 
-                    const stats = { total: 0 }; // Inizializza i conteggi
+                    // Verifica la corrispondenza della pratica selezionata
+                    if (entry.name.substr(0, 5) == document.getElementById('codice').value) {
 
-                    const startTime = performance.now();
+                        file_nuovi.value = ""; // Cancella la casella dei nuovi file
 
-                    // 2. Avvio scansione ottimizzata
-                    await scanEfficient(dirHandle, selectedDate, stats, dirHandle.name);
+                        const stats = { total: 0 }; // Inizializza i conteggi
 
-                    const endTime = performance.now();
-                    const duration = ((endTime - startTime) / 1000).toFixed(2);
+                        const startTime = performance.now();
 
-                    file_effettivi_count.value = stats.total;
+                        // 2. Avvio scansione ottimizzata
+                        await scanEfficient(entry, selectedDate, stats, entry.name);
 
-                    file_nuovi.value += `\n___ Scansione completata in ${duration} secondi ___`;
+                        const endTime = performance.now();
+                        const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-                } else {
-                    file_nuovi.value += "ATTENZIONE: La cartella selezionata non corrisponde alla presente pratica!"
+                        file_effettivi_count.value = stats.total;
+
+                        file_nuovi.value += `\n___ Scansione completata in ${duration} secondi ___`;
+
+                    }
                 }
 
             } catch (err) {
