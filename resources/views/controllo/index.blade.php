@@ -5,27 +5,36 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Controllo</title>
+	@vite(['resources/css/backend.css', 'resources/js/app.js'])
 </head>
 
 <body>
-	<h1>Controllo</h1>
-	<p>Effettua controllo su intero archivio</p>
-
-
-	@foreach ($practices as $prac)
-	{{-- <span>{{ $prac->codice }}</span><br> --}}
-
-	@endforeach
-	<br>
-	<button id="btnStart">AVVIA</button>
-	<br>
-
+	<div class="bg-white m-4 p-4">
+		<h1>Controllo</h1>
+		<br>
+		<p>Effettua il controllo su <b>{{ count($practices) }}</b> nel database</p>
+		<br>
+		<br>
+		<button id="btnStart" class="border px-2 py-1 rounded-lg">AVVIA</button>
+		<br>
+		<br>
+		Log:
+		<br>
+		<div name="log" id="log" class="w-full p-2 bg-pink-200"></div>
+	</div>
 </body>
 
 
 
 <script>
 	const btnStart = document.getElementById("btnStart");
+
+	const log = document.getElementById("log");
+
+	function writeLog(testo) {
+		log.append(testo);
+		log.append(document.createElement("br"));
+	}
 
 	// Array di Oggetti
 	const practices = @js($practices);
@@ -92,7 +101,7 @@
 						|| iterazione == 0 && entry.name.toLowerCase().search("cantiere") != -1
 						|| iterazione == 0 && entry.name.toLowerCase().search("conferenza dei servizi") != -1
 						|| (iterazione > 0 && iterazione < 3) // Profondita dentro la cartella
-					) { 
+					) {
 
 						await recursiveScan(entry, targetTimestamp, currentPath, iterazione + 1);
 					}
@@ -159,16 +168,26 @@
 						// Procede con la scansione in profndità
 						const directory = await scanEfficient(entry, selectedDate, entry.name);
 
-						// Assegna l'id della pratica
-						directory.idPractice = objPratica.id;
+						$aggiuntoAlBuffer = false;
 
-						// Aggiunge l'oggetto al buffer
-						buffer.push(directory);
+						// Verifica se il numero di file memorizzato nel database NON corrisponde con quelli trovati
+						if (directory.totalFiles != objPratica.file_effettivi_count) {
+
+							// Assegna l'id della pratica
+							directory.idPractice = objPratica.id;
+
+							// Aggiunge l'oggetto al buffer
+							buffer.push(directory);
+
+							$aggiuntoAlBuffer = true;
+
+						}
 
 						const endTime = performance.now();
 						const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-						console.log("Fatto: " + entry.name.substring(0, 25) + "... " + directory.totalFiles + " files in " + duration + "s");
+						writeLog(duration + " s --> " + directory.totalFiles + " / " + objPratica.file_effettivi_count + " --> Pratica: " +
+							entry.name.substring(0, 50) + ($aggiuntoAlBuffer ? " **AGGIUNTO**" : ""));
 
 					}
 
@@ -212,6 +231,7 @@
 
 			const result = await response.json();
 			console.log("Risposta server:", result);
+			writeLog("__ fine controllo.");
 		} catch (error) {
 			console.error("Errore durante l'invio:", error);
 		}
