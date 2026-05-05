@@ -88,10 +88,12 @@
 				} else if (entry.kind === 'directory') {
 
 					// Ricorsione asincrona per le sottocartelle specifiche			
-					if (iterazione == 1 && entry.name.toLowerCase().search("atti amministrativi") != -1
-						|| iterazione == 1 && entry.name.toLowerCase().search("cantiere") != -1
-						|| iterazione == 1 && entry.name.toLowerCase().search("conferenza dei servizi") != -1
-						|| iterazione < 3) { // != 0 va in profondità completa
+					if (iterazione == 0 && entry.name.toLowerCase().search("atti amministrativi") != -1
+						|| iterazione == 0 && entry.name.toLowerCase().search("cantiere") != -1
+						|| iterazione == 0 && entry.name.toLowerCase().search("conferenza dei servizi") != -1
+						|| (iterazione > 0 && iterazione < 3)
+					) { // != 0 va in profondità completa
+						console.log(iterazione);
 // console.log(iterazione + "- ".repeat(iterazione) + entry.name);
 						await recursiveScan(entry, targetTimestamp, currentPath, iterazione + 1);
 					}
