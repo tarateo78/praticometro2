@@ -57,6 +57,7 @@
                     <th>Direttore Lavori</th>
                     <th>Impresa</th>
                     <th class="whitespace-nowrap">det Grup Lav</th>
+                    <th>Gru</th>
 
                 </tr>
             </thead>
@@ -118,6 +119,7 @@
                     <td>{{ $prac->direttore_lavori }}</td>
                     <td>{{ $prac->impresa }}</td>
                     <td>{{ $prac->determina_gruppo }}</td>
+                    <td>{{ $prac->gruppo }}</td>
                 </tr>
 
                 <?php 
@@ -135,6 +137,7 @@
                 <td></td>
                 <td class="text-center">Totale:</td>
                 <td class="font-bold whitespace-nowrap">€ {{ number_format($importo_totale, 2, ",", ".")}} €</td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
