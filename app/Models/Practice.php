@@ -34,6 +34,7 @@ class Practice extends Model
         'def_at',
         'ese_at',
         'is_cds',
+        'cds_avvio_at',
         'cds_chiusa_at',
         'is_avvio_gara',
         'contratto_at',

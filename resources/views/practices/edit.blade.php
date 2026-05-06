@@ -45,7 +45,7 @@
 
         {{-- Se stiamo modificando, Laravel ha bisogno del metodo PUT --}}
         @if($practice->exists)
-            @method('PUT')
+        @method('PUT')
         @endif
 
 
@@ -62,18 +62,17 @@
                         <input name="codice" id="codice" value="{{ old('codice', $practice->codice) }}"
                             class="font-bold w-30" />
                         <span class="font-bold text-green-800">{{ $practice->file_count !=
-    $practice->file_effettivi_count ? "↺" : "" }}</span>
+                            $practice->file_effettivi_count ? "↺" : "" }}</span>
                     </div>
 
 
                     <div class="">
                         <label for="is_in_corso">In corso</label>
-                        <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old(
-    'is_in_corso',
-    $practice->is_in_corso
-) ?
-    "checked" :
-    "" }} />
+                        <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old( 'is_in_corso' ,
+                            $practice->is_in_corso
+                        ) ?
+                        "checked" :
+                        "" }} />
                     </div>
                 </div>
                 <div>
@@ -145,7 +144,7 @@
 
                     <label for="is_rl">Finanziamento RL</label>
                     <input type="checkbox" value="1" name="is_rl" id="is_rl" {{ old('is_rl', $practice->is_rl) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
 
                     <br>
                     <div class="flex w-full">
@@ -156,7 +155,7 @@
 
                     <label for="is_mims">Finanziamento MIMS</label>
                     <input type="checkbox" value="1" name="is_mims" id="is_mims" {{ old('is_mims', $practice->is_mims) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
                     <br>
 
                     <label for="mims_codice">Codice MIMS</label>
@@ -179,15 +178,15 @@
 
 
             @php
-                if ($practice->is_avvio_progettazione & !$practice->is_avvio_gara) {
-                    $bgColor = "bg-yellow-100";
-                    $borderColor = "border-yellow-400";
-                    $titoloBgColor = "bg-yellow-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
+            if ($practice->is_avvio_progettazione & !$practice->is_avvio_gara) {
+            $bgColor = "bg-yellow-100";
+            $borderColor = "border-yellow-400";
+            $titoloBgColor = "bg-yellow-400";
+            } else {
+            $bgColor = "bg-gray-100";
+            $borderColor = "border-gray-400";
+            $titoloBgColor = "bg-gray-400";
+            }
             @endphp
 
             <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
@@ -195,10 +194,8 @@
 
 
                 <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione" {{
-    old(
-        'is_avvio_progettazione',
-        $practice->is_avvio_progettazione
-    ) ? "checked" : "" }} />
+                    old( 'is_avvio_progettazione' , $practice->is_avvio_progettazione
+                ) ? "checked" : "" }} />
                 <label for="is_avvio_progettazione">Fase progettazione avviata</label>
                 <br><br>
                 <label for="avvio_servizio_at">Avvio servizio il</label>
@@ -221,11 +218,15 @@
                 <br>
 
                 <label for="is_cds">Necessaria CDS</label>
-                <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old(
-    'is_cds',
-    $practice->is_cds
-) ?
-    "checked" : "" }} />
+                <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old( 'is_cds' , $practice->is_cds
+                ) ?
+                "checked" : "" }} />
+                <label for="cds_avvio_at">→ Cds avvio</label>
+                <input type="date" name="cds_avvio_at" id="cds_avvio_at"
+                    value="{{ old('cds_avvio_at', $practice->cds_avvio_at) }}"
+                    class="{{ !isset($practice->cds_avvio_at) ? " date-vuoto" : "" }}" />
+                <br>
+
                 <label for="cds_chiusa_at">→ Cds Verbale</label>
                 <input type="date" name="cds_chiusa_at" id="cds_chiusa_at"
                     value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at) }}"
@@ -253,25 +254,24 @@
 
 
             @php
-                if ($practice->is_avvio_gara & !$practice->is_lavori_in_corso) {
-                    $bgColor = "bg-green-100";
-                    $borderColor = "border-green-400";
-                    $titoloBgColor = "bg-green-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
+            if ($practice->is_avvio_gara & !$practice->is_lavori_in_corso) {
+            $bgColor = "bg-green-100";
+            $borderColor = "border-green-400";
+            $titoloBgColor = "bg-green-400";
+            } else {
+            $bgColor = "bg-gray-100";
+            $borderColor = "border-gray-400";
+            $titoloBgColor = "bg-gray-400";
+            }
             @endphp
 
             <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
                 <div class="titolo-colonna {{ $titoloBgColor }} text-white">
                     2. Gara appalto</div>
                 <div class="check">
-                    <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old(
-    'is_avvio_gara',
-    $practice->is_avvio_gara
-) ? "checked" : "" }} />
+                    <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old( 'is_avvio_gara' ,
+                        $practice->is_avvio_gara
+                    ) ? "checked" : "" }} />
                     <label for="is_avvio_gara">Fase gara d'appalto avviata</label>
                 </div>
                 <br>
@@ -290,15 +290,15 @@
 
 
             @php
-                if ($practice->is_lavori_in_corso & !$practice->is_cre) {
-                    $bgColor = "bg-blue-100";
-                    $borderColor = "border-blue-400";
-                    $titoloBgColor = "bg-blue-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
+            if ($practice->is_lavori_in_corso & !$practice->is_cre) {
+            $bgColor = "bg-blue-100";
+            $borderColor = "border-blue-400";
+            $titoloBgColor = "bg-blue-400";
+            } else {
+            $bgColor = "bg-gray-100";
+            $borderColor = "border-gray-400";
+            $titoloBgColor = "bg-gray-400";
+            }
             @endphp
 
             <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
@@ -306,11 +306,9 @@
                     3. Lavori</div>
 
                 <input type="checkbox" value="1" name="is_lavori_in_corso" id="is_lavori_in_corso" {{
-    old(
-        'is_lavori_in_corso',
-        $practice->is_lavori_in_corso
-    ) ?
-    "checked" : "" }} />
+                    old( 'is_lavori_in_corso' , $practice->is_lavori_in_corso
+                ) ?
+                "checked" : "" }} />
                 <label for="is_lavori_in_corso">Fase Esecuzione Lavori avviata</label>
                 <br><br>
                 <div class="flex w-full">
@@ -347,24 +345,22 @@
 
 
             @php
-                if ($practice->is_cre) {
-                    $bgColor = "bg-purple-100";
-                    $borderColor = "border-purple-400";
-                    $titoloBgColor = "bg-purple-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
+            if ($practice->is_cre) {
+            $bgColor = "bg-purple-100";
+            $borderColor = "border-purple-400";
+            $titoloBgColor = "bg-purple-400";
+            } else {
+            $bgColor = "bg-gray-100";
+            $borderColor = "border-gray-400";
+            $titoloBgColor = "bg-gray-400";
+            }
             @endphp
 
             <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
                 <div class="titolo-colonna {{ $titoloBgColor }} text-white">4. CRE</div>
-                <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old(
-    'is_cre',
-    $practice->is_cre
-) ? "checked" :
-    ""
+                <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old( 'is_cre' , $practice->is_cre
+                ) ? "checked" :
+                ""
                 }} />
                 <label for="is_cre">Fase CRE effettuata</label>
                 <br>
@@ -424,11 +420,11 @@
                 <br>
                 <label for="bdap">Monitorato</label>
                 <input type="checkbox" name="bdap" id="bdap" value="1" {{ old('bdap', $practice->bdap) ?
-    "checked" : "" }} />
+                "checked" : "" }} />
                 <br>
                 <label for="bdap_convalidato">Bdap Convalidato</label>
                 <input type="checkbox" name="bdap_convalidato" id="bdap_convalidato" value="1" {{
-    old('bdap_convalidato', $practice->bdap_convalidato) ? "checked" : "" }} />
+                    old('bdap_convalidato', $practice->bdap_convalidato) ? "checked" : "" }} />
                 <br>
                 <div class="flex w-full">
                     <label for="bdap_note">bdap_note</label>
@@ -437,10 +433,9 @@
                 </div>
 
                 <label for="sito_internet">sito_internet</label>
-                <input type="checkbox" name="sito_internet" id="sito_internet" value="1" {{ old(
-    'bdap_convalidato',
-    $practice->bdap_convalidato
-) ? "checked" : "" }} />
+                <input type="checkbox" name="sito_internet" id="sito_internet" value="1" {{ old( 'bdap_convalidato' ,
+                    $practice->bdap_convalidato
+                ) ? "checked" : "" }} />
 
                 <div class="flex w-full">
                     <label for="sito_internet_nota">sito_internet_nota</label>

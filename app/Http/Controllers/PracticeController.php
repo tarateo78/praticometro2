@@ -97,6 +97,7 @@ class PracticeController extends Controller
             'def_at' => 'nullable',
             'ese_at' => 'nullable',
             'is_cds' => 'nullable',
+            'cds_avvio_at' => 'nullable',
             'cds_chiusa_at' => 'nullable',
             'is_avvio_gara' => 'nullable',
             'contratto_at' => 'nullable',
