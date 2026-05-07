@@ -24,93 +24,107 @@
         </div>
     </div>
 
-
-    <button name="btnStart" id="btnStart" class="btn border rounded p-2 py-1">Scegli cartella</button>
-    Seleziona cartella lavori
-    @foreach ($practices as $prac)
-
-    <div>
-        <div>{{ $prac->codice }}</div>
-        <div></div>
-
+    <div class="banner-filtro text-center">
+        <button name="btnStart" id="btnStart" class="border rounded p-2 py-1">Scegli cartella</button>
+        <br>
+        Seleziona cartella lavori
     </div>
-    @endforeach
+
+    <div class="banner-filtro bg-green-500 text-center">
+        <div id="log">
+
+        </div>
+    </div>
 
 </body>
 
 <script>
-    const cartelle = [];
 
-    const practices = @js( $practices );
-
+    const logCartelle = document.getElementById("log");
+    const nuoveCartelle = [];
+    const practices = @js($practices);
     const btnStart = document.getElementById("btnStart");
 
+
+    function writelog(testo) {
+        log.append(testo);
+        log.append(document.createElement("br"));
+    }
+
+
+
     btnStart.addEventListener('click', async () => {
+        event.preventDefault();
 
-            event.preventDefault();
+        let stats = {
+            codice: null,
+            is_in_corso: 1,
+        };
 
-            if (!window.showDirectoryPicker) {
-                alert("Il tuo browser non supporta questa tecnologia. Usa Chrome o Edge aggiornati.");
-                return;
-            }
+        if (!window.showDirectoryPicker) {
+            alert("Il tuo browser non supporta questa tecnologia. Usa Chrome o Edge aggiornati.");
+            return;
+        }
 
-            try {
-                const dirHandle = await window.showDirectoryPicker({
-                    mode: 'read' //Richiesta accesso esplicito in SOLA LETTURA
-                });
+        try {
+            const dirHandle = await window.showDirectoryPicker({
+                mode: 'read' //Richiesta accesso esplicito in SOLA LETTURA
+            });
 
-                for await (const entry of dirHandle.values()) { // Itera solo le directory presenti nella RADICE
-                    if(entry.kind === 'directory' && entry.name.substr(0, 1) == "V"){
-                        
-                        cartella = entry.name.substr(0, 5);
-console.log(practices);
+            for await (const entry of dirHandle.values()) { // Itera solo le directory presenti nella RADICE
+                if (entry.kind === 'directory' && entry.name.substr(0, 1) == "V" && /\d/.test(entry.name.substring(1, 4))) {
 
-                        if( typeof practices[cartella] !== 'undefined'){
-                            console.log("Ce");
-                        } else {
-                            console.log("NO");
+                    // /\d/.test(entry.name.substring(0, 5) VERIFICA SE NEL TESTO C'E' UN NUMERO
 
-                        }
+                    cartella = entry.name.substr(0, 5);
 
-                        console.log(entry.name.substr(0, 5));
-                        cartelle.push(entry.name.substr(0, 5));
+                    const objPratica = practices.find(obj => obj.codice === (entry.name.substring(0, 5)));
 
+                    //(entry.name.substring(0, 5))
+
+                    if (typeof objPratica === 'undefined') {
+                        stats.codice = entry.name.substr(0, 5)
+                        nuoveCartelle.push(stats);
+                        writelog("Aggiunta nuova pratica: " + entry.name.substr(0, 5));
                     }
-                    // Verifica la corrispondenza della pratica selezionata
-                    // if (entry.name.substr(0, 5) == document.getElementById('codice').value) {
 
-                    //     file_nuovi.value = ""; // Cancella la casella dei nuovi file
+                    // console.log(entry.name.substr(0, 5));
 
-                    //     const stats = { total: 0 }; // Inizializza i conteggi
-
-                    //     const startTime = performance.now();
-
-                    //     // 2. Avvio scansione ottimizzata
-                    //     await scanEfficient(entry, selectedDate, stats, entry.name);
-
-                    //     const endTime = performance.now();
-                    //     const duration = ((endTime - startTime) / 1000).toFixed(2);
-
-                    //     file_effettivi_count.value = stats.total;
-
-                    //     file_nuovi.value += `\n___ Scansione completata in ${duration} secondi ___`;
-
-                    // }
                 }
-                console.log(cartelle);
-
-
-            } catch (err) {
-                if (err.name === 'AbortError') {
-                    console.log("Operazione showDirectoryPicker annullata.");
-                } else {
-                    console.error(err);
-                    console.log("Errore critico showDirectoryPicker: " + err.message);
-                }
-            } finally {
-                btnStart.disabled = false;
             }
-        });
+            console.log(nuoveCartelle);
+            sendToLaravel(nuoveCartelle);
+
+
+        } catch (err) {
+            if (err.name === 'AbortError') {
+                console.log("Operazione showDirectoryPicker annullata.");
+            } else {
+                console.error(err);
+                console.log("Errore critico showDirectoryPicker: " + err.message);
+            }
+        } finally {
+            btnStart.disabled = false;
+        }
+    });
+
+
+
+    async function sendToLaravel(data) {
+        try {
+            const response = await fetch('/api/add-directory', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '...' },
+                body: JSON.stringify({ items: data })
+            });
+
+            const result = await response.json();
+            console.log("Risposta server:", result);
+            writelog("__ fine controllo.");
+        } catch (error) {
+            console.error("Errore durante l'invio:", error);
+        }
+    }
 
 </script>
 

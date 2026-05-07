@@ -5,3 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Rotta per l'aggiornamento massivo
 Route::post('/update-directory', [ControlloController::class, 'updateBuffer']);
+
+
+// Rotta per l'aggiunta massiva di nuove cartelle trovate
+Route::post('/add-directory', [ControlloController::class, 'addCartelle']);
