@@ -158,8 +158,9 @@
             <div class="col-span-3 xl:col-span-2">
                 <form action="{{ route('practices.index') }}" method="GET">
                     @csrf
-                    <label for="is_in_corso">In corso</label><input type="checkbox" name="is_in_corso" id="is_in_corso"
-                        {{ isset($_GET['is_in_corso']) ? "checked" : "" }}>
+                    <label for="is_in_corso">In corso</label>
+                    <input type="checkbox" name="is_in_corso" id="is_in_corso" {{ isset($_GET['is_in_corso'])
+                        ? "checked" : "" }}>
                     <input type="text" name="filtra" id="filtra" class="w-40" />
                     <button type="submit" class="filtro-button">Applica</button>
                 </form>
@@ -167,9 +168,10 @@
             <div class="col-span-3 xl:col-span-4">
                 @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
                 <div class="tag-filtro">{{
-                    $_GET['filtra'] }}<a href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? "
-                        ?is_in_corso=on" : "" }}"><span
-                            class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a></div>
+                    $_GET['filtra'] }}
+                    <a href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? '?is_in_corso=on' : ''
+                        }}"><span class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a>
+                </div>
                 @endif
             </div>
         </div>
