@@ -15,7 +15,8 @@ Route::get('/api/tasks', function () {
 Route::get('/', [OpenwebController::class, 'index'])->name("openweb.index");
 Route::get('/show/{practice}', [OpenwebController::class, 'show'])->name("openweb.show");
 
-Route::get('/controllo/', [ControlloController::class, 'index'])->name("controllo.index");
+Route::get('/controllo', [ControlloController::class, 'index'])->name("controllo.index");
+Route::get('/controllo/nuove-pratiche', [ControlloController::class, 'nuovePratiche'])->name("controllo.nuove-pratiche");
 Route::get('/elenco', [PracticeController::class, 'index'])->name("practices.index");
 
 Route::get('/elenco/{practice}', [PracticeController::class, 'show'])->name("practices.show");

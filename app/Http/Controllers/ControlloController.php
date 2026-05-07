@@ -58,7 +58,16 @@ class ControlloController extends Controller
         return view("controllo.index", compact("practices"));
     }
 
+    public function nuovePratiche(Request $request): View
+    {
 
+        $practices = Practice::where('is_in_corso', true)
+            ->where('is_avvio_progettazione', true)
+            ->orderBy("codice", "desc")
+            ->get();
+
+        return view("controllo.nuove-pratiche", compact("practices"));
+    }
 
 
 
@@ -69,7 +78,7 @@ class ControlloController extends Controller
     //     return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
     // })->orderBy("codice", "desc")->get();
     // return view("practices.index", compact("practices"));
-
+/*
     public function form(Practice $practice)
     {
         // Se l'ID non esiste, Laravel restituirà automaticamente un errore 404
@@ -171,5 +180,5 @@ class ControlloController extends Controller
 
         // 3. Ritorna alla lista o al dettaglio con un messaggio di successo
         return redirect()->route('practices.edit', $practice)->with('status', 'practice aggiornato con successo!');
-    }
+    }*/
 }
