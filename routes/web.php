@@ -4,6 +4,7 @@ use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\OpenwebController;
 use App\Http\Controllers\ControlloController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,6 +26,12 @@ Route::put('/elenco/{practice}/edit', [PracticeController::class, 'update'])->na
 
 Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 
-
-
 Route::view('/griglia', 'griglia');
+
+/* TEST */
+
+Route::get('/test', [TestController::class, 'index'])->name('test.index');
+Route::post('/test/store', [TestController::class, 'store'])->name('test.store');
+
+Route::get('/test/{test}', [TestController::class, 'show'])->name('test.show');
+Route::put('/test/{test}', [TestController::class, 'update'])->name('test.update');

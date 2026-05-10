@@ -44,3 +44,56 @@ ls
 ll
 ls
 exit
+ll
+cd /var/www/
+ls
+php artisan
+php artisan make:model Test -mcr
+php artisan migrate
+php artisan migrate
+php artisan migrate
+php artisan migrate
+php artisan migrate:fresh
+php artisan migrate:fresh
+php artisan migrate:fresh .
+php artisan migrate:fresh --seed
+php artisan migrate
+php artisan migrate:fresh
+php artisan migrate
+cd /etc/
+ll
+ls
+exit
+cd /etc/
+ls
+cd ..
+ls
+cd /etc/
+ls
+php -v
+which php
+cd /usr/local/
+ll
+ls
+cd etc/
+ls
+cd php
+ls
+cd conf.d/
+ls
+cd ..
+ls
+cat php.ini-development 
+cat php.ini-development | grep intl
+vim php.ini-development 
+nano php.ini-development 
+apt get install vim
+apt-get install vim
+sudo apt-get install vim
+cd conf.d/
+ls
+cd ..
+ls
+exit
+php -m
+exit
