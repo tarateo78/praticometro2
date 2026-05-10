@@ -64,4 +64,10 @@ class Practice extends Model
         'coordinate',
         'file_nuovi',
     ];
+
+    protected $casts = [
+        // 'data' => 'date',
+        // 'numero' => 'integer',
+        'importo' => 'decimal:2',
+    ];
 }

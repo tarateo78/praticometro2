@@ -28,20 +28,13 @@
                     </td>
                     <td class="text-center">{{ $prac->zona }}</td>
                     <td class="text-center">{{$prac->strade}} </td>
-                    @php
-                        $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo));
-                    @endphp
-                    {{-- <td class="">{{
-                        number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") , 2,
-                        "," ,
-                        ".")}} €</td> --}}
-                    <td class="text-right pr-2 whitespace-nowrap">{{ number_format($importo, 2, ",", ".") }} €
+                    <td class="text-right pr-2 whitespace-nowrap">{{ number_format($prac->importo, 2, ",", ".") }} €
                     </td>
 
                     <td class="text-center">{{ $prac->finanziamento }}</td>
                 </tr>
 
-                <?php    $importo_totale += $importo; ?>
+                <?php    $importo_totale += $prac->importo; ?>
 
             @endforeach
 
@@ -55,7 +48,8 @@
                 <td></td>
                 <td></td>
                 <td class="font-bold whitespace-nowrap text-right pr-2">
-                    {{ number_format($importo_totale, 2, ",", ".") }} €</td>
+                    {{ number_format($importo_totale, 2, ",", ".") }} €
+                </td>
                 <td></td>
             </tr>
         </tfoot>

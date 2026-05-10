@@ -46,6 +46,7 @@
                     <th>Mappa</th>
                     <th>Cup</th>
                     <th>Importo</th>
+                    <th>ImportoN</th>
                     <th>Finanziamento</th>
                     <th>RUP</th>
                     <th>Fascicolo</th>
@@ -63,68 +64,61 @@
             </thead>
             <tbody>
                 @foreach($practices as $prac)
-                <tr id="prat-{{ $prac->id }}">
+                    <tr id="prat-{{ $prac->id }}">
 
-                    <td>
-                        <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice }}</a>
-                        {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
-                    </td>
-                    <td>{{ $prac->titolo }}</td>
-                    <td>
-                        @if ($prac->is_avvio_progettazione)
-                        <span class="tag bg-yellow-200/60">Prog</span>
-                        @endif
+                        <td>
+                            <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice }}</a>
+                            {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
+                        </td>
+                        <td>{{ $prac->titolo }}</td>
+                        <td>
+                            @if ($prac->is_avvio_progettazione)
+                                <span class="tag bg-yellow-200/60">Prog</span>
+                            @endif
 
-                        @if($prac->is_avvio_gara)
-                        <span class="tag bg-green-200/60">Gara</span>
-                        @endif
+                            @if($prac->is_avvio_gara)
+                                <span class="tag bg-green-200/60">Gara</span>
+                            @endif
 
-                        @if($prac->is_lavori_in_corso)
-                        <span class="tag bg-blue-200/60">Lavori</span>
-                        @endif
+                            @if($prac->is_lavori_in_corso)
+                                <span class="tag bg-blue-200/60">Lavori</span>
+                            @endif
 
-                        @if($prac->is_cre)
-                        <span class="tag bg-violet-200/60">Cre</span>
-                        @endif
-                    </td>
-                    <td>{{ $prac->zona }}</td>
-                    <td class="whitespace-nowrap">
-                        @if($prac->strade)
-                        @foreach (explode(",", $prac->strade) as $sp)
-                        <span class='tag bg-gray-200 '>{{ $sp }}</span>
-                        @endforeach
-                        @endif
-                    </td>
-                    <td>
-                        @if($prac->coordinate != "")
-                        <img src="assets/images/marker/marker-red.svg" alt="tag">
-                        @endif
-                    </td>
-                    <td>{{ $prac->cup }}</td>
-
-                    <?php    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo)) ?>
-                    {{-- <td class="">{{
-                        number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") ,
-                        2, "," , ".")}} €</td> --}}
-                    <td class="text-right pr-2">{{ number_format($importo, 2, ",", ".") }} €</td>
-
-                    <td>{{ $prac->finanziamento }}</td>
-                    <td>{{ $prac->rup }}</td>
-                    <td>{{ $prac->fascicolo }}</td>
-                    <td>{{ $prac->is_rl }}</td>
-                    <td>{{ $prac->is_mims }}</td>
-                    <td>{{ $prac->progettista }}</td>
-                    <td>{{ $prac->sicurezza }}</td>
-                    <td>{{ $prac->cds_chiusa_at }}</td>
-                    <td>{{ $prac->direttore_lavori }}</td>
-                    <td>{{ $prac->impresa }}</td>
-                    <td>{{ $prac->determina_gruppo }}</td>
-                    <td>{{ $prac->gruppo }}</td>
-                </tr>
-
-                <?php 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $importo_totale += $importo;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ?>
+                            @if($prac->is_cre)
+                                <span class="tag bg-violet-200/60">Cre</span>
+                            @endif
+                        </td>
+                        <td>{{ $prac->zona }}</td>
+                        <td class="whitespace-nowrap">
+                            @if($prac->strade)
+                                @foreach (explode(",", $prac->strade) as $sp)
+                                    <span class='tag bg-gray-200 '>{{ $sp }}</span>
+                                @endforeach
+                            @endif
+                        </td>
+                        <td>
+                            @if($prac->coordinate != "")
+                                <img src="assets/images/marker/marker-red.svg" alt="tag">
+                            @endif
+                        </td>
+                        <td>{{ $prac->cup }}</td>
+                        <td class="text-right">{{ number_format($prac->importo, 2, ",", ".") }} €</td>
+                        <td>{{ $prac->finanziamento }}</td>
+                        <td>{{ $prac->rup }}</td>
+                        <td>{{ $prac->fascicolo }}</td>
+                        <td>{{ $prac->is_rl }}</td>
+                        <td>{{ $prac->is_mims }}</td>
+                        <td>{{ $prac->progettista }}</td>
+                        <td>{{ $prac->sicurezza }}</td>
+                        <td>{{ $prac->cds_chiusa_at }}</td>
+                        <td>{{ $prac->direttore_lavori }}</td>
+                        <td>{{ $prac->impresa }}</td>
+                        <td>{{ $prac->determina_gruppo }}</td>
+                        <td>{{ $prac->gruppo }}</td>
+                    </tr>
+                    @php
+                        $importo_totale += $prac->importo;
+                    @endphp
 
                 @endforeach
             </tbody>
@@ -160,18 +154,20 @@
                     @csrf
                     <label for="is_in_corso">In corso</label>
                     <input type="checkbox" name="is_in_corso" id="is_in_corso" {{ isset($_GET['is_in_corso'])
-                        ? "checked" : "" }}>
+    ? "checked" : "" }}>
                     <input type="text" name="filtra" id="filtra" class="w-40" />
                     <button type="submit" class="filtro-button">Applica</button>
                 </form>
             </div>
             <div class="col-span-3 xl:col-span-4">
                 @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
-                <div class="tag-filtro">{{
+                            <div class="tag-filtro">{{
                     $_GET['filtra'] }}
-                    <a href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? '?is_in_corso=on' : ''
-                        }}"><span class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a>
-                </div>
+                                <a
+                                    href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? '?is_in_corso=on' : ''
+                                                                                                                                                }}"><span
+                                        class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a>
+                            </div>
                 @endif
             </div>
         </div>

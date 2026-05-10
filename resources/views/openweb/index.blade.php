@@ -87,14 +87,8 @@
                                         <img src="assets/images/marker/marker-red.svg" alt="tag">
                                     @endif
                                 </td>
-                                @php
-                                    $importo = (float) str_replace(",", ".", str_replace(".", "", $prac->importo));
-                                @endphp
-                                {{-- <td class="">{{
-                                    number_format((float)str_replace(str_replace($prac->importo,".",""),",",".") , 2,
-                                    "," ,
-                                    ".")}} €</td> --}}
-                                <td class="text-right pr-2 whitespace-nowrap">{{ number_format($importo, 2, ",", ".") }} €
+                                <td class="text-right pr-2 whitespace-nowrap">
+                                    {{ number_format($prac->importo, 2, ",", ".") }} €
                                 </td>
 
                                 <td>{{ $prac->finanziamento }}</td>
@@ -112,7 +106,7 @@
                                 </td>
                             </tr>
 
-                            <?php    $importo_totale += $importo; ?>
+                            <?php    $importo_totale += $prac->importo; ?>
 
                         @endforeach
 

@@ -68,6 +68,11 @@ class PracticeController extends Controller
 
     public function update(Request $request, Practice $practice)
     {
+        // Trasforma l'importo formattato come testo in un numero con il . decimale
+        $request->merge([
+            'importo' => str_replace(',', '.', str_replace(".", "", $request->importo)),
+        ]);
+
         // 1. Valida i dati
 
         $validated = $request->validate([
@@ -82,7 +87,7 @@ class PracticeController extends Controller
             'finanziamento_note' => 'nullable',
             'rup' => 'nullable',
             'fascicolo' => 'nullable',
-            'importo' => 'nullable',
+            'importo' => 'nullable|numeric',
             'is_rl' => '',
             'is_mims' => 'nullable',
             'rl_codice' => 'nullable',
