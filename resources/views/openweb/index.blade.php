@@ -96,8 +96,9 @@
                                     @if(isset($prac->cre_at))
                                         {{ $prac->cre_at }}
                                     @else
-                                        @if (isset($prac->scadenza_esecuzione))
-                                            {{ $prac->scadenza_esecuzione }} <span class="text-xs italic">PRESUNTA</span>
+                                        @if (isset($prac->scadenza_esecuzione_at))
+                                            {{ $prac->scadenza_esecuzione_at->format("d/m/Y") }} <span
+                                                class="text-xs italic">PRESUNTA</span>
                                         @else
                                             <span class="text-xs italic">IN DEFINIZIONE</span>
                                         @endif

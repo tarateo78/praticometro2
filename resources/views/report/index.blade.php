@@ -50,12 +50,13 @@
 
 
     @foreach ($practices as $prac)
-    @if (($prac->is_avvio_progettazione && substr($prac->codice, 1, 2) == substr($annoBase, 2, 2)) || ($prac->ese_at >
-    Date($annoBase . "-01-01") && Date($prac->ese_at) < Date($annoBase . "-12-31" ))) @php $progettazione[$prac->codice]
-        = $prac;
-        @endphp
+        @if (($prac->is_avvio_progettazione && substr($prac->codice, 1, 2) == substr($annoBase, 2, 2)) || ($prac->ese_at >
+        Date($annoBase . "-01-01") && Date($prac->ese_at) < Date($annoBase . "-12-31" )))
+            @php 
+                $progettazione[$prac->codice]= $prac;
+            @endphp
         @endif
-        @endforeach
+    @endforeach
 
         @foreach ($practices as $prac)
         @if ( ($prac->cds_avvio_at > Date($annoBase . "-01-01") && $prac->cds_avvio_at < Date($annoBase . "-12-31" )) ||
@@ -81,38 +82,38 @@
                         @endforeach
 
 
-                        <h2>Progettazioni {{ $annoBase }}:</h2>
-                        <x-data-table :elencoPratiche=$progettazione :annoBase=$annoBase
-                            :titoloColonna="'Prog Esecutivo'" :campo="'ese_at'" />
-                        <br> <br>
+            <h2>Progettazioni {{ $annoBase }}:</h2>
+            <x-data-table :elencoPratiche=$progettazione :annoBase=$annoBase
+                :titoloColonna="'Prog Esecutivo'" :campo="'ese_at'" />
+            <br> <br>
 
 
-                        <h2>Conferenze dei servizi {{ $annoBase }}:</h2>
-                        <x-data-table :elencoPratiche=$cds :annoBase=$annoBase :titoloColonna="'Conf. Servizi'"
-                            :campo="'cds_chiusa_at'" />
-                        <br> <br>
+            <h2>Conferenze dei servizi {{ $annoBase }}:</h2>
+            <x-data-table :elencoPratiche=$cds :annoBase=$annoBase :titoloColonna="'Conf. Servizi'"
+                :campo="'cds_chiusa_at'" />
+            <br> <br>
 
-                        <h2>Gare d'appalto {{ $annoBase }}:</h2>
-                        <x-data-table :elencoPratiche=$gara :annoBase=$annoBase :titoloColonna="'Firma Contratto'"
-                            :campo="'contratto_at'" />
-                        <br> <br>
+            <h2>Gare d'appalto {{ $annoBase }}:</h2>
+            <x-data-table :elencoPratiche=$gara :annoBase=$annoBase :titoloColonna="'Firma Contratto'"
+                :campo="'contratto_at'" />
+            <br> <br>
 
-                        <h2>Esecuzione Lavori {{ $annoBase }}:</h2>
-                        <x-data-table :elencoPratiche=$lavori :annoBase=$annoBase :titoloColonna="'Fine Lavori'"
-                            :campo="'cre_at'" />
-                        <br> <br>
+            <h2>Esecuzione Lavori {{ $annoBase }}:</h2>
+            <x-data-table :elencoPratiche=$lavori :annoBase=$annoBase :titoloColonna="'Fine Lavori'"
+                :campo="'cre_at'" />
+            <br> <br>
 
-                        <div class="flex justify-end">
+            <div class="flex justify-end">
 
-                            <a href="{{ route('practices.index') }}?is_in_corso=on"
-                                class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
-                                Area Riservata</a>
-                        </div>
-                        <br>
-                        <span>
+                <a href="{{ route('practices.index') }}?is_in_corso=on"
+                    class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
+                    Area Riservata</a>
+            </div>
+            <br>
+            <span>
 
-                            {{-- {{ $practices[0] }} --}}
-                        </span>
+                {{-- {{ $practices[0] }} --}}
+            </span>
 
 </body>
 

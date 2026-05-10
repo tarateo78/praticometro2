@@ -24,28 +24,19 @@ class Practice extends Model
         'is_mims',
         'rl_codice',
         'mims_codice',
-        'avvio_servizio_at',
         'is_avvio_progettazione',
         'progettista',
         'sicurezza',
         'file_count',
         'file_effettivi_count',
-        'fte_at',
-        'def_at',
-        'ese_at',
         'is_cds',
-        'cds_avvio_at',
-        'cds_chiusa_at',
         'is_avvio_gara',
-        'contratto_at',
         'is_lavori_in_corso',
         'direttore_lavori',
         'assistente_dl',
-        'consegna_lavori_at',
         'impresa',
         'lavori_note',
         'is_cre',
-        'cre_at',
         'appunti_progettazione',
         'pratica_note',
         'bdap',
@@ -54,20 +45,52 @@ class Practice extends Model
         'sito_internet',
         'sito_internet_nota',
         'determina_gruppo',
-        'check_at',
-        'modifica_at',
         'modifica_utente',
-        'scadenza_progetto',
-        'scadenza_affidamento',
-        'scadenza_esecuzione',
         'gruppo',
         'coordinate',
         'file_nuovi',
+
+        // date
+        'avvio_servizio_at',
+        'fte_at',
+        'def_at',
+        'ese_at',
+        'cds_avvio_at',
+        'cds_chiusa_at',
+        'contratto_at',
+        'consegna_lavori_at',
+        'cre_at',
+        'check_at',
+        'modifica_at',
+        'scadenza_progetto_at',
+        'scadenza_affidamento_at',
+        'scadenza_esecuzione_at',
     ];
 
     protected $casts = [
-        // 'data' => 'date',
+
         // 'numero' => 'integer',
+
+        // Decimal
         'importo' => 'decimal:2',
+
+        // Date
+        'avvio_servizio_at' => 'date',
+        'fte_at' => 'date',
+        'def_at' => 'date',
+        'ese_at' => 'date',
+        'cds_avvio_at' => 'date',
+        'cds_chiusa_at' => 'date',
+        'contratto_at' => 'date',
+        'consegna_lavori_at' => 'date',
+        'cre_at' => 'date',
+        'check_at' => 'date',
+        'modifica_at' => 'date',
+        'scadenza_progetto_at' => 'date',
+        'scadenza_affidamento_at' => 'date',
+        'scadenza_esecuzione_at' => 'date',
     ];
 }
+
+
+

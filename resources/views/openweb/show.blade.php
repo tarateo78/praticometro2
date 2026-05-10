@@ -95,10 +95,7 @@
                         {{ $data->format('d/m/Y')}}
                     @else
                         @if (isset($practice->scadenza_esecuzione))
-                            @php
-                                $data = new DateTime($practice->scadenza_esecuzione);
-                            @endphp
-                            {{ $data->format('d/m/Y') }} <span class="text-sm italic">PRESUNTA</span>
+                            {{ $practice->scadenza_esecuzione->format('d/m/Y') }} <span class="text-sm italic">PRESUNTA</span>
                         @else
                             <span class="text-xs italic">IN DEFINIZIONE</span>
                         @endif

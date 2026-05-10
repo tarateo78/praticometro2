@@ -202,22 +202,20 @@
     ) ? "checked" : "" }} />
                 <label for="is_avvio_progettazione">Fase progettazione avviata</label>
                 <br><br>
-                <label for="avvio_servizio_at">Avvio servizio il</label>
-                <input type="date" name="avvio_servizio_at" id="avvio_servizio_at"
-                    value="{{ old('avvio_servizio_at', $practice->avvio_servizio_at) }}"
-                    class="{{ !isset($practice->avvio_servizio) ? " date-vuoto" : "" }}" />
-                <br>
+
                 <div class="flex w-full">
                     <label for="progettista">Progettista</label>
                     <input name="progettista" id="progettista" class="w-10 flex-1"
                         value="{{ old('progettista', $practice->progettista) }}" />
                 </div>
                 <label for="fte_at">Fattibilità approvazione</label>
-                <input type="date" name="fte_at" id="fte_at" value="{{ old('fte_at', $practice->fte_at) }}"
+                <input type="date" name="fte_at" id="fte_at"
+                    value="{{ old('fte_at', $practice->fte_at ? $practice->fte_at->format("d-m-Y") : null) }}"
                     class="{{ !isset($practice->fte_at) ? " date-vuoto" : "" }}" />
                 <br>
                 <label for="def_at">Definitivo approvazione</label>
-                <input type="date" name="def_at" id="def_at" value="{{ old('def_at', $practice->def_at) }}"
+                <input type="date" name="def_at" id="def_at"
+                    value="{{ old('def_at', $practice->def_at ? $practice->def_at->format("Y-m-d") : null) }}"
                     class="{{ !isset($practice->def_at) ? " date-vuoto" : "" }}" />
                 <br>
 
@@ -229,18 +227,19 @@
     "checked" : "" }} />
                 <label for="cds_avvio_at">→ Cds avvio</label>
                 <input type="date" name="cds_avvio_at" id="cds_avvio_at"
-                    value="{{ old('cds_avvio_at', $practice->cds_avvio_at) }}"
+                    value="{{ old('cds_avvio_at', $practice->cds_avvio_at ? $practice->cds_avvio_at->format("Y-m-d") : null) }}"
                     class="{{ !isset($practice->cds_avvio_at) ? " date-vuoto" : "" }}" />
                 <br>
 
                 <label for="cds_chiusa_at">→ Cds Verbale</label>
                 <input type="date" name="cds_chiusa_at" id="cds_chiusa_at"
-                    value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at) }}"
+                    value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at ? $practice->cds_chiusa_at->format("Y-m-d") : null) }}"
                     class="{{ !isset($practice->cds_chiusa_at) ? " date-vuoto" : "" }}" />
                 <br>
 
                 <label for="ese_at">Esecutivo approvazione</label>
-                <input type="date" name="ese_at" id="ese_at" value="{{ old('ese_at', $practice->ese_at) }}"
+                <input type="date" name="ese_at" id="ese_at"
+                    value="{{ old('ese_at', $practice->ese_at ? $practice->ese_at->format("Y-m-d") : null) }}"
                     class="{{ !isset($practice->ese_at) ? " date-vuoto" : "" }}" />
 
                 <br>
@@ -250,10 +249,10 @@
                         class="flex-1">{{ old('appunti_progettazione', $practice->appunti_progettazione) }}</textarea>
                 </div>
                 <hr class="border-b-2 {{ $borderColor }}">
-                <label for="scadenza_progetto">Termine Progettazione</label>
-                <input type="date" name="scadenza_progetto" id="scadenza_progetto"
-                    value="{{ old('scadenza_progetto', $practice->scadenza_progetto) }}"
-                    class="{{ !isset($practice->scadenza_progetto) ? " date-vuoto" : "" }}" />
+                <label for="scadenza_progetto_at">Termine Progettazione</label>
+                <input type="date" name="scadenza_progetto_at" id="scadenza_progetto_at"
+                    value="{{ old('scadenza_progetto_at', $practice->scadenza_progetto_at ? $practice->scadenza_progetto_at->format("Y-m-d") : null) }}"
+                    class="{{ !isset($practice->scadenza_progetto_at) ? " date-vuoto" : "" }}" />
             </div>
 
 
@@ -284,14 +283,14 @@
                 <br>
                 <label for="contratto_at">Firma Contratto</label>
                 <input type="date" name="contratto_at" id="contratto_at"
-                    value="{{ old('contratto_at', $practice->contratto_at) }}"
+                    value="{{ old('contratto_at', $practice->contratto_at ? $practice->contratto_at->format("Y-m-d") : null) }}"
                     class="{{ !isset($practice->contratto_at) ? " date-vuoto" : "" }}" />
                 <br>
                 <hr class="border-b-2 {{ $borderColor }}">
-                <label for="scadenza_affidamento">Termine Affidamento</label>
-                <input type="date" name="scadenza_affidamento" id="scadenza_affidamento"
-                    value="{{ old('scadenza_affidamento', $practice->scadenza_affidamento) }}"
-                    class="{{ !isset($practice->scadenza_affidamento) ? " date-vuoto" : "" }}" />
+                <label for="scadenza_affidamento_at">Termine Affidamento</label>
+                <input type="date" name="scadenza_affidamento_at" id="scadenza_affidamento_at"
+                    value="{{ old('scadenza_affidamento_at', $practice->scadenza_affidamento_at ? $practice->scadenza_affidamento_at->format("Y-m-d") : null) }}"
+                    class="{{ !isset($practice->scadenza_affidamento_at) ? " date-vuoto" : "" }}" />
             </div>
 
 
@@ -332,7 +331,7 @@
                 </div>
                 <label for="consegna_lavori_at">Consegna Lavori</label>
                 <input type="date" name="consegna_lavori_at" id="consegna_lavori_at"
-                    value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at) }}"
+                    value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at ? $practice->consegna_lavori_at->format("Y-m-d") : null) }}"
                     class="{{ !isset($practice->consegna_lavori_at) ? " date-vuoto" : "" }}" />
                 <div class="flex w-full">
                     <label for="sicurezza">Sicurezza</label>
@@ -377,14 +376,15 @@
                 <br>
                 <br>
                 <label for="cre_at">Verbale CRE</label>
-                <input type="date" name="cre_at" id="cre_at" value="{{ old('cre_at', $practice->cre_at) }}"
+                <input type="date" name="cre_at" id="cre_at"
+                    value="{{ old('cre_at', $practice->cre_at ? $practice->cre_at->format("Y-m-d") : null) }}"
                     class="{{ !isset($practice->cre_at) ? " date-vuoto" : "" }}" />
 
                 <hr class="border-b-2 {{ $borderColor }}">
-                <label for="scadenza_esecuzione">Termine Esecuzione</label>
-                <input type="date" name="scadenza_esecuzione" id="scadenza_esecuzione"
-                    value="{{ old('scadenza_esecuzione', $practice->scadenza_esecuzione) }}"
-                    class="{{ !isset($practice->scadenza_esecuzione) ? " date-vuoto" : "" }}" />
+                <label for="scadenza_esecuzione_at">Termine Esecuzione</label>
+                <input type="date" name="scadenza_esecuzione_at" id="scadenza_esecuzione_at"
+                    value="{{ old('scadenza_esecuzione_at', $practice->scadenza_esecuzione_at ? $practice->scadenza_esecuzione_at->format("Y-m-d") : null) }}"
+                    class="{{ !isset($practice->scadenza_esecuzione_at) ? " date-vuoto" : "" }}" />
             </div>
 
         </div>
@@ -463,7 +463,8 @@
                 </div>
                 <div class="flex w-full">
                     <label for="modifica_at">Salvato</label>
-                    <input name="modifica_at" id="modifica_at" value="{{ old('modifica_at', $practice->modifica_at) }}"
+                    <input name="modifica_at" id="modifica_at"
+                        value="{{ old('modifica_at', $practice->modifica_at ? $practice->modifica_at->format("Y-m-d") : null) }}"
                         class="flex-1" />
                 </div>
                 <div class="flex w-full">
@@ -521,7 +522,8 @@
 
                 <br>
                 <label for="check_at">Controllo: </label>
-                <input name="check_at" id="check_at" value="{{ old('check_at', $practice->check_at) }}" />
+                <input name="check_at" id="check_at"
+                    value="{{ old('check_at', $practice->check_at ? $practice->check_at->format("Y-m-d") : null) }}" />
 
                 <button id="btnAllinea"
                     class="btn-lg bg-blue-600 text-white hover:bg-white hover:border-blue-600 hover:text-orange-600">Allinea
