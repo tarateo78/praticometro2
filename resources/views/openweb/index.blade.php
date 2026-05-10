@@ -34,7 +34,7 @@
     <div class="grid grid-cols-1 md:grid-cols-12 gap-0 md:gap-2">
         <div class="col-span-9 p-4 pr-0 ">
             <div class="h-120 md:h-160 overflow-auto">
-                <table class="table-auto tm-sortable">
+                <table class="table-auto">
                     <thead>
                         <tr>
                             <th>Codice</th>
@@ -43,7 +43,7 @@
                             <th>Area</th>
                             <th>Strade</th>
                             <th>Mappa</th>
-                            <th class="tm-num">Importo</th>
+                            <th>Importo</th>
                             <th>Finanziamento</th>
                             <th>Data fine lavori</th>
                         </tr>
