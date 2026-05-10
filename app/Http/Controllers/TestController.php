@@ -67,6 +67,11 @@ class TestController extends Controller
      */
     public function update(Request $request, Test $test)
     {
+        // Prima della validazione trasforma la valuta formattata testo in numero col . decimale
+        $request->merge([
+            'valuta' => str_replace(',', '.', str_replace(".", "", $request->valuta)),
+        ]);
+
         $validated = $request->validate([
             'testo' => 'required|string|max:255',
             'numero' => 'integer',

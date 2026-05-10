@@ -15,7 +15,9 @@
         <span>{{ $t->testo }}</span> <a href="{{ route('test.show', $t->id) }}">--></a> ----
         <span>{{ $t->numero }}</span> ----
         <span>{{ $t->valuta }}</span> ----
-        <span>{{ $t->data }}</span>
+        <span>{{ $t->data->format("d.m.Y") }}</span>
+
+        {{-- Necessita della libreria extra: Intl, caricata da dockerfile e abilitata in php.int --}}
         <p>Prezzo: {{ Number::currency($t->valuta, in: 'EUR', locale: 'it') }}</p>
 
         <p>Prezzo: € {{ number_format($t->valuta, 2, ',', '.') }}</p>

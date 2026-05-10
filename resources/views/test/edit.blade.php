@@ -21,26 +21,26 @@
 
         <div>
             <label>ID:</label>
-            <input type="number" name="id" value="{{ old($test->id, $test->id) }}">
+            <input type="number" name="id" value="{{ old('id', $test->id) }}">
             @error($test->id) <span style="color:red">{{ $message }}</span> @enderror
         </div>
 
         <div>
             <label>Testo:</label>
-            <input type="text" name="testo" value="{{ old($test->testo, $test->testo) }}">
+            <input type="text" name="testo" value="{{ old('testo', $test->testo) }}">
             @error($test->testo) <span style="color:red">{{ $message }}</span> @enderror
         </div>
 
         <div>
             <label>Numero:</label>
-            <input type="number" name="numero" value="{{ old($test->numero, $test->numero) }}">
+            <input type="number" name="numero" value="{{ old('numero', $test->numero) }}">
             @error($test->numero) <span style="color:red">{{ $message }}</span> @enderror
         </div>
 
         <div>
             <label>Valuta €:</label>
-            <input type="float" name="valuta" placeholder="0,00" step="0.01"
-                value="{{ old($test->valuta, $test->valuta) }}">
+            <input type="text" name="valuta" placeholder="0,00"
+                value="{{ old('valuta', number_format($test->valuta, 2, ',', '.')) }}">
             {{-- @error($test->valuta) <span style="color:red">{{ $message }}</span> @enderror --}}
         </div>
         <p>{{ $test->data->format("Y-m-d") }}</p>
