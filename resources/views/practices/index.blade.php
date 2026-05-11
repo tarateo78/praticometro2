@@ -46,7 +46,6 @@
                     <th>Mappa</th>
                     <th>Cup</th>
                     <th>Importo</th>
-                    <th>ImportoN</th>
                     <th>Finanziamento</th>
                     <th>RUP</th>
                     <th>Fascicolo</th>
@@ -131,7 +130,6 @@
                 <td></td>
                 <td class="text-center">Totale:</td>
                 <td class="font-bold whitespace-nowrap">€ {{ number_format($importo_totale, 2, ",", ".")}} €</td>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
