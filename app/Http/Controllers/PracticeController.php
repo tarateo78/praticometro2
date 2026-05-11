@@ -129,9 +129,9 @@ class PracticeController extends Controller
             'cre_at' => 'nullable',
             'check_at' => 'nullable',
             'modifica_at' => 'nullable',
-            'scadenza_progetto' => 'nullable',
-            'scadenza_affidamento' => 'nullable',
-            'scadenza_esecuzione' => 'nullable|date',
+            'scadenza_progetto_at' => 'nullable',
+            'scadenza_affidamento_at' => 'nullable',
+            'scadenza_esecuzione_at' => 'nullable|date',
 
         ]);
 
