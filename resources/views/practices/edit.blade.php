@@ -45,7 +45,7 @@
 
         {{-- Se stiamo modificando, Laravel ha bisogno del metodo PUT --}}
         @if($practice->exists)
-            @method('PUT')
+        @method('PUT')
         @endif
 
 
@@ -62,18 +62,17 @@
                         <input name="codice" id="codice" value="{{ old('codice', $practice->codice) }}"
                             class="font-bold w-30" />
                         <span class="font-bold text-green-800">{{ $practice->file_count !=
-    $practice->file_effettivi_count ? "↺" : "" }}</span>
+                            $practice->file_effettivi_count ? "↺" : "" }}</span>
                     </div>
 
 
                     <div class="">
                         <label for="is_in_corso">In corso</label>
-                        <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old(
-    'is_in_corso',
-    $practice->is_in_corso
-) ?
-    "checked" :
-    "" }} />
+                        <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old( 'is_in_corso' ,
+                            $practice->is_in_corso
+                        ) ?
+                        "checked" :
+                        "" }} />
                     </div>
                 </div>
                 <div>
@@ -125,8 +124,8 @@
                     <br>
 
                     <label for="importo">Importo €</label>
-                    <input name="importo" id="importo"
-                        value="{{ old('importo', number_format($practice->importo, 2, ",", ".")) }}" class="w-40" />
+                    <input name="importo" id="importo" value="{{ old('importo', number_format($practice->importo, 2, "
+                        ,", "." )) }}" class="w-40" />
                 </div>
 
 
@@ -146,7 +145,7 @@
 
                     <label for="is_rl">Finanziamento RL</label>
                     <input type="checkbox" value="1" name="is_rl" id="is_rl" {{ old('is_rl', $practice->is_rl) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
 
                     <br>
                     <div class="flex w-full">
@@ -157,7 +156,7 @@
 
                     <label for="is_mims">Finanziamento MIMS</label>
                     <input type="checkbox" value="1" name="is_mims" id="is_mims" {{ old('is_mims', $practice->is_mims) ?
-    "checked" : "" }} />
+                    "checked" : "" }} />
                     <br>
 
                     <label for="mims_codice">Codice MIMS</label>
@@ -180,15 +179,15 @@
 
 
             @php
-                if ($practice->is_avvio_progettazione & !$practice->is_avvio_gara) {
-                    $bgColor = "bg-yellow-100";
-                    $borderColor = "border-yellow-400";
-                    $titoloBgColor = "bg-yellow-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
+            if ($practice->is_avvio_progettazione & !$practice->is_avvio_gara) {
+            $bgColor = "bg-yellow-100";
+            $borderColor = "border-yellow-400";
+            $titoloBgColor = "bg-yellow-400";
+            } else {
+            $bgColor = "bg-gray-100";
+            $borderColor = "border-gray-400";
+            $titoloBgColor = "bg-gray-400";
+            }
             @endphp
 
             <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
@@ -196,10 +195,8 @@
 
 
                 <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione" {{
-    old(
-        'is_avvio_progettazione',
-        $practice->is_avvio_progettazione
-    ) ? "checked" : "" }} />
+                    old( 'is_avvio_progettazione' , $practice->is_avvio_progettazione
+                ) ? "checked" : "" }} />
                 <label for="is_avvio_progettazione">Fase progettazione avviata</label>
                 <br><br>
 
@@ -210,36 +207,34 @@
                 </div>
                 <label for="fte_at">Fattibilità approvazione</label>
                 <input type="date" name="fte_at" id="fte_at"
-                    value="{{ old('fte_at', $practice->fte_at ? $practice->fte_at->format("d-m-Y") : null) }}"
+                    value="{{ old('fte_at', $practice->fte_at ? $practice->fte_at->format(" d-m-Y") : null) }}"
                     class="{{ !isset($practice->fte_at) ? " date-vuoto" : "" }}" />
                 <br>
                 <label for="def_at">Definitivo approvazione</label>
                 <input type="date" name="def_at" id="def_at"
-                    value="{{ old('def_at', $practice->def_at ? $practice->def_at->format("Y-m-d") : null) }}"
+                    value="{{ old('def_at', $practice->def_at ? $practice->def_at->format(" Y-m-d") : null) }}"
                     class="{{ !isset($practice->def_at) ? " date-vuoto" : "" }}" />
                 <br>
 
                 <label for="is_cds">Necessaria CDS</label>
-                <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old(
-    'is_cds',
-    $practice->is_cds
-) ?
-    "checked" : "" }} />
+                <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old( 'is_cds' , $practice->is_cds
+                ) ?
+                "checked" : "" }} />
                 <label for="cds_avvio_at">→ Cds avvio</label>
                 <input type="date" name="cds_avvio_at" id="cds_avvio_at"
-                    value="{{ old('cds_avvio_at', $practice->cds_avvio_at ? $practice->cds_avvio_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->cds_avvio_at) ? " date-vuoto" : "" }}" />
+                    value="{{ old('cds_avvio_at', $practice->cds_avvio_at ? $practice->cds_avvio_at->format(" Y-m-d") :
+                    null) }}" class="{{ !isset($practice->cds_avvio_at) ? " date-vuoto" : "" }}" />
                 <br>
 
                 <label for="cds_chiusa_at">→ Cds Verbale</label>
                 <input type="date" name="cds_chiusa_at" id="cds_chiusa_at"
-                    value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at ? $practice->cds_chiusa_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->cds_chiusa_at) ? " date-vuoto" : "" }}" />
+                    value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at ? $practice->cds_chiusa_at->format(" Y-m-d")
+                    : null) }}" class="{{ !isset($practice->cds_chiusa_at) ? " date-vuoto" : "" }}" />
                 <br>
 
                 <label for="ese_at">Esecutivo approvazione</label>
                 <input type="date" name="ese_at" id="ese_at"
-                    value="{{ old('ese_at', $practice->ese_at ? $practice->ese_at->format("Y-m-d") : null) }}"
+                    value="{{ old('ese_at', $practice->ese_at ? $practice->ese_at->format(" Y-m-d") : null) }}"
                     class="{{ !isset($practice->ese_at) ? " date-vuoto" : "" }}" />
 
                 <br>
@@ -251,60 +246,59 @@
                 <hr class="border-b-2 {{ $borderColor }}">
                 <label for="scadenza_progetto_at">Termine Progettazione</label>
                 <input type="date" name="scadenza_progetto_at" id="scadenza_progetto_at"
-                    value="{{ old('scadenza_progetto_at', $practice->scadenza_progetto_at ? $practice->scadenza_progetto_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->scadenza_progetto_at) ? " date-vuoto" : "" }}" />
+                    value="{{ old('scadenza_progetto_at', $practice->scadenza_progetto_at ? $practice->scadenza_progetto_at->format("
+                    Y-m-d") : null) }}" class="{{ !isset($practice->scadenza_progetto_at) ? " date-vuoto" : "" }}" />
             </div>
 
 
 
 
             @php
-                if ($practice->is_avvio_gara & !$practice->is_lavori_in_corso) {
-                    $bgColor = "bg-green-100";
-                    $borderColor = "border-green-400";
-                    $titoloBgColor = "bg-green-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
+            if ($practice->is_avvio_gara & !$practice->is_lavori_in_corso) {
+            $bgColor = "bg-green-100";
+            $borderColor = "border-green-400";
+            $titoloBgColor = "bg-green-400";
+            } else {
+            $bgColor = "bg-gray-100";
+            $borderColor = "border-gray-400";
+            $titoloBgColor = "bg-gray-400";
+            }
             @endphp
 
             <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
                 <div class="titolo-colonna {{ $titoloBgColor }} text-white">
                     2. Gara appalto</div>
                 <div class="check">
-                    <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old(
-    'is_avvio_gara',
-    $practice->is_avvio_gara
-) ? "checked" : "" }} />
+                    <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old( 'is_avvio_gara' ,
+                        $practice->is_avvio_gara
+                    ) ? "checked" : "" }} />
                     <label for="is_avvio_gara">Fase gara d'appalto avviata</label>
                 </div>
                 <br>
                 <label for="contratto_at">Firma Contratto</label>
                 <input type="date" name="contratto_at" id="contratto_at"
-                    value="{{ old('contratto_at', $practice->contratto_at ? $practice->contratto_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->contratto_at) ? " date-vuoto" : "" }}" />
+                    value="{{ old('contratto_at', $practice->contratto_at ? $practice->contratto_at->format(" Y-m-d") :
+                    null) }}" class="{{ !isset($practice->contratto_at) ? " date-vuoto" : "" }}" />
                 <br>
                 <hr class="border-b-2 {{ $borderColor }}">
                 <label for="scadenza_affidamento_at">Termine Affidamento</label>
                 <input type="date" name="scadenza_affidamento_at" id="scadenza_affidamento_at"
-                    value="{{ old('scadenza_affidamento_at', $practice->scadenza_affidamento_at ? $practice->scadenza_affidamento_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->scadenza_affidamento_at) ? " date-vuoto" : "" }}" />
+                    value="{{ old('scadenza_affidamento_at', $practice->scadenza_affidamento_at ? $practice->scadenza_affidamento_at->format("
+                    Y-m-d") : null) }}" class="{{ !isset($practice->scadenza_affidamento_at) ? " date-vuoto" : "" }}" />
             </div>
 
 
 
             @php
-                if ($practice->is_lavori_in_corso & !$practice->is_cre) {
-                    $bgColor = "bg-blue-100";
-                    $borderColor = "border-blue-400";
-                    $titoloBgColor = "bg-blue-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
+            if ($practice->is_lavori_in_corso & !$practice->is_cre) {
+            $bgColor = "bg-blue-100";
+            $borderColor = "border-blue-400";
+            $titoloBgColor = "bg-blue-400";
+            } else {
+            $bgColor = "bg-gray-100";
+            $borderColor = "border-gray-400";
+            $titoloBgColor = "bg-gray-400";
+            }
             @endphp
 
             <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
@@ -312,11 +306,9 @@
                     3. Lavori</div>
 
                 <input type="checkbox" value="1" name="is_lavori_in_corso" id="is_lavori_in_corso" {{
-    old(
-        'is_lavori_in_corso',
-        $practice->is_lavori_in_corso
-    ) ?
-    "checked" : "" }} />
+                    old( 'is_lavori_in_corso' , $practice->is_lavori_in_corso
+                ) ?
+                "checked" : "" }} />
                 <label for="is_lavori_in_corso">Fase Esecuzione Lavori avviata</label>
                 <br><br>
                 <div class="flex w-full">
@@ -331,8 +323,8 @@
                 </div>
                 <label for="consegna_lavori_at">Consegna Lavori</label>
                 <input type="date" name="consegna_lavori_at" id="consegna_lavori_at"
-                    value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at ? $practice->consegna_lavori_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->consegna_lavori_at) ? " date-vuoto" : "" }}" />
+                    value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at ? $practice->consegna_lavori_at->format("
+                    Y-m-d") : null) }}" class="{{ !isset($practice->consegna_lavori_at) ? " date-vuoto" : "" }}" />
                 <div class="flex w-full">
                     <label for="sicurezza">Sicurezza</label>
                     <input name="sicurezza" id="sicurezza" class="w-10 flex-1"
@@ -353,38 +345,36 @@
 
 
             @php
-                if ($practice->is_cre) {
-                    $bgColor = "bg-purple-100";
-                    $borderColor = "border-purple-400";
-                    $titoloBgColor = "bg-purple-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
+            if ($practice->is_cre) {
+            $bgColor = "bg-purple-100";
+            $borderColor = "border-purple-400";
+            $titoloBgColor = "bg-purple-400";
+            } else {
+            $bgColor = "bg-gray-100";
+            $borderColor = "border-gray-400";
+            $titoloBgColor = "bg-gray-400";
+            }
             @endphp
 
             <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
                 <div class="titolo-colonna {{ $titoloBgColor }} text-white">4. CRE</div>
-                <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old(
-    'is_cre',
-    $practice->is_cre
-) ? "checked" :
-    ""
+                <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old( 'is_cre' , $practice->is_cre
+                ) ? "checked" :
+                ""
                 }} />
                 <label for="is_cre">Fase CRE effettuata</label>
                 <br>
                 <br>
                 <label for="cre_at">Verbale CRE</label>
                 <input type="date" name="cre_at" id="cre_at"
-                    value="{{ old('cre_at', $practice->cre_at ? $practice->cre_at->format("Y-m-d") : null) }}"
+                    value="{{ old('cre_at', $practice->cre_at ? $practice->cre_at->format(" Y-m-d") : null) }}"
                     class="{{ !isset($practice->cre_at) ? " date-vuoto" : "" }}" />
 
                 <hr class="border-b-2 {{ $borderColor }}">
                 <label for="scadenza_esecuzione_at">Termine Esecuzione</label>
                 <input type="date" name="scadenza_esecuzione_at" id="scadenza_esecuzione_at"
-                    value="{{ old('scadenza_esecuzione_at', $practice->scadenza_esecuzione_at ? $practice->scadenza_esecuzione_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->scadenza_esecuzione_at) ? " date-vuoto" : "" }}" />
+                    value="{{ old('scadenza_esecuzione_at', $practice->scadenza_esecuzione_at ? $practice->scadenza_esecuzione_at->format("
+                    Y-m-d") : null) }}" class="{{ !isset($practice->scadenza_esecuzione_at) ? " date-vuoto" : "" }}" />
             </div>
 
         </div>
@@ -431,11 +421,11 @@
                 <br>
                 <label for="bdap">Monitorato</label>
                 <input type="checkbox" name="bdap" id="bdap" value="1" {{ old('bdap', $practice->bdap) ?
-    "checked" : "" }} />
+                "checked" : "" }} />
                 <br>
                 <label for="bdap_convalidato">Bdap Convalidato</label>
                 <input type="checkbox" name="bdap_convalidato" id="bdap_convalidato" value="1" {{
-    old('bdap_convalidato', $practice->bdap_convalidato) ? "checked" : "" }} />
+                    old('bdap_convalidato', $practice->bdap_convalidato) ? "checked" : "" }} />
                 <br>
                 <div class="flex w-full">
                     <label for="bdap_note">bdap_note</label>
@@ -444,10 +434,9 @@
                 </div>
 
                 <label for="sito_internet">sito_internet</label>
-                <input type="checkbox" name="sito_internet" id="sito_internet" value="1" {{ old(
-    'bdap_convalidato',
-    $practice->bdap_convalidato
-) ? "checked" : "" }} />
+                <input type="checkbox" name="sito_internet" id="sito_internet" value="1" {{ old( 'bdap_convalidato' ,
+                    $practice->bdap_convalidato
+                ) ? "checked" : "" }} />
 
                 <div class="flex w-full">
                     <label for="sito_internet_nota">sito_internet_nota</label>
@@ -464,8 +453,8 @@
                 <div class="flex w-full">
                     <label for="modifica_at">Salvato</label>
                     <input name="modifica_at" id="modifica_at"
-                        value="{{ old('modifica_at', $practice->modifica_at ? $practice->modifica_at->format("Y-m-d") : null) }}"
-                        class="flex-1" />
+                        value="{{ old('modifica_at', $practice->modifica_at ? $practice->modifica_at->format(" Y-m-d") :
+                        null) }}" class="flex-1" />
                 </div>
                 <div class="flex w-full">
                     <label for="modifica_utente">Utente</label>
@@ -523,7 +512,7 @@
                 <br>
                 <label for="check_at">Controllo: </label>
                 <input name="check_at" id="check_at"
-                    value="{{ old('check_at', $practice->check_at ? $practice->check_at->format("Y-m-d") : null) }}" />
+                    value="{{ old('check_at', $practice->check_at ? $practice->check_at->format(" Y-m-d") : null) }}" />
 
                 <button id="btnAllinea"
                     class="btn-lg bg-blue-600 text-white hover:bg-white hover:border-blue-600 hover:text-orange-600">Allinea
