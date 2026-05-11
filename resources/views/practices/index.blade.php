@@ -147,8 +147,8 @@
     </div>
 
     <div class="banner-filtro">
-        <div class="grid grid-cols-1 md:grid-cols-6">
-            <div class="col-span-3 xl:col-span-2">
+        <div class="grid grid-cols-1 md:grid-cols-12">
+            <div class="md:col-span-6">
                 <form action="{{ route('practices.index') }}" method="GET">
                     @csrf
                     <label for="is_in_corso">In corso</label>
@@ -158,7 +158,7 @@
                     <button type="submit" class="filtro-button">Applica</button>
                 </form>
             </div>
-            <div class="col-span-3 xl:col-span-4">
+            <div class="md:col-span-3 ">
                 @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
                             <div class="tag-filtro">{{
                     $_GET['filtra'] }}
@@ -169,8 +169,14 @@
                             </div>
                 @endif
             </div>
+
+            <div class=" md:col-span-3 text-right">
+                <button id="btnCopy" class="filtro-button">Copia negli appunti</button>
+            </div>
         </div>
+        
     </div>
+
 
 
     <div class="flex justify-end">
@@ -179,6 +185,9 @@
         <a href="{{ route('report.index') }}" class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
             Report</a>
     </div>
+
+
+    
 
 
     <script>
@@ -193,11 +202,42 @@
         const pathOperazione = "/edit";
 
         // Segue: marker-lavori.js e strade-provincia.js
-
-
-
-
     </script>
+
+
+
+    <script>
+        // Copia i dati in memoria
+        document.getElementById('btnCopy').addEventListener('click', function() {
+            copiaPerFogliDiCalcolo(practices);
+        });
+
+        function copiaPerFogliDiCalcolo(arrayDati) {
+            if (arrayDati.length === 0) return;
+
+            const headers = Object.keys(arrayDati[0]);
+            
+            // Creiamo le righe usando il carattere TAB (\t) come separatore
+            const righe = arrayDati.map(riga => {
+                return headers.map(header => {
+                    let valore = riga[header] ?? '';
+                    // Puliamo il valore da eventuali ritorni a capo interni che romperebbero le celle
+                    return valore.toString().replace(/\r?\n|\r/g, " ");
+                }).join('\t'); // Tabulazione per separare le colonne
+            });
+
+            // Aggiungiamo l'intestazione in cima
+            const testoFinale = headers.join('\t') + '\n' + righe.join('\n');
+
+            // Usiamo l'API degli appunti (Clipboard API)
+            navigator.clipboard.writeText(testoFinale).then(() => {
+                console.log("Dati copiati! Ora puoi incollarli su Excel o Google Sheets.");
+            }).catch(err => {
+                console.error('Errore nel copia:', err);
+            });
+        }
+    </script>
+
 
     @vite([])
 
