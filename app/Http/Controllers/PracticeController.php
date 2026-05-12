@@ -117,8 +117,10 @@ class PracticeController extends Controller
             'gruppo' => 'nullable',
             'coordinate' => 'nullable',
             'file_nuovi' => 'nullable',
+            'is_cancellato' => 'nullable',
 
             'avvio_servizio_at' => 'nullable',
+            'avvio_progettazione_at' => 'nullable',
             'fte_at' => 'nullable',
             'def_at' => 'nullable',
             'ese_at' => 'nullable',
@@ -147,6 +149,7 @@ class PracticeController extends Controller
         $validated['bdap'] = $request->has('bdap');
         $validated['bdap_convalidato'] = $request->has('bdap_convalidato');
         $validated['sito_internet'] = $request->has('sito_internet');
+        $validated['is_cancellato'] = $request->has('is_cancellato');
 
 
 

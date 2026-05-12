@@ -49,9 +49,11 @@ class Practice extends Model
         'gruppo',
         'coordinate',
         'file_nuovi',
+        'is_cancellato',
 
         // date
         'avvio_servizio_at',
+        'avvio_progettazione_at',
         'fte_at',
         'def_at',
         'ese_at',
@@ -76,6 +78,7 @@ class Practice extends Model
 
         // Date
         'avvio_servizio_at' => 'date',
+        'avvio_progettazione_at' => 'date',
         'fte_at' => 'date',
         'def_at' => 'date',
         'ese_at' => 'date',
