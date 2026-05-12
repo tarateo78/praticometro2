@@ -20,11 +20,12 @@
                 <tr id="prat-{{ $prac->id }}">
 
                     <td class="text-center">
-                        {{ $prac->codice }}
+                        <a href="{{ route('practices.edit', $prac) }}" target="_blank">{{ $prac->codice }}</a>
+                        
                     </td>
                     <td class="min-w-70 max-w-150">{{ $prac->titolo_esteso }}</td>
                     <td class="whitespace-nowrap text-center">
-                        {{ isset($prac->$campo) ? $prac->$campo->format("d/m/Y") : "In corso" }}
+                        {{ isset($prac->$campo) && substr($prac->$campo,0 ,4) == $annoBase ? $prac->$campo->format("d/m/Y") : "In corso" }}
                     </td>
                     <td class="text-center">{{ $prac->zona }}</td>
                     <td class="text-center">{{$prac->strade}} </td>
