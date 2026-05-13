@@ -34,17 +34,17 @@ class PracticeController extends Controller
         // dd($practice);
         return view("practices.index", compact("practices"));
 
+    }
 
 
 
+    public function totale(): View
+    {
+        $practices = Practice::orderBy("codice", "desc")
+            ->get();
 
-        // VECCHIO PROCEDIMENTO
-        // $practices = Practice::when($request->filtra, function ($query) use ($request) {
-        //     return $query->whereAny(['codice', 'titlo', 'titolo_esteso'], 'like', "%" . $request->filtra . "%");
-        // })->when($request->is_in_corso, function ($query) use ($request) {
-        //     return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
-        // })->orderBy("codice", "desc")->get();
-        // return view("practices.index", compact("practices"));
+        return view("practices.elenco-totale", compact("practices"));
+
     }
 
     public function form(Practice $practice)
