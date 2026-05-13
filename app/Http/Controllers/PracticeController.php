@@ -107,10 +107,10 @@ class PracticeController extends Controller
             'is_cre' => 'nullable',
             'appunti_progettazione' => 'nullable',
             'pratica_note' => 'nullable',
-            'bdap' => 'nullable',
-            'bdap_convalidato' => 'nullable',
+            'is_bdap' => 'nullable',
+            'is_bdap_convalidato' => 'nullable',
             'bdap_note' => 'nullable',
-            'sito_internet' => 'nullable',
+            'is_sito_internet' => 'nullable',
             'sito_internet_nota' => 'nullable',
             'determina_gruppo' => 'nullable',
             'modifica_utente' => 'nullable',
@@ -146,9 +146,9 @@ class PracticeController extends Controller
         $validated['is_avvio_gara'] = $request->has('is_avvio_gara');
         $validated['is_cre'] = $request->has('is_cre');
         $validated['is_cds'] = $request->has('is_cds');
-        $validated['bdap'] = $request->has('bdap');
-        $validated['bdap_convalidato'] = $request->has('bdap_convalidato');
-        $validated['sito_internet'] = $request->has('sito_internet');
+        $validated['is_bdap'] = $request->has('is_bdap');
+        $validated['is_bdap_convalidato'] = $request->has('is_bdap_convalidato');
+        $validated['is_sito_internet'] = $request->has('is_sito_internet');
         $validated['is_cancellato'] = $request->has('is_cancellato');
 
 

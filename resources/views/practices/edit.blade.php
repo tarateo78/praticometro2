@@ -439,13 +439,13 @@
                     <span class="p-2 font-bold">Monitoraggio BDAP</span>
                 </div>
                 <br>
-                <label for="bdap">Monitorato</label>
-                <input type="checkbox" name="bdap" id="bdap" value="1" {{ old('bdap', $practice->bdap) ?
+                <label for="is_bdap">Monitorato</label>
+                <input type="checkbox" name="is_bdap" id="is_bdap" value="1" {{ old('is_bdap', $practice->is_bdap) ?
     "checked" : "" }} />
                 <br>
-                <label for="bdap_convalidato">Bdap Convalidato</label>
-                <input type="checkbox" name="bdap_convalidato" id="bdap_convalidato" value="1" {{
-    old('bdap_convalidato', $practice->bdap_convalidato) ? "checked" : "" }} />
+                <label for="is_bdap_convalidato">Bdap Convalidato</label>
+                <input type="checkbox" name="is_bdap_convalidato" id="is_bdap_convalidato" value="1" {{
+    old('is_bdap_convalidato', $practice->is_bdap_convalidato) ? "checked" : "" }} />
                 <br>
                 <div class="flex w-full">
                     <label for="bdap_note">bdap_note</label>
@@ -453,10 +453,10 @@
                         id="bdap_note">{{ old('bdap_note', $practice->bdap_note) }}</textarea>
                 </div>
 
-                <label for="sito_internet">sito_internet</label>
-                <input type="checkbox" name="sito_internet" id="sito_internet" value="1" {{ old(
-    'bdap_convalidato',
-    $practice->bdap_convalidato
+                <label for="is_sito_internet">ito_internet</label>
+                <input type="checkbox" name="is_sito_internet" id="is_sito_internet" value="1" {{ old(
+    'is_sito_internet',
+    $practice->is_sito_internet
 ) ? "checked" : "" }} />
 
                 <div class="flex w-full">
