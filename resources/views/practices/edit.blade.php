@@ -27,7 +27,7 @@
     <div class="banner">
         <div class="grid grid-cols-1 md:grid-cols-3">
             <div class="my-2">
-                <a href="{{ route('practices.index') }}?is_in_corso=on" class="btn">← Torna a Elenco</a>
+                <a href="{{ route('practices.index') }}?is_in_corso=on" class="btn-lg text-white hover:bg-white hover:border-blue-500 hover:text-blue-500">← Torna a Elenco</a>
             </div>
             <div>
                 <h1>Pratica {{ $practice->codice }}</h1>
@@ -428,6 +428,20 @@
                     <textarea name="coordinate" class="flex-1"
                         id="coordinate">{{ old('coordinate', $practice->coordinate) }}</textarea>
                 </div>
+                @php
+                    //https://maps.google.com/maps?q=&layer=c&cbll=
+                @endphp
+
+                @if(!empty($practice->coordinate)) 
+                    @php
+                        $lista_coo = explode("|",$practice->coordinate);
+                    @endphp
+                    @foreach ($lista_coo as $coo)
+                        <a href="https://www.google.com/maps/search/?api=1&query={{ $coo }}" target="_blank" class="btn-lg bg-pink-500 text-white hover:bg-white hover:border-pink-500 hover:text-pink-500">Maps</a>
+                        {{-- <a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{ $coo }}" target="_blank">Ottimo</a> --}}
+                        <a href="https://maps.google.com/maps?q=&layer=c&cbll={{ $coo }}" target="_blank" class="btn-lg bg-pink-500 text-white hover:bg-white hover:border-pink-500 hover:text-pink-500">Street</a>
+                    @endforeach
+                @endif
             </div>
 
             <div class="p-2">
@@ -727,7 +741,7 @@
         // Aggiunge un Marker definito dall'utente
         map.on('click', function (e) {
             // e.latlng contiene le coordinate dove l'utente ha cliccato
-            creaNuovoMarker(e.latlng.lat, e.latlng.lng);
+            creaNuovoMarker(e.latlng.lat, e.latlng.lng, aggiorna = true);
         });
 
 
@@ -738,13 +752,14 @@
             let stringa = "";
             Object.keys(objNuovoMarker).forEach(function (id) {
                 if (count != 0) stringa += "|";
-                stringa += objNuovoMarker[id].getLatLng().lat + "," + objNuovoMarker[id].getLatLng().lng;
+                stringa += objNuovoMarker[id].getLatLng().lat.toFixed(7) + "," + objNuovoMarker[id].getLatLng().lng.toFixed(7);
                 count++;
             });
+            console.log("coo aggiornate");
             coord.value = stringa;
         }
 
-        function creaNuovoMarker(lat, lng, msg) {
+        function creaNuovoMarker(lat, lng, msg, aggiorna = false) {
             let rnd_id = Math.floor(Math.random() * 11000);
             var nuovoMarker = L.marker([lat, lng], {
                 id: rnd_id,
@@ -757,7 +772,7 @@
 
             objNuovoMarker[rnd_id] = nuovoMarker;
 
-            aggiornaCoordinate();
+            if(aggiorna) aggiornaCoordinate();
 
 
             // --- Gestione Eventi del singolo Marker ---
@@ -784,7 +799,7 @@
         if (coo != null && coo != "") {
             @js($practice->coordinate).split("|").forEach(coordinata => {
 
-                creaNuovoMarker(coordinata.split(",")[0], coordinata.split(",")[1], '{{ $practice->titolo_esteso }}');
+                creaNuovoMarker(coordinata.split(",")[0], coordinata.split(",")[1], msg = '{{ $practice->titolo_esteso }}', aggiorna = false);
 
 
             });
