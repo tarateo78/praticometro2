@@ -1,28 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-app-layout>
+	<x-slot name="header">
+		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+			{{ __('Controllo') }}
+		</h2>
+	</x-slot>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Controllo</title>
-	@vite(['resources/css/backend.css', 'resources/js/app.js'])
-</head>
+	<div class="py-12">
+		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+			<div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
-<body>
-	<div class="bg-white m-4 p-4">
-		<h1>Controllo</h1>
-		<br>
-		<p>Effettua il controllo su <b>{{ count($practices) }}</b> nel database</p>
-		<br>
-		<br>
-		<button id="btnStart" class="border px-2 py-1 rounded-lg">AVVIA</button>
-		<br>
-		<br>
-		Log:
-		<br>
-		<div name="log" id="log" class="w-full p-2 bg-pink-200"></div>
+
+				<div class="bg-white m-4 p-4">
+					<h2>Nel database sono presenti <b>{{ count($practices) }}</b> pratiche</h2>
+					<br>
+					<button id="btnStart" class="border px-2 py-1 rounded-lg">Scegli cartella</button>
+					<i class="pl-3">Selezionare la cartella radice dei lavori</i>
+					<br>
+					<br>
+					Report:
+					<br>
+					<div name="log" id="log" class="w-full p-2 bg-red-100"></div>
+				</div>
+
+
+			</div>
+		</div>
 	</div>
-</body>
+</x-app-layout>
+
+
+
 
 
 

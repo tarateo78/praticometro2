@@ -8,7 +8,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
@@ -19,7 +19,7 @@ Route::get('/api/tasks', function () {
 });
 
 
-Route::get('/show', [OpenwebController::class, 'index'])->name("openweb.index");
+Route::get('/', [OpenwebController::class, 'index'])->name("openweb.index");
 Route::get('/show/{practice}', [OpenwebController::class, 'show'])->name("openweb.show");
 
 Route::get('/controllo', [ControlloController::class, 'index'])->name("controllo.index");
