@@ -24,12 +24,16 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/api/tasks', function () {
     #return Task::all();
 });
 
-Route::get('/open', [OpenwebController::class, 'index'])->name("openweb.index");
+
+Route::get('/show', [OpenwebController::class, 'index'])->name("openweb.index");
 Route::get('/show/{practice}', [OpenwebController::class, 'show'])->name("openweb.show");
 
 Route::get('/controllo', [ControlloController::class, 'index'])->name("controllo.index");
@@ -52,3 +56,21 @@ Route::post('/test/store', [TestController::class, 'store'])->name('test.store')
 
 Route::get('/test/{test}', [TestController::class, 'show'])->name('test.show');
 Route::put('/test/{test}', [TestController::class, 'update'])->name('test.update');
+
+
+
+
+
+// USER
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
