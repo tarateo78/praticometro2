@@ -97,3 +97,10 @@ ls
 exit
 php -m
 exit
+ll
+which laravel
+composer
+ll
+composer require laravel/breeze --dev
+php artisan breeze:install
+exit
