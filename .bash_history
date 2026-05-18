@@ -97,3 +97,10 @@ ls
 exit
 php -m
 exit
+ll
+npm install
+exit
+ll
+npm install
+composer install
+exit
