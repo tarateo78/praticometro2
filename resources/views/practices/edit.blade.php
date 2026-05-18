@@ -200,7 +200,7 @@
                 }
             @endphp
 
-            <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
+            <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
                 <div class="titolo-colonna {{ $titoloBgColor }} text-white">1. Progettazione</div>
 
 
@@ -284,7 +284,7 @@
                 }
             @endphp
 
-            <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
+            <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
                 <div class="titolo-colonna {{ $titoloBgColor }} text-white">
                     2. Gara appalto</div>
                 <div class="check">
@@ -320,7 +320,7 @@
                 }
             @endphp
 
-            <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
+            <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
                 <div class="titolo-colonna {{ $titoloBgColor }} text-white">
                     3. Lavori</div>
 
@@ -377,7 +377,7 @@
                 }
             @endphp
 
-            <div class="border-2 border-l-8 bg-gray-100  {{ $borderColor }} rounded-xs {{ $bgColor }}">
+            <div class="border-2 border-l-8 {{ $borderColor }} rounded-xs {{ $bgColor }}">
                 <div class="titolo-colonna {{ $titoloBgColor }} text-white">4. CRE</div>
                 <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old('is_cre', $practice->is_cre) ? "checked" :
     ""
@@ -462,19 +462,19 @@
     old('is_bdap_convalidato', $practice->is_bdap_convalidato) ? "checked" : "" }} />
                 <br>
                 <div class="flex w-full">
-                    <label for="bdap_note">bdap_note</label>
+                    <label for="bdap_note">Bdap nota</label>
                     <textarea name="bdap_note" class="flex-1"
                         id="bdap_note">{{ old('bdap_note', $practice->bdap_note) }}</textarea>
                 </div>
 
-                <label for="is_sito_internet">ito_internet</label>
+                <label for="is_sito_internet">Sito internet</label>
                 <input type="checkbox" name="is_sito_internet" id="is_sito_internet" value="1" {{ old(
     'is_sito_internet',
     $practice->is_sito_internet
 ) ? "checked" : "" }} />
 
                 <div class="flex w-full">
-                    <label for="sito_internet_nota">sito_internet_nota</label>
+                    <label for="sito_internet_nota">Sito nota</label>
                     <input name="sito_internet_nota" id="sito_internet_nota" class="w-10 flex-1"
                         value="{{ old('sito_internet_nota', $practice->sito_internet_nota) }}" />
                 </div>
