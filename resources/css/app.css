@@ -1,3 +1,114 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* tailwind base;
+tailwind components;
+tailwind utilities; */
+
+
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer components {
+
+
+
+    body { 
+
+    }
+
+
+
+
+
+
+    /* FORM */
+
+    .form {
+        
+    }
+
+    /* label {
+        @apply text-sm text-gray-700  m-1 mr-2
+    } */
+
+    input {
+        @apply bg-white m-1
+    }
+
+    textarea {
+        @apply  bg-white m-1
+    }
+
+    input::placeholder {
+        @apply text-amber-500
+    }
+
+    button.outer {
+        @apply border-2 rounded-lg py-2 px-4
+    }
+
+    button.inner {
+        @apply rounded-lg py-2 px-4
+    }
+
+
+
+
+    /*
+    table {
+        @apply w-full my-5 bg-gray-50
+    }
+
+    thead tr {
+        @apply border-b border-b-purple-500 bg-purple-300
+    }
+
+    th {
+        @apply py-2
+    }
+
+    tbody tr {
+        @apply border-b border-gray-300 hover:bg-gray-200
+    }
+
+
+    tfoot {
+            @apply border-b border-b-purple-300 bg-purple-200 font-bold
+    }
+
+    td {
+        @apply py-1 pl-3
+    }
+    */
+
+    /* */
+
+    .filtra {
+        
+    }
+
+    .filtra input[type="text"] {
+        @apply border bg-white
+    }
+
+    .filtra button {
+        @apply bg-gray-300 px-2 hover:cursor-pointer
+    }
+    /*
+    .tag {
+        @apply py-1 px-2 rounded-2xl
+    }
+    */
+
+    .tag {
+        @apply p-1.5 text-xs font-medium uppercase tracking-wider rounded-lg
+    }
+
+}
