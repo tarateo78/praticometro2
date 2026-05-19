@@ -12,9 +12,7 @@
 
 @layer components {
     
-    body {
-       @apply px-4
-    }
+
 
     h1 {
         @apply text-center text-4xl text-red-900 my-3

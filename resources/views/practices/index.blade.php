@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -18,7 +17,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Codice</th>
+                                <th class="left-0 z-40">Codice</th>
                                 <th>Titolo</th>
                                 <th>Stato</th>
                                 <th>Area</th>
@@ -45,7 +44,7 @@
                             @foreach($practices as $prac)
                                 <tr id="prat-{{ $prac->id }}">
 
-                                    <td>
+                                    <td class="sticky left-0 z-10 pratica">
                                         <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice }}</a>
                                         {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
                                     </td>
@@ -109,7 +108,8 @@
                             <td></td>
                             <td></td>
                             <td class="text-center">Totale:</td>
-                            <td class="font-bold whitespace-nowrap">€ {{ number_format($importo_totale, 2, ",", ".")}} €</td>
+                            <td class="font-bold whitespace-nowrap">€ {{ number_format($importo_totale, 2, ",", ".")}} €
+                            </td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -133,20 +133,20 @@
                                 @csrf
                                 <label for="is_in_corso">In corso</label>
                                 <input type="checkbox" name="is_in_corso" id="is_in_corso" {{ isset($_GET['is_in_corso'])
-                ? "checked" : "" }}>
+    ? "checked" : "" }}>
                                 <input type="text" name="filtra" id="filtra" class="w-40" />
                                 <button type="submit" class="filtro-button">Applica</button>
                             </form>
                         </div>
                         <div class="md:col-span-3 ">
                             @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
-                                        <div class="tag-filtro">{{
+                                                    <div class="tag-filtro">{{
                                 $_GET['filtra'] }}
-                                            <a
-                                                href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? '?is_in_corso=on' : ''
-                                                                                                                                                            }}"><span
-                                                    class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a>
-                                        </div>
+                                                        <a
+                                                            href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? '?is_in_corso=on' : ''
+                                                                                                                                                                                                                                                                                                                                                                                    }}"><span
+                                                                class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a>
+                                                    </div>
                             @endif
                         </div>
 
@@ -154,7 +154,7 @@
                             <button id="btnCopy" class="filtro-button">Copia negli appunti</button>
                         </div>
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -165,54 +165,53 @@
 
 
 
-    
-
-
-    <script>
-        // Assegna l'arrey degli oggetti pratiche filtrate
-        const practices = @js($practices);
-
-        // la variabile practice è istanziata nella pagina di dettaglio (show)
-        let practice = null;
-        const paginaDettaglio = false;
-
-        const pathDettaglio = "elenco";
-        const pathOperazione = "/edit";
-
-        // Segue: marker-lavori.js e strade-provincia.js
-    </script>
 
 
 
-    <script>
-        // Copia i dati in memoria
-        document.getElementById('btnCopy').addEventListener('click', function() {
-            copiaPerFogliDiCalcolo(practices);
+<script>
+    // Assegna l'arrey degli oggetti pratiche filtrate
+    const practices = @js($practices);
+
+    // la variabile practice è istanziata nella pagina di dettaglio (show)
+    let practice = null;
+    const paginaDettaglio = false;
+
+    const pathDettaglio = "elenco";
+    const pathOperazione = "/edit";
+
+    // Segue: marker-lavori.js e strade-provincia.js
+</script>
+
+
+
+<script>
+    // Copia i dati in memoria
+    document.getElementById('btnCopy').addEventListener('click', function () {
+        copiaPerFogliDiCalcolo(practices);
+    });
+
+    function copiaPerFogliDiCalcolo(arrayDati) {
+        if (arrayDati.length === 0) return;
+
+        const headers = Object.keys(arrayDati[0]);
+
+        // Creiamo le righe usando il carattere TAB (\t) come separatore
+        const righe = arrayDati.map(riga => {
+            return headers.map(header => {
+                let valore = riga[header] ?? '';
+                // Puliamo il valore da eventuali ritorni a capo interni che romperebbero le celle
+                return valore.toString().replace(/\r?\n|\r/g, " ");
+            }).join('\t'); // Tabulazione per separare le colonne
         });
 
-        function copiaPerFogliDiCalcolo(arrayDati) {
-            if (arrayDati.length === 0) return;
+        // Aggiungiamo l'intestazione in cima
+        const testoFinale = headers.join('\t') + '\n' + righe.join('\n');
 
-            const headers = Object.keys(arrayDati[0]);
-            
-            // Creiamo le righe usando il carattere TAB (\t) come separatore
-            const righe = arrayDati.map(riga => {
-                return headers.map(header => {
-                    let valore = riga[header] ?? '';
-                    // Puliamo il valore da eventuali ritorni a capo interni che romperebbero le celle
-                    return valore.toString().replace(/\r?\n|\r/g, " ");
-                }).join('\t'); // Tabulazione per separare le colonne
-            });
-
-            // Aggiungiamo l'intestazione in cima
-            const testoFinale = headers.join('\t') + '\n' + righe.join('\n');
-
-            // Usiamo l'API degli appunti (Clipboard API)
-            navigator.clipboard.writeText(testoFinale).then(() => {
-                console.log("Dati copiati! Ora puoi incollarli su Excel o Google Sheets.");
-            }).catch(err => {
-                console.error('Errore nel copia:', err);
-            });
-        }
-    </script>
-
+        // Usiamo l'API degli appunti (Clipboard API)
+        navigator.clipboard.writeText(testoFinale).then(() => {
+            console.log("Dati copiati! Ora puoi incollarli su Excel o Google Sheets.");
+        }).catch(err => {
+            console.error('Errore nel copia:', err);
+        });
+    }
+</script>

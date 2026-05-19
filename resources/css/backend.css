@@ -96,7 +96,7 @@
     /* ================ TABLE ================ */
 
     .table-container {
-        @apply h-100 md:h-150 overflow-auto m-4
+        @apply h-100 md:h-160 overflow-auto m-4
     }
 
     table {
@@ -105,16 +105,25 @@
 
 
     thead th {
-        @apply bg-amber-400 sticky top-0 text-center font-normal py-3 
+        @apply bg-amber-400 sticky top-0 z-30 text-center font-normal py-3 
     }
 
     tfoot td {
-        @apply bg-amber-400 sticky bottom-0 text-center font-normal py-3 md:pb-5
+        @apply bg-amber-400 sticky bottom-0 z-20 text-center font-normal py-3 md:pb-5
+    }
+
+    tbody tr .pratica {
+        @apply bg-white
     }
 
     tbody tr {
-        @apply odd:bg-white even:bg-amber-100  hover:bg-amber-300/70
+        @apply bg-white hover:bg-amber-300/70 border-b border-amber-400
     }
+
+    .tbody .tr {
+        @apply odd:bg-white even:bg-amber-100
+    }
+
 
     tbody td {
         @apply p-3 
