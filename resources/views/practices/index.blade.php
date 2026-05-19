@@ -157,15 +157,6 @@
                     
                 </div>
 
-
-
-                <div class="flex justify-end">
-                    <a href="{{ route('openweb.index') }}" class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
-                        OpenWeb</a>
-                    <a href="{{ route('report.index') }}" class="m-2 p-2 border border-blue-600 rounded-2xl">Vai a
-                        Report</a>
-                </div>
-
             </div>
         </div>
     </div>
