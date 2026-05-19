@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionale - Pratica {{ $practice->codice }}</title>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    @vite(['resources/css/backend.css', 'resources/js/app.js'])
     <style>
         #map {
             height: 300px;
@@ -22,549 +13,550 @@
     </style>
 </head>
 
-<body>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dettaglio') }}
+        </h2>
+    </x-slot>
 
-    <div class="banner">
-        <div class="grid grid-cols-1 md:grid-cols-3">
-            <div class="my-2">
-                <a href="{{ route('practices.index') }}?is_in_corso=on" class="btn-lg text-white hover:bg-white hover:border-blue-500 hover:text-blue-500">← Torna a Elenco</a>
-            </div>
-            <div>
-                <h1>Pratica {{ $practice->codice }}</h1>
-            </div>
-            <div>
+    <div class="py-12">
+        <div class="mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+
+                <form action="{{ route('practices.update', $practice->id) }}" method="POST" class="main-form" id="myForm">
+                    {{-- $task->exists ? route('tasks.update', $task) : route('tasks.store') --}}
+
+                    @csrf
+
+                    {{-- Se stiamo modificando, Laravel ha bisogno del metodo PUT --}}
+                    @if($practice->exists)
+                        @method('PUT')
+                    @endif
+
+
+                    {{-- ------------------------ Dati informativi ------------------------ --}}
+
+                    <div class="grid grid-cols-1 xl:grid-cols-2 bg-amber-500/50 p-1 m-2 md:m-4">
+
+                        <div class="">
+                            <div class="grid grid-cols-1 md:grid-cols-2">
+                                <div>
+                                    {{-- Usiamo l'helper old() per mantenere i dati in caso di errore di validazione
+                                    --}}
+                                    <label for="codice">Pratica</label>
+                                    <input name="codice" id="codice" value="{{ old('codice', $practice->codice) }}"
+                                        class="font-bold w-30" />
+                                    <span class="font-bold text-green-800">{{ $practice->file_count !=
+                $practice->file_effettivi_count ? "↺" : "" }}</span>
+                                </div>
+
+
+                                <div class="">
+                                    <label for="is_in_corso">In corso</label>
+                                    <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old(
+                'is_in_corso',
+                $practice->is_in_corso
+            ) ?
+                "checked" :
+                "" }} />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2">
+                                <div>
+                                    <label for="cup">CUP</label>
+                                    <input name="cup" id="cup" value="{{ old('cup', $practice->cup) }}" class="w-50" />
+                                </div>
+                                <div class="">
+                                    <label for="is_cancellato"
+                                        class="{{ $practice->is_cancellato ? "bg-red-400" : "" }}">Cancellato</label>
+                                    <input type="checkbox" value="1" name="is_cancellato" id="is_cancellato" {{ old(
+                'is_cancellato',
+                $practice->is_cancellato
+            ) ?
+                "checked" :
+                "" }} />
+                                </div>
+                            </div>
+                            <div class="flex w-full">
+                                <label for="titolo">Alias</label>
+                                <input name="titolo" id="titolo" class="flex-1" value="{{ old('titolo', $practice->titolo) }}"
+                                    class="w-full" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="titolo_esteso">Titolo</label>
+                                <textarea name="titolo_esteso" id="titolo_esteso"
+                                    class="flex-1 h-20">{{ old('titolo_esteso', $practice->titolo_esteso) }}</textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="grid grid-cols-1 md:grid-cols-2">
+
+                            <div class="">
+                                <div class="flex w-full">
+                                    <label for="fascicolo">Fascicolo</label>
+                                    <input name="fascicolo" id="fascicolo" value="{{ old('fascicolo', $practice->fascicolo) }}"
+                                        class="flex-1" />
+                                </div>
+
+                                <div class="flex w-full">
+                                    <label for="rup">RUP</label>
+                                    <input name="rup" id="rup" class="flex-1" value="{{ old('rup', $practice->rup) }}" />
+                                </div>
+
+                                <div class="flex w-full">
+                                    <label for="pratica_note">Note</label>
+                                    <textarea name="pratica_note" id="pratica_note" class="flex-1">{{ old(
+                'pratica_note',
+                $practice->pratica_note
+            ) }}</textarea>
+                                </div>
+
+                                <label for="determina_gruppo">Det. GdL</label>
+                                <input name="determina_gruppo" id="determina_gruppo"
+                                    value="{{ old('determina_gruppo', $practice->determina_gruppo) }}" class="w-30" />
+                                <label for="gruppo">Nota</label>
+                                <input name="gruppo" id="gruppo" value="{{ old('gruppo', $practice->gruppo) }}" class="w-20" />
+                                <br>
+
+                                <label for="importo">Importo €</label>
+                                <input name="importo" id="importo"
+                                    value="{{ old('importo', number_format($practice->importo, 2, ",", ".")) }}" class="w-40" />
+                            </div>
+
+
+                            <div class="">
+
+                                <div class="flex w-full">
+                                    <label for="finanziamento">Finanziamento</label>
+                                    <input name="finanziamento" id="finanziamento" class="w-10 flex-1"
+                                        value="{{ old('finanziamento', $practice->finanziamento) }}" />
+                                </div>
+
+                                <div class="flex w-full">
+                                    <label for="finanziamento_note">Note</label>
+                                    <textarea name="finanziamento_note" id="finanziamento_note"
+                                        class="flex-1">{{ old('finanziamento_note', $practice->finanziamento_note) }}</textarea>
+                                </div>
+
+                                <label for="is_rl">Finanziamento RL</label>
+                                <input type="checkbox" value="1" name="is_rl" id="is_rl" {{ old('is_rl', $practice->is_rl) ? "checked" : "" }} />
+
+                                <br>
+                                <div class="flex w-full">
+                                    <label for="rl_codice">Codice RL</label>
+                                    <input name="rl_codice" id="rl_codice" value="{{ old('rl_codice', $practice->rl_codice) }}"
+                                        class="flex-1" />
+                                </div>
+
+                                <label for="is_mims">Finanziamento MIMS</label>
+                                <input type="checkbox" value="1" name="is_mims" id="is_mims" {{ old('is_mims', $practice->is_mims) ?
+                "checked" : "" }} />
+                                <br>
+
+                                <label for="mims_codice">Codice MIMS</label>
+                                <input name="mims_codice" id="mims_codice"
+                                    value="{{ old('mims_codice', $practice->mims_codice) }}" />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+                    {{-- ------------------------ Fasi ------------------------ --}}
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 bg-gray-400/50 p-4 gap-4">
+
+                        <div class="md:col-span-2 xl:col-span-4">Fasi Lavorative</div>
+
+
+                        @php
+                            if ($practice->is_avvio_progettazione & !$practice->is_avvio_gara) {
+                                $bgColor = "bg-yellow-100";
+                                $borderColor = "border-yellow-400";
+                                $titoloBgColor = "bg-yellow-400";
+                            } else {
+                                $bgColor = "bg-gray-100";
+                                $borderColor = "border-gray-400";
+                                $titoloBgColor = "bg-gray-400";
+                            }
+                        @endphp
+
+                        <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
+                            <div class="titolo-colonna {{ $titoloBgColor }} text-white">1. Progettazione</div>
+
+
+                            <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione" {{
+                old(
+                    'is_avvio_progettazione',
+                    $practice->is_avvio_progettazione
+                ) ? "checked" : "" }} />
+                            <label for="is_avvio_progettazione">Fase progettazione avviata</label>
+                            <br>
+                            <br>
+                            <label for="avvio_progettazione_at">Avvio Progettazione</label>
+                            <input type="date" name="avvio_progettazione_at" id="avvio_progettazione_at"
+                                value="{{ old('avvio_progettazione_at', $practice->avvio_progettazione_at ? $practice->avvio_progettazione_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->avvio_progettazione_at) ? " date-vuoto" : "" }}" />
+                            <br>
+
+                            <div class="flex w-full">
+                                <label for="progettista">Progettista</label>
+                                <input name="progettista" id="progettista" class="w-10 flex-1"
+                                    value="{{ old('progettista', $practice->progettista) }}" />
+                            </div>
+                            <label for="fte_at">Fattibilità approvazione</label>
+                            <input type="date" name="fte_at" id="fte_at"
+                                value="{{ old('fte_at', $practice->fte_at ? $practice->fte_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->fte_at) ? " date-vuoto" : "" }}" />
+                            <br>
+                            <label for="def_at">Definitivo approvazione</label>
+                            <input type="date" name="def_at" id="def_at"
+                                value="{{ old('def_at', $practice->def_at ? $practice->def_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->def_at) ? " date-vuoto" : "" }}" />
+                            <br>
+
+                            <label for="is_cds">Necessaria CDS</label>
+                            <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old(
+                'is_cds',
+                $practice->is_cds
+            ) ?
+                "checked" : "" }} />
+                            <label for="cds_avvio_at">→ Cds avvio</label>
+                            <input type="date" name="cds_avvio_at" id="cds_avvio_at" value="{{ old('cds_avvio_at', $practice->cds_avvio_at ? $practice->cds_avvio_at->format("Y-m-d") :
+                null) }}" class="{{ !isset($practice->cds_avvio_at) ? " date-vuoto" : "" }}" />
+                            <br>
+
+                            <label for="cds_chiusa_at">→ Cds Verbale</label>
+                            <input type="date" name="cds_chiusa_at" id="cds_chiusa_at" value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at ? $practice->cds_chiusa_at->format("Y-m-d")
+                : null) }}" class="{{ !isset($practice->cds_chiusa_at) ? " date-vuoto" : "" }}" />
+                            <br>
+
+                            <label for="ese_at">Esecutivo approvazione</label>
+                            <input type="date" name="ese_at" id="ese_at"
+                                value="{{ old('ese_at', $practice->ese_at ? $practice->ese_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->ese_at) ? " date-vuoto" : "" }}" />
+
+                            <br>
+                            <div class="flex w-full">
+                                <label for="appunti_progettazione">Note</label>
+                                <textarea name="appunti_progettazione" id="appunti_progettazione"
+                                    class="flex-1">{{ old('appunti_progettazione', $practice->appunti_progettazione) }}</textarea>
+                            </div>
+                            <hr class="border-b-2 {{ $borderColor }}">
+
+                            <label for="scadenza_progetto_at">Termine Progettazione</label>
+                            <input type="date" name="scadenza_progetto_at" id="scadenza_progetto_at"
+                                value="{{ old('scadenza_progetto_at', $practice->scadenza_progetto_at ? $practice->scadenza_progetto_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->scadenza_progetto_at) ? " date-vuoto" : "" }}" />
+                        </div>
+
+
+
+
+                        @php
+                            if ($practice->is_avvio_gara & !$practice->is_lavori_in_corso) {
+                                $bgColor = "bg-green-100";
+                                $borderColor = "border-green-400";
+                                $titoloBgColor = "bg-green-400";
+                            } else {
+                                $bgColor = "bg-gray-100";
+                                $borderColor = "border-gray-400";
+                                $titoloBgColor = "bg-gray-400";
+                            }
+                        @endphp
+
+                        <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
+                            <div class="titolo-colonna {{ $titoloBgColor }} text-white">
+                                2. Gara appalto</div>
+                            <div class="check">
+                                <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old(
+                'is_avvio_gara',
+                $practice->is_avvio_gara
+            ) ? "checked" : "" }} />
+                                <label for="is_avvio_gara">Fase gara d'appalto avviata</label>
+                            </div>
+                            <br>
+                            <label for="contratto_at">Firma Contratto</label>
+                            <input type="date" name="contratto_at" id="contratto_at" value="{{ old('contratto_at', $practice->contratto_at ? $practice->contratto_at->format("Y-m-d") :
+                null) }}" class="{{ !isset($practice->contratto_at) ? " date-vuoto" : "" }}" />
+                            <br>
+                            <hr class="border-b-2 {{ $borderColor }}">
+                            <label for="scadenza_affidamento_at">Termine Affidamento</label>
+                            <input type="date" name="scadenza_affidamento_at" id="scadenza_affidamento_at"
+                                value="{{ old('scadenza_affidamento_at', $practice->scadenza_affidamento_at ? $practice->scadenza_affidamento_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->scadenza_affidamento_at) ? " date-vuoto" : "" }}" />
+                        </div>
+
+
+
+                        @php
+                            if ($practice->is_lavori_in_corso & !$practice->is_cre) {
+                                $bgColor = "bg-blue-100";
+                                $borderColor = "border-blue-400";
+                                $titoloBgColor = "bg-blue-400";
+                            } else {
+                                $bgColor = "bg-gray-100";
+                                $borderColor = "border-gray-400";
+                                $titoloBgColor = "bg-gray-400";
+                            }
+                        @endphp
+
+                        <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
+                            <div class="titolo-colonna {{ $titoloBgColor }} text-white">
+                                3. Lavori</div>
+
+                            <input type="checkbox" value="1" name="is_lavori_in_corso" id="is_lavori_in_corso" {{
+                old(
+                    'is_lavori_in_corso',
+                    $practice->is_lavori_in_corso
+                ) ?
+                "checked" : "" }} />
+                            <label for="is_lavori_in_corso">Fase Esecuzione Lavori avviata</label>
+                            <br><br>
+                            <div class="flex w-full">
+                                <label for="direttore_lavori">Dirett. Lavori</label>
+                                <input name="direttore_lavori" id="direttore_lavori" class="flex-1"
+                                    value="{{ old('direttore_lavori', $practice->direttore_lavori) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="assistente_dl">assistente_dl</label>
+                                <input name="assistente_dl" id="assistente_dl" class="w-10 flex-1"
+                                    value="{{ old('assistente_dl', $practice->assistente_dl) }}" />
+                            </div>
+                            <label for="consegna_lavori_at">Consegna Lavori</label>
+                            <input type="date" name="consegna_lavori_at" id="consegna_lavori_at"
+                                value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at ? $practice->consegna_lavori_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->consegna_lavori_at) ? " date-vuoto" : "" }}" />
+                            <div class="flex w-full">
+                                <label for="sicurezza">Sicurezza</label>
+                                <input name="sicurezza" id="sicurezza" class="w-10 flex-1"
+                                    value="{{ old('sicurezza', $practice->sicurezza) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="impresa">Impresa</label>
+                                <input name="impresa" id="impresa" class="flex-1"
+                                    value="{{ old('impresa', $practice->impresa) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="lavori_note">Note</label>
+                                <textarea name="lavori_note" id="lavori_note"
+                                    class="flex-1">{{ old('lavori_note', $practice->lavori_note) }}</textarea>
+                            </div>
+                        </div>
+
+
+
+                        @php
+                            if ($practice->is_cre) {
+                                $bgColor = "bg-purple-100";
+                                $borderColor = "border-purple-400";
+                                $titoloBgColor = "bg-purple-400";
+                            } else {
+                                $bgColor = "bg-gray-100";
+                                $borderColor = "border-gray-400";
+                                $titoloBgColor = "bg-gray-400";
+                            }
+                        @endphp
+
+                        <div class="border-2 border-l-8 {{ $borderColor }} rounded-xs {{ $bgColor }}">
+                            <div class="titolo-colonna {{ $titoloBgColor }} text-white">4. CRE</div>
+                            <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old('is_cre', $practice->is_cre) ? "checked" :
+                ""
+                            }} />
+                            <label for="is_cre">Fase CRE effettuata</label>
+                            <br>
+                            <br>
+                            <label for="cre_at">Verbale CRE</label>
+                            <input type="date" name="cre_at" id="cre_at"
+                                value="{{ old('cre_at', $practice->cre_at ? $practice->cre_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->cre_at) ? " date-vuoto" : "" }}" />
+
+                            <hr class="border-b-2 {{ $borderColor }}">
+                            <label for="scadenza_esecuzione_at">Termine Esecuzione</label>
+                            <input type="date" name="scadenza_esecuzione_at" id="scadenza_esecuzione_at"
+                                value="{{ old('scadenza_esecuzione_at', $practice->scadenza_esecuzione_at ? $practice->scadenza_esecuzione_at->format("Y-m-d") : null) }}"
+                                class="{{ !isset($practice->scadenza_esecuzione_at) ? " date-vuoto" : "" }}" />
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+                    {{-- ------------------------ Dati tecnici ------------------------ --}}
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 bg-cyan-500/50 p-1 m-2 md:m-4">
+
+                        <div>
+                            <div>
+                                <span class="p-2 font-bold">Dati tecnici</span>
+                            </div>
+                            <br>
+                            <div class="flex w-full">
+
+                                <label for="zona">Area</label>
+                                <input name="zona" id="zona" class="flex-1" value="{{ old('zona', $practice->zona) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="strade">Strade</label>
+                                <input name="strade" id="strade" class="flex-1" value="{{ old('strade', $practice->strade) }}" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="coordinate">Coordinate</label>
+                                <textarea name="coordinate" class="flex-1"
+                                    id="coordinate">{{ old('coordinate', $practice->coordinate) }}</textarea>
+                            </div>
+                            @php
+                                //https://maps.google.com/maps?q=&layer=c&cbll=
+                            @endphp
+
+                            @if(!empty($practice->coordinate)) 
+                                @php
+                                    $lista_coo = explode("|",$practice->coordinate);
+                                @endphp
+                                @foreach ($lista_coo as $coo)
+                                    <a href="https://www.google.com/maps/search/?api=1&query={{ $coo }}" target="_blank" class="btn-lg bg-pink-500 text-white hover:bg-white hover:border-pink-500 hover:text-pink-500">Maps</a>
+                                    {{-- <a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{ $coo }}" target="_blank">Ottimo</a> --}}
+                                    <a href="https://maps.google.com/maps?q=&layer=c&cbll={{ $coo }}" target="_blank" class="btn-lg bg-pink-500 text-white hover:bg-white hover:border-pink-500 hover:text-pink-500">Street</a>
+                                @endforeach
+                            @endif
+                        </div>
+
+                        <div class="p-2">
+                            <div id="map"></div>
+                        </div>
+
+                        <div class="">
+                            <div>
+                                <span class="p-2 font-bold">Monitoraggio BDAP</span>
+                            </div>
+                            <br>
+                            <label for="is_bdap">Monitorato</label>
+                            <input type="checkbox" name="is_bdap" id="is_bdap" value="1" {{ old('is_bdap', $practice->is_bdap) ?
+                "checked" : "" }} />
+                            <br>
+                            <label for="is_bdap_convalidato">Bdap Convalidato</label>
+                            <input type="checkbox" name="is_bdap_convalidato" id="is_bdap_convalidato" value="1" {{
+                old('is_bdap_convalidato', $practice->is_bdap_convalidato) ? "checked" : "" }} />
+                            <br>
+                            <div class="flex w-full">
+                                <label for="bdap_note">Bdap nota</label>
+                                <textarea name="bdap_note" class="flex-1"
+                                    id="bdap_note">{{ old('bdap_note', $practice->bdap_note) }}</textarea>
+                            </div>
+
+                            <label for="is_sito_internet">Sito internet</label>
+                            <input type="checkbox" name="is_sito_internet" id="is_sito_internet" value="1" {{ old(
+                'is_sito_internet',
+                $practice->is_sito_internet
+            ) ? "checked" : "" }} />
+
+                            <div class="flex w-full">
+                                <label for="sito_internet_nota">Sito nota</label>
+                                <input name="sito_internet_nota" id="sito_internet_nota" class="w-10 flex-1"
+                                    value="{{ old('sito_internet_nota', $practice->sito_internet_nota) }}" />
+                            </div>
+                        </div>
+
+
+                        <div class="">
+                            <div>
+                                <span class="p-2 font-bold">Monitoraggio EXTRA</span>
+                            </div>
+                            <div class="flex w-full">
+                                <label for="modifica_at">Salvato</label>
+                                <input name="modifica_at" id="modifica_at" value="{{ old('modifica_at', $practice->modifica_at ? $practice->modifica_at->format("Y-m-d") :
+                null) }}" class="flex-1" />
+                            </div>
+                            <div class="flex w-full">
+                                <label for="modifica_utente">Utente</label>
+                                <input name="modifica_utente" id="modifica_utente"
+                                    value="{{ old('modifica_utente', $practice->modifica_utente) }}" class="flex-1" />
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                    <div class="w-full p-4 text-center">
+                        <button type="submit"
+                            class="btn-lg bg-green-600 text-white hover:bg-white hover:border-green-600 hover:text-green-600">Salva
+                            aggiornamenti</button>
+                    </div>
+
+
+
+
+
+
+
+
+                    <br>
+                    <hr class="border-gray-500 border-dashed mb-3">
+                    <br>
+
+
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 w-full bg-gray-400/70 p-4">
+
+                        <div class="col-span-1 sm:col-span-2 lg:col-span-1">
+                            <span class="titolo-colonna ">Controllo automatico</span>
+                            <br>
+                            <span class="pr-4"><i>(Selezionare "Lavori Viabilità")</i></span>
+                            <button id="btnStart"
+                                class="inline btn-lg bg-orange-600 text-white hover:bg-white hover:border-orange-600 hover:text-orange-600">Verifica</button>
+
+                            <br>
+
+                            <label for="file_count">n. File DB</label>
+                            <input name="file_count" id="file_count" class="w-10"
+                                value="{{ old('file_count', $practice->file_count) }}" />
+                            /
+                            <input name="file_effettivi_count" id="file_effettivi_count" class="w-10"
+                                value="{{ old('file_effettivi_count', $practice->file_effettivi_count) }}" />
+                            <label for="file_effettivi_count">effettivi</label>
+
+                            <br>
+                            <label for="check_at">Controllo: </label>
+                            <input name="check_at" id="check_at"
+                                value="{{ old('check_at', $practice->check_at ? $practice->check_at->format("Y-m-d") : null) }}" />
+
+                            <button id="btnAllinea"
+                                class="btn-lg bg-blue-600 text-white hover:bg-white hover:border-blue-600 hover:text-orange-600">Allinea
+                                il conteggio</button>
+                            <br>
+                        </div>
+
+                        <div class="flex col-span-1 sm:col-span-2 lg:col-span-3 pr-2">
+                            <textarea name="file_nuovi" id="file_nuovi"
+                                class="flex-1 h-50 ">{{ old('file_nuovi', $practice->file_nuovi) }}</textarea>
+                        </div>
+
+                    </div>
+
+
+
+                </form>
+
+                
             </div>
         </div>
     </div>
-
-
-    <form action="{{ route('practices.update', $practice->id) }}" method="POST" class="main-form" id="myForm">
-        {{-- $task->exists ? route('tasks.update', $task) : route('tasks.store') --}}
-
-        @csrf
-
-        {{-- Se stiamo modificando, Laravel ha bisogno del metodo PUT --}}
-        @if($practice->exists)
-            @method('PUT')
-        @endif
-
-
-        {{-- ------------------------ Dati informativi ------------------------ --}}
-
-        <div class="grid grid-cols-1 xl:grid-cols-2 bg-amber-500/50 p-1 m-2 md:m-4">
-
-            <div class="">
-                <div class="grid grid-cols-1 md:grid-cols-2">
-                    <div>
-                        {{-- Usiamo l'helper old() per mantenere i dati in caso di errore di validazione
-                        --}}
-                        <label for="codice">Pratica</label>
-                        <input name="codice" id="codice" value="{{ old('codice', $practice->codice) }}"
-                            class="font-bold w-30" />
-                        <span class="font-bold text-green-800">{{ $practice->file_count !=
-    $practice->file_effettivi_count ? "↺" : "" }}</span>
-                    </div>
-
-
-                    <div class="">
-                        <label for="is_in_corso">In corso</label>
-                        <input type="checkbox" value="1" name="is_in_corso" id="is_in_corso" {{ old(
-    'is_in_corso',
-    $practice->is_in_corso
-) ?
-    "checked" :
-    "" }} />
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2">
-                    <div>
-                        <label for="cup">CUP</label>
-                        <input name="cup" id="cup" value="{{ old('cup', $practice->cup) }}" class="w-50" />
-                    </div>
-                    <div class="">
-                        <label for="is_cancellato"
-                            class="{{ $practice->is_cancellato ? "bg-red-400" : "" }}">Cancellato</label>
-                        <input type="checkbox" value="1" name="is_cancellato" id="is_cancellato" {{ old(
-    'is_cancellato',
-    $practice->is_cancellato
-) ?
-    "checked" :
-    "" }} />
-                    </div>
-                </div>
-                <div class="flex w-full">
-                    <label for="titolo">Alias</label>
-                    <input name="titolo" id="titolo" class="flex-1" value="{{ old('titolo', $practice->titolo) }}"
-                        class="w-full" />
-                </div>
-                <div class="flex w-full">
-                    <label for="titolo_esteso">Titolo</label>
-                    <textarea name="titolo_esteso" id="titolo_esteso"
-                        class="flex-1 h-20">{{ old('titolo_esteso', $practice->titolo_esteso) }}</textarea>
-                </div>
-            </div>
-
-
-            <div class="grid grid-cols-1 md:grid-cols-2">
-
-                <div class="">
-                    <div class="flex w-full">
-                        <label for="fascicolo">Fascicolo</label>
-                        <input name="fascicolo" id="fascicolo" value="{{ old('fascicolo', $practice->fascicolo) }}"
-                            class="flex-1" />
-                    </div>
-
-                    <div class="flex w-full">
-                        <label for="rup">RUP</label>
-                        <input name="rup" id="rup" class="flex-1" value="{{ old('rup', $practice->rup) }}" />
-                    </div>
-
-                    <div class="flex w-full">
-                        <label for="pratica_note">Note</label>
-                        <textarea name="pratica_note" id="pratica_note" class="flex-1">{{ old(
-    'pratica_note',
-    $practice->pratica_note
-) }}</textarea>
-                    </div>
-
-                    <label for="determina_gruppo">Det. GdL</label>
-                    <input name="determina_gruppo" id="determina_gruppo"
-                        value="{{ old('determina_gruppo', $practice->determina_gruppo) }}" class="w-30" />
-                    <label for="gruppo">Nota</label>
-                    <input name="gruppo" id="gruppo" value="{{ old('gruppo', $practice->gruppo) }}" class="w-20" />
-                    <br>
-
-                    <label for="importo">Importo €</label>
-                    <input name="importo" id="importo"
-                        value="{{ old('importo', number_format($practice->importo, 2, ",", ".")) }}" class="w-40" />
-                </div>
-
-
-                <div class="">
-
-                    <div class="flex w-full">
-                        <label for="finanziamento">Finanziamento</label>
-                        <input name="finanziamento" id="finanziamento" class="w-10 flex-1"
-                            value="{{ old('finanziamento', $practice->finanziamento) }}" />
-                    </div>
-
-                    <div class="flex w-full">
-                        <label for="finanziamento_note">Note</label>
-                        <textarea name="finanziamento_note" id="finanziamento_note"
-                            class="flex-1">{{ old('finanziamento_note', $practice->finanziamento_note) }}</textarea>
-                    </div>
-
-                    <label for="is_rl">Finanziamento RL</label>
-                    <input type="checkbox" value="1" name="is_rl" id="is_rl" {{ old('is_rl', $practice->is_rl) ? "checked" : "" }} />
-
-                    <br>
-                    <div class="flex w-full">
-                        <label for="rl_codice">Codice RL</label>
-                        <input name="rl_codice" id="rl_codice" value="{{ old('rl_codice', $practice->rl_codice) }}"
-                            class="flex-1" />
-                    </div>
-
-                    <label for="is_mims">Finanziamento MIMS</label>
-                    <input type="checkbox" value="1" name="is_mims" id="is_mims" {{ old('is_mims', $practice->is_mims) ?
-    "checked" : "" }} />
-                    <br>
-
-                    <label for="mims_codice">Codice MIMS</label>
-                    <input name="mims_codice" id="mims_codice"
-                        value="{{ old('mims_codice', $practice->mims_codice) }}" />
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-
-        {{-- ------------------------ Fasi ------------------------ --}}
-
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 bg-gray-400/50 p-4 gap-4">
-
-            <div class="md:col-span-2 xl:col-span-4">Fasi Lavorative</div>
-
-
-            @php
-                if ($practice->is_avvio_progettazione & !$practice->is_avvio_gara) {
-                    $bgColor = "bg-yellow-100";
-                    $borderColor = "border-yellow-400";
-                    $titoloBgColor = "bg-yellow-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
-            @endphp
-
-            <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
-                <div class="titolo-colonna {{ $titoloBgColor }} text-white">1. Progettazione</div>
-
-
-                <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione" {{
-    old(
-        'is_avvio_progettazione',
-        $practice->is_avvio_progettazione
-    ) ? "checked" : "" }} />
-                <label for="is_avvio_progettazione">Fase progettazione avviata</label>
-                <br>
-                <br>
-                <label for="avvio_progettazione_at">Avvio Progettazione</label>
-                <input type="date" name="avvio_progettazione_at" id="avvio_progettazione_at"
-                    value="{{ old('avvio_progettazione_at', $practice->avvio_progettazione_at ? $practice->avvio_progettazione_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->avvio_progettazione_at) ? " date-vuoto" : "" }}" />
-                <br>
-
-                <div class="flex w-full">
-                    <label for="progettista">Progettista</label>
-                    <input name="progettista" id="progettista" class="w-10 flex-1"
-                        value="{{ old('progettista', $practice->progettista) }}" />
-                </div>
-                <label for="fte_at">Fattibilità approvazione</label>
-                <input type="date" name="fte_at" id="fte_at"
-                    value="{{ old('fte_at', $practice->fte_at ? $practice->fte_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->fte_at) ? " date-vuoto" : "" }}" />
-                <br>
-                <label for="def_at">Definitivo approvazione</label>
-                <input type="date" name="def_at" id="def_at"
-                    value="{{ old('def_at', $practice->def_at ? $practice->def_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->def_at) ? " date-vuoto" : "" }}" />
-                <br>
-
-                <label for="is_cds">Necessaria CDS</label>
-                <input type="checkbox" value="1" name="is_cds" id="is_cds" {{ old(
-    'is_cds',
-    $practice->is_cds
-) ?
-    "checked" : "" }} />
-                <label for="cds_avvio_at">→ Cds avvio</label>
-                <input type="date" name="cds_avvio_at" id="cds_avvio_at" value="{{ old('cds_avvio_at', $practice->cds_avvio_at ? $practice->cds_avvio_at->format("Y-m-d") :
-    null) }}" class="{{ !isset($practice->cds_avvio_at) ? " date-vuoto" : "" }}" />
-                <br>
-
-                <label for="cds_chiusa_at">→ Cds Verbale</label>
-                <input type="date" name="cds_chiusa_at" id="cds_chiusa_at" value="{{ old('cds_chiusa_at', $practice->cds_chiusa_at ? $practice->cds_chiusa_at->format("Y-m-d")
-    : null) }}" class="{{ !isset($practice->cds_chiusa_at) ? " date-vuoto" : "" }}" />
-                <br>
-
-                <label for="ese_at">Esecutivo approvazione</label>
-                <input type="date" name="ese_at" id="ese_at"
-                    value="{{ old('ese_at', $practice->ese_at ? $practice->ese_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->ese_at) ? " date-vuoto" : "" }}" />
-
-                <br>
-                <div class="flex w-full">
-                    <label for="appunti_progettazione">Note</label>
-                    <textarea name="appunti_progettazione" id="appunti_progettazione"
-                        class="flex-1">{{ old('appunti_progettazione', $practice->appunti_progettazione) }}</textarea>
-                </div>
-                <hr class="border-b-2 {{ $borderColor }}">
-
-                <label for="scadenza_progetto_at">Termine Progettazione</label>
-                <input type="date" name="scadenza_progetto_at" id="scadenza_progetto_at"
-                    value="{{ old('scadenza_progetto_at', $practice->scadenza_progetto_at ? $practice->scadenza_progetto_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->scadenza_progetto_at) ? " date-vuoto" : "" }}" />
-            </div>
-
-
-
-
-            @php
-                if ($practice->is_avvio_gara & !$practice->is_lavori_in_corso) {
-                    $bgColor = "bg-green-100";
-                    $borderColor = "border-green-400";
-                    $titoloBgColor = "bg-green-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
-            @endphp
-
-            <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
-                <div class="titolo-colonna {{ $titoloBgColor }} text-white">
-                    2. Gara appalto</div>
-                <div class="check">
-                    <input type="checkbox" value="1" name="is_avvio_gara" id="is_avvio_gara" {{ old(
-    'is_avvio_gara',
-    $practice->is_avvio_gara
-) ? "checked" : "" }} />
-                    <label for="is_avvio_gara">Fase gara d'appalto avviata</label>
-                </div>
-                <br>
-                <label for="contratto_at">Firma Contratto</label>
-                <input type="date" name="contratto_at" id="contratto_at" value="{{ old('contratto_at', $practice->contratto_at ? $practice->contratto_at->format("Y-m-d") :
-    null) }}" class="{{ !isset($practice->contratto_at) ? " date-vuoto" : "" }}" />
-                <br>
-                <hr class="border-b-2 {{ $borderColor }}">
-                <label for="scadenza_affidamento_at">Termine Affidamento</label>
-                <input type="date" name="scadenza_affidamento_at" id="scadenza_affidamento_at"
-                    value="{{ old('scadenza_affidamento_at', $practice->scadenza_affidamento_at ? $practice->scadenza_affidamento_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->scadenza_affidamento_at) ? " date-vuoto" : "" }}" />
-            </div>
-
-
-
-            @php
-                if ($practice->is_lavori_in_corso & !$practice->is_cre) {
-                    $bgColor = "bg-blue-100";
-                    $borderColor = "border-blue-400";
-                    $titoloBgColor = "bg-blue-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
-            @endphp
-
-            <div class="border-2 border-l-8  {{ $borderColor }} rounded-xs {{ $bgColor }}">
-                <div class="titolo-colonna {{ $titoloBgColor }} text-white">
-                    3. Lavori</div>
-
-                <input type="checkbox" value="1" name="is_lavori_in_corso" id="is_lavori_in_corso" {{
-    old(
-        'is_lavori_in_corso',
-        $practice->is_lavori_in_corso
-    ) ?
-    "checked" : "" }} />
-                <label for="is_lavori_in_corso">Fase Esecuzione Lavori avviata</label>
-                <br><br>
-                <div class="flex w-full">
-                    <label for="direttore_lavori">Dirett. Lavori</label>
-                    <input name="direttore_lavori" id="direttore_lavori" class="flex-1"
-                        value="{{ old('direttore_lavori', $practice->direttore_lavori) }}" />
-                </div>
-                <div class="flex w-full">
-                    <label for="assistente_dl">assistente_dl</label>
-                    <input name="assistente_dl" id="assistente_dl" class="w-10 flex-1"
-                        value="{{ old('assistente_dl', $practice->assistente_dl) }}" />
-                </div>
-                <label for="consegna_lavori_at">Consegna Lavori</label>
-                <input type="date" name="consegna_lavori_at" id="consegna_lavori_at"
-                    value="{{ old('consegna_lavori_at', $practice->consegna_lavori_at ? $practice->consegna_lavori_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->consegna_lavori_at) ? " date-vuoto" : "" }}" />
-                <div class="flex w-full">
-                    <label for="sicurezza">Sicurezza</label>
-                    <input name="sicurezza" id="sicurezza" class="w-10 flex-1"
-                        value="{{ old('sicurezza', $practice->sicurezza) }}" />
-                </div>
-                <div class="flex w-full">
-                    <label for="impresa">Impresa</label>
-                    <input name="impresa" id="impresa" class="flex-1"
-                        value="{{ old('impresa', $practice->impresa) }}" />
-                </div>
-                <div class="flex w-full">
-                    <label for="lavori_note">Note</label>
-                    <textarea name="lavori_note" id="lavori_note"
-                        class="flex-1">{{ old('lavori_note', $practice->lavori_note) }}</textarea>
-                </div>
-            </div>
-
-
-
-            @php
-                if ($practice->is_cre) {
-                    $bgColor = "bg-purple-100";
-                    $borderColor = "border-purple-400";
-                    $titoloBgColor = "bg-purple-400";
-                } else {
-                    $bgColor = "bg-gray-100";
-                    $borderColor = "border-gray-400";
-                    $titoloBgColor = "bg-gray-400";
-                }
-            @endphp
-
-            <div class="border-2 border-l-8 {{ $borderColor }} rounded-xs {{ $bgColor }}">
-                <div class="titolo-colonna {{ $titoloBgColor }} text-white">4. CRE</div>
-                <input type="checkbox" value="1" name="is_cre" id="is_cre" {{ old('is_cre', $practice->is_cre) ? "checked" :
-    ""
-                }} />
-                <label for="is_cre">Fase CRE effettuata</label>
-                <br>
-                <br>
-                <label for="cre_at">Verbale CRE</label>
-                <input type="date" name="cre_at" id="cre_at"
-                    value="{{ old('cre_at', $practice->cre_at ? $practice->cre_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->cre_at) ? " date-vuoto" : "" }}" />
-
-                <hr class="border-b-2 {{ $borderColor }}">
-                <label for="scadenza_esecuzione_at">Termine Esecuzione</label>
-                <input type="date" name="scadenza_esecuzione_at" id="scadenza_esecuzione_at"
-                    value="{{ old('scadenza_esecuzione_at', $practice->scadenza_esecuzione_at ? $practice->scadenza_esecuzione_at->format("Y-m-d") : null) }}"
-                    class="{{ !isset($practice->scadenza_esecuzione_at) ? " date-vuoto" : "" }}" />
-            </div>
-
-        </div>
-
-
-
-
-
-
-
-        {{-- ------------------------ Dati tecnici ------------------------ --}}
-
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 bg-cyan-500/50 p-1 m-2 md:m-4">
-
-            <div>
-                <div>
-                    <span class="p-2 font-bold">Dati tecnici</span>
-                </div>
-                <br>
-                <div class="flex w-full">
-
-                    <label for="zona">Area</label>
-                    <input name="zona" id="zona" class="flex-1" value="{{ old('zona', $practice->zona) }}" />
-                </div>
-                <div class="flex w-full">
-                    <label for="strade">Strade</label>
-                    <input name="strade" id="strade" class="flex-1" value="{{ old('strade', $practice->strade) }}" />
-                </div>
-                <div class="flex w-full">
-                    <label for="coordinate">Coordinate</label>
-                    <textarea name="coordinate" class="flex-1"
-                        id="coordinate">{{ old('coordinate', $practice->coordinate) }}</textarea>
-                </div>
-                @php
-                    //https://maps.google.com/maps?q=&layer=c&cbll=
-                @endphp
-
-                @if(!empty($practice->coordinate)) 
-                    @php
-                        $lista_coo = explode("|",$practice->coordinate);
-                    @endphp
-                    @foreach ($lista_coo as $coo)
-                        <a href="https://www.google.com/maps/search/?api=1&query={{ $coo }}" target="_blank" class="btn-lg bg-pink-500 text-white hover:bg-white hover:border-pink-500 hover:text-pink-500">Maps</a>
-                        {{-- <a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{ $coo }}" target="_blank">Ottimo</a> --}}
-                        <a href="https://maps.google.com/maps?q=&layer=c&cbll={{ $coo }}" target="_blank" class="btn-lg bg-pink-500 text-white hover:bg-white hover:border-pink-500 hover:text-pink-500">Street</a>
-                    @endforeach
-                @endif
-            </div>
-
-            <div class="p-2">
-                <div id="map"></div>
-            </div>
-
-            <div class="">
-                <div>
-                    <span class="p-2 font-bold">Monitoraggio BDAP</span>
-                </div>
-                <br>
-                <label for="is_bdap">Monitorato</label>
-                <input type="checkbox" name="is_bdap" id="is_bdap" value="1" {{ old('is_bdap', $practice->is_bdap) ?
-    "checked" : "" }} />
-                <br>
-                <label for="is_bdap_convalidato">Bdap Convalidato</label>
-                <input type="checkbox" name="is_bdap_convalidato" id="is_bdap_convalidato" value="1" {{
-    old('is_bdap_convalidato', $practice->is_bdap_convalidato) ? "checked" : "" }} />
-                <br>
-                <div class="flex w-full">
-                    <label for="bdap_note">Bdap nota</label>
-                    <textarea name="bdap_note" class="flex-1"
-                        id="bdap_note">{{ old('bdap_note', $practice->bdap_note) }}</textarea>
-                </div>
-
-                <label for="is_sito_internet">Sito internet</label>
-                <input type="checkbox" name="is_sito_internet" id="is_sito_internet" value="1" {{ old(
-    'is_sito_internet',
-    $practice->is_sito_internet
-) ? "checked" : "" }} />
-
-                <div class="flex w-full">
-                    <label for="sito_internet_nota">Sito nota</label>
-                    <input name="sito_internet_nota" id="sito_internet_nota" class="w-10 flex-1"
-                        value="{{ old('sito_internet_nota', $practice->sito_internet_nota) }}" />
-                </div>
-            </div>
-
-
-            <div class="">
-                <div>
-                    <span class="p-2 font-bold">Monitoraggio EXTRA</span>
-                </div>
-                <div class="flex w-full">
-                    <label for="modifica_at">Salvato</label>
-                    <input name="modifica_at" id="modifica_at" value="{{ old('modifica_at', $practice->modifica_at ? $practice->modifica_at->format("Y-m-d") :
-    null) }}" class="flex-1" />
-                </div>
-                <div class="flex w-full">
-                    <label for="modifica_utente">Utente</label>
-                    <input name="modifica_utente" id="modifica_utente"
-                        value="{{ old('modifica_utente', $practice->modifica_utente) }}" class="flex-1" />
-                </div>
-            </div>
-
-
-
-
-        </div>
-
-
-
-        <div class="w-full p-4 text-center">
-            <button type="submit"
-                class="btn-lg bg-green-600 text-white hover:bg-white hover:border-green-600 hover:text-green-600">Salva
-                aggiornamenti</button>
-        </div>
-
-
-
-
-
-
-
-
-        <br>
-        <hr class="border-gray-500 border-dashed mb-3">
-        <br>
-
-
-
-
-        <div class="grid grid-cols-1 md:grid-cols-4 w-full bg-gray-400/70 p-4">
-
-            <div class="col-span-1 sm:col-span-2 lg:col-span-1">
-                <span class="titolo-colonna ">Controllo automatico</span>
-                <br>
-                <span class="pr-4"><i>(Selezionare "Lavori Viabilità")</i></span>
-                <button id="btnStart"
-                    class="inline btn-lg bg-orange-600 text-white hover:bg-white hover:border-orange-600 hover:text-orange-600">Verifica</button>
-
-                <br>
-
-                <label for="file_count">n. File DB</label>
-                <input name="file_count" id="file_count" class="w-10"
-                    value="{{ old('file_count', $practice->file_count) }}" />
-                /
-                <input name="file_effettivi_count" id="file_effettivi_count" class="w-10"
-                    value="{{ old('file_effettivi_count', $practice->file_effettivi_count) }}" />
-                <label for="file_effettivi_count">effettivi</label>
-
-                <br>
-                <label for="check_at">Controllo: </label>
-                <input name="check_at" id="check_at"
-                    value="{{ old('check_at', $practice->check_at ? $practice->check_at->format("Y-m-d") : null) }}" />
-
-                <button id="btnAllinea"
-                    class="btn-lg bg-blue-600 text-white hover:bg-white hover:border-blue-600 hover:text-orange-600">Allinea
-                    il conteggio</button>
-                <br>
-            </div>
-
-            <div class="flex col-span-1 sm:col-span-2 lg:col-span-3 pr-2">
-                <textarea name="file_nuovi" id="file_nuovi"
-                    class="flex-1 h-50 ">{{ old('file_nuovi', $practice->file_nuovi) }}</textarea>
-            </div>
-
-        </div>
-
-
-
-    </form>
-
+</x-app-layout>
 
     <script>
         // Previente l'invio del form alla pressione di ENTER

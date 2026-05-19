@@ -18,6 +18,18 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('practices.index')" :active="request()->routeIs('practices.index')">
+                        {{ __('Pratiche') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('report.index')" :active="request()->routeIs('report.index')">
+                        {{ __('Report') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('controllo.index')" :active="request()->routeIs('controllo.index')">
                         {{ __('Controllo') }}
                     </x-nav-link>
@@ -89,6 +101,14 @@
 
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('practices.index')" :active="request()->routeIs('practices.index')">
+                {{ __('Pratiche') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('report.index')" :active="request()->routeIs('report.index')">
+                {{ __('Report') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('controllo.index')" :active="request()->routeIs('controllo.index')">
