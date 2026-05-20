@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class=" mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-14">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -18,7 +18,8 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('practices.index', ['is_in_corso' => 'on'])" :active="request()->routeIs('practices.index')">
+                    <x-nav-link :href="route('practices.index', ['is_in_corso' => 'on'])"
+                        :active="request()->routeIs('practices.index')">
                         {{ __('Pratiche') }}
                     </x-nav-link>
                 </div>

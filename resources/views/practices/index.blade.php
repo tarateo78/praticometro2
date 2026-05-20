@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-8">
         <div class="mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg  ">
 
 
 
@@ -22,7 +22,7 @@
                                 <th>Stato</th>
                                 <th>Area</th>
                                 <th>Strade</th>
-                                <th>Mappa</th>
+                                <th>Map</th>
                                 <th>Cup</th>
                                 <th>Importo</th>
                                 <th>Finanziamento</th>
@@ -51,19 +51,24 @@
                                     <td>{{ $prac->titolo }}</td>
                                     <td>
                                         @if ($prac->is_avvio_progettazione)
-                                            <span class="tag bg-yellow-200/60">Prog</span>
-                                        @endif
+                                            <span
+                                                class="tag {{ $prac->is_avvio_progettazione && !$prac->is_avvio_gara ? 'bg-yellow-200' : 'bg-gray-100 text-gray-400' }} ">Prog</span>
 
-                                        @if($prac->is_avvio_gara)
-                                            <span class="tag bg-green-200/60">Gara</span>
-                                        @endif
 
-                                        @if($prac->is_lavori_in_corso)
-                                            <span class="tag bg-blue-200/60">Lavori</span>
-                                        @endif
 
-                                        @if($prac->is_cre)
-                                            <span class="tag bg-violet-200/60">Cre</span>
+                                            <span
+                                                class="tag {{ $prac->is_avvio_gara & !$prac->is_lavori_in_corso ? 'bg-green-200' : 'bg-gray-100 text-gray-400' }}">Gara</span>
+
+
+
+                                            <span
+                                                class="tag {{ $prac->is_lavori_in_corso && !$prac->is_cre ? 'bg-blue-200' : 'bg-gray-100 text-gray-400'}}">Lavori</span>
+
+
+
+                                            <span
+                                                class="tag {{ $prac->is_cre ? 'bg-violet-200' : 'bg-gray-100 text-gray-400'}}">Cre</span>
+
                                         @endif
                                     </td>
                                     <td>{{ $prac->zona }}</td>
@@ -108,7 +113,7 @@
                             <td></td>
                             <td></td>
                             <td class="text-center">Totale:</td>
-                            <td class="font-bold whitespace-nowrap">€ {{ number_format($importo_totale, 2, ",", ".")}} €
+                            <td class="font-bold whitespace-nowrap"> {{ number_format($importo_totale, 2, ",", ".")}} €
                             </td>
                             <td></td>
                             <td></td>
@@ -144,7 +149,7 @@
                                 $_GET['filtra'] }}
                                                         <a
                                                             href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? '?is_in_corso=on' : ''
-                                                                                                                                                                                                                                                                                                                                                                                    }}"><span
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }}"><span
                                                                 class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a>
                                                     </div>
                             @endif
