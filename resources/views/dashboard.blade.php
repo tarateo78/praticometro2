@@ -9,7 +9,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("Pagina personale in costruzione!") }}
+                    {{ __("Dashboard di") }} <strong>{{ auth()->user()->name }}</strong><br>
+                    <i>{{ auth()->user()->email }}</i>
+                    <br>
+                    <br>
+
                 </div>
             </div>
         </div>

@@ -1,3 +1,6 @@
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
 <style>
     #map {
         height: 300px;
@@ -194,7 +197,8 @@
                             <div class="titolo-colonna {{ $titoloBgColor }} text-white">1. Progettazione</div>
 
 
-                            <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione" {{
+                            <input type="checkbox" value="1" name="is_avvio_progettazione" id="is_avvio_progettazione"
+        {{
     old(
         'is_avvio_progettazione',
         $practice->is_avvio_progettazione
@@ -427,14 +431,23 @@
                             @if(!empty($practice->coordinate))
                                 @php
                                     $lista_coo = explode("|", $practice->coordinate);
+                                    $i = 1;
                                 @endphp
                                 @foreach ($lista_coo as $coo)
-                                    <a href="https://www.google.com/maps/search/?api=1&query={{ $coo }}" target="_blank"
-                                        class="btn-lg bg-pink-500 text-white hover:bg-white hover:border-pink-500 hover:text-pink-500">Maps</a>
-                                    {{-- <a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{ $coo }}"
-                                        target="_blank">Ottimo</a> --}}
-                                    <a href="https://maps.google.com/maps?q=&layer=c&cbll={{ $coo }}" target="_blank"
-                                        class="btn-lg bg-pink-500 text-white hover:bg-white hover:border-pink-500 hover:text-pink-500">Street</a>
+                                    <div class="p-2">
+                                        Punto {{ $i }}:
+                                        <a href="https://www.google.com/maps/search/?api=1&query={{ $coo }}" target="_blank"
+                                            class="bg-sky-600 text-white hover:bg-white hover:border-sky-600 hover:text-sky-600 p-1 px-2 rounded-lg">Google
+                                            Maps</a>
+                                        {{-- <a href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint={{ $coo }}"
+                                            target="_blank">Ottimo</a> --}}
+                                        <a href="https://maps.google.com/maps?q=&layer=c&cbll={{ $coo }}" target="_blank"
+                                            class="bg-sky-600 text-white hover:bg-white hover:border-sky-600 hover:text-sky-600 p-1 px-2 rounded-lg">Street
+                                            View</a>
+                                        @php
+                                            $i++;
+                                        @endphp
+                                    </div>
                                 @endforeach
                             @endif
                         </div>
@@ -500,7 +513,7 @@
 
 
                     <div class="w-full p-4 text-center">
-                        <button type="submit"
+                        <button type="submit" id="salva"
                             class="btn-lg bg-green-600 text-white hover:bg-white hover:border-green-600 hover:text-green-600">Salva
                             aggiornamenti</button>
                     </div>
@@ -563,12 +576,21 @@
 
             </div>
         </div>
-    </div>
+    </div>{{ auth()->user()->email }}
 </x-app-layout>
 
 <script>
-    // Previente l'invio del form alla pressione di ENTER
 
+    const btnSalva = document.getElementById("salva");
+    btnSalva.addEventListener("click", () => {
+        document.getElementById("modifica_utente").value = @js(auth()->user()->email);
+        document.getElementById("modifica_at").value = (new Date()).toISOString();
+        event.preventDefault();
+    });
+
+
+
+    // Previente l'invio del form alla pressione di ENTER
     const form = document.getElementById('myForm');
     form.addEventListener('keydown', (event) => {
         // Allow Enter in textareas; block elsewhere
