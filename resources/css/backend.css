@@ -156,7 +156,11 @@
     }
 
     .main-form input {
-        @apply bg-white m-2  pl-1
+        @apply bg-white m-2  pl-1 
+    }
+
+    .focus {
+        @apply border rounded px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none
     }
 
     .main-form textarea {

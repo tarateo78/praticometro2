@@ -176,9 +176,9 @@
 
                     {{-- ------------------------ Fasi ------------------------ --}}
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 bg-gray-400/50 p-4 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 bg-gray-400/50 p-4 gap-4">
 
-                        <div class="md:col-span-2 xl:col-span-4">Fasi Lavorative</div>
+                        <div class="md:col-span-2 2xl:col-span-4">Fasi Lavorative</div>
 
 
                         @php
