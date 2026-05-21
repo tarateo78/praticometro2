@@ -581,11 +581,12 @@
 
 <script>
 
+    // AGGIORNA USER E DATA IN FASE DI SALVATAGGIO
     const btnSalva = document.getElementById("salva");
     btnSalva.addEventListener("click", () => {
         document.getElementById("modifica_utente").value = @js(auth()->user()->email);
         document.getElementById("modifica_at").value = (new Date()).toISOString();
-        event.preventDefault();
+        // event.preventDefault();
     });
 
 
