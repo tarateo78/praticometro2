@@ -96,7 +96,7 @@
     /* ================ TABLE ================ */
 
     .table-container {
-        @apply h-100 md:h-165 overflow-auto
+        @apply h-125 md:h-165 overflow-auto
     }
 
     table {
@@ -105,11 +105,11 @@
 
 
     thead th {
-        @apply bg-sky-600 text-white sticky border-r border-white top-0 z-30 text-center font-normal py-3 px-1 
+        @apply bg-sky-600 text-white sticky border-r border-white top-0 z-30 text-center font-normal py-2 sm:py-3 px-1 
     }
 
     tfoot td {
-        @apply bg-sky-600 sticky bottom-0 z-20  text-center text-white font-normal py-3
+        @apply bg-sky-600 sticky bottom-0 z-20  text-center text-white font-normal py-2 sm:py-3
     }
     
     tbody tr {
@@ -118,7 +118,7 @@
     
     
     tbody td {
-        @apply border-r border-blue-200
+        @apply border-r border-blue-200 py-2 sm:py-3
     }
 
     tbody tr:nth-child(odd) td.pratica {
@@ -130,11 +130,6 @@
         @apply bg-sky-100
     }
 
-
-
-    tbody td {
-        @apply p-3 
-    }
 
     td, th {
         @apply whitespace-nowrap tracking-wide
