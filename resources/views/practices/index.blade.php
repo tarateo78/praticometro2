@@ -44,7 +44,7 @@
                             @foreach($practices as $prac)
                                 <tr id="prat-{{ $prac->id }}">
 
-                                    <td class="sticky left-0 z-10 pratica">
+                                    <td class="sticky left-0 z-10 pratica text-center">
                                         <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice }}</a>
                                         {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
                                     </td>
