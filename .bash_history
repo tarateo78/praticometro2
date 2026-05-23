@@ -104,3 +104,8 @@ ll
 npm install
 composer install
 exit
+ll
+php artisan
+php artisan view:clear
+php artisan cache:clear
+exit

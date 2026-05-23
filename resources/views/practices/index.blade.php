@@ -10,7 +10,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg  ">
 
 
-
                 <?php $importo_totale = 0; ?>
 
                 <div class="table-container" id="table-container">
@@ -19,6 +18,7 @@
                             <tr>
                                 <th class="left-0 z-40">Codice</th>
                                 <th>Titolo</th>
+                                <th>In Corso</th>
                                 <th>Stato</th>
                                 <th>Area</th>
                                 <th>Strade</th>
@@ -49,6 +49,7 @@
                                         {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
                                     </td>
                                     <td>{{ $prac->titolo }}</td>
+                                    <td>{{ $prac->is_in_corso ? "⦁" : "" }}</td>
                                     <td>
                                         @if ($prac->is_avvio_progettazione)
                                             <span
@@ -89,8 +90,8 @@
                                     <td>{{ $prac->finanziamento }}</td>
                                     <td>{{ $prac->rup }}</td>
                                     <td>{{ $prac->fascicolo }}</td>
-                                    <td>{{ $prac->is_rl }}</td>
-                                    <td>{{ $prac->is_mims }}</td>
+                                    <td>{{ $prac->is_rl ? "⦁" : "" }}</td>
+                                    <td>{{ $prac->is_mims ? "⦁" : "" }}</td>
                                     <td>{{ $prac->progettista }}</td>
                                     <td>{{ $prac->sicurezza }}</td>
                                     <td>{{ $prac->cds_chiusa_at }}</td>
@@ -108,6 +109,7 @@
                         <tfoot>
                             <td></td>
                             <td>Numero di interventi: <span class="font-bold">{{ $practices->count() }}</span></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -131,14 +133,24 @@
                     </table>
                 </div>
 
+
+                @php
+                    $parametri = [];
+
+                    $parametri['is_in_corso'] = isset($_GET['is_in_corso']) && $_GET['is_in_corso'] == 'on' ? 'on' : 'off';
+
+                    var_dump($parametri);
+                    // dd($parametri);
+                @endphp
+
                 <div class="banner-filtro">
                     <div class="grid grid-cols-1 md:grid-cols-12">
                         <div class="md:col-span-6">
                             <form action="{{ route('practices.index') }}" method="GET">
                                 @csrf
                                 <label for="is_in_corso">In corso</label>
-                                <input type="checkbox" name="is_in_corso" id="is_in_corso" {{ isset($_GET['is_in_corso'])
-    ? "checked" : "" }}>
+                                <input type="checkbox" name="is_in_corso" value="on" id="is_in_corso" {{ isset($_GET['is_in_corso']) ? "checked" : "" }}>
+
                                 <input type="text" name="filtra" id="filtra" class="w-40" />
                                 <button type="submit" class="filtro-button">Applica</button>
                             </form>
@@ -147,9 +159,7 @@
                             @if(isset($_GET['filtra']) && $_GET['filtra'] != "")
                                                     <div class="tag-filtro">{{
                                 $_GET['filtra'] }}
-                                                        <a
-                                                            href="{{ route('practices.index') }}{{ isset($_GET['is_in_corso']) ? '?is_in_corso=on' : ''
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }}"><span
+                                                        <a href="{{ route('practices.index', $parametri) }}"><span
                                                                 class="text-sm bg-white text-black px-1  rounded-lg ml-2">×</span></a>
                                                     </div>
                             @endif
@@ -165,10 +175,11 @@
             </div>
         </div>
     </div>
+
+
+
+
 </x-app-layout>
-
-
-
 
 
 

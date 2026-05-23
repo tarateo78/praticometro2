@@ -118,7 +118,7 @@
     
     
     tbody td {
-        @apply border-r border-blue-200 py-2 sm:py-3
+        @apply border-r border-blue-200 px-2 py-2 sm:py-3
     }
 
     tbody tr:nth-child(odd) td.pratica {

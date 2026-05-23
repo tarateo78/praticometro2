@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Practice;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Schema;
 
 class PracticeController extends Controller
 {
@@ -11,28 +12,62 @@ class PracticeController extends Controller
     public function index(Request $request): View
     {
 
-        $practices = Practice::when($request->filtra, function ($query) use ($request) {
+        // Query base
+        $query = Practice::query();
 
-            // $termini = explode("+", $request->filtra);
-            $termini = preg_split("/[\s,+]+/", $request->filtra);
-            // split the phrase by any number of commas or space characters: \s    which include " ", \r, \t, \n and \f
-            // comma , and plus + e il + finale indica per qualsiasi ricorrenza
+        // Filtra: in corso
+        $query->when($request->is_in_corso, function ($q) {
+            return $q->where('is_in_corso', true);
+        });
 
+        // Filtra: Termini di ricerca
+        $termini = preg_split("/[\s,+]+/", $request->filtra);
+        if ($termini) {
             foreach ($termini as $termine) {
-                $query->whereAny(['codice', 'titolo', 'titolo_esteso', 'stato_pratica', 'zona', 'strade', 'importo', 'finanziamento'], 'like', "%" . $termine . "%");
+
+                // Ottiene la lista di tutte le colonne della tabella 'prodotti'
+                $colonne = Schema::getColumnListing('practices');
+                $query->where(function ($q) use ($colonne, $termine) {
+                    foreach ($colonne as $colonna) {
+                        $q->orWhere($colonna, 'LIKE', "%{$termine}%");
+                    }
+                });
             }
-            return $query;
-        })
-            ->when($request->is_in_corso, function ($query) use ($request) {
-                return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
-            })
+        }
 
-            ->orderBy("codice", "desc")
-            ->get();
+        // Esegue la query (usare get() o paginate())
+        $practices = $query->orderBy("codice", "desc")->get();
 
-        // $practices = Practice::all();
-        // dd($practice);
-        return view("practices.index", compact("practices"));
+        // Passa i dati filtrati alla vista
+        return view('practices.index', compact('practices'));
+
+
+        /*
+
+                $practices = Practice::when($request->filtra, function ($query) use ($request) {
+
+                    $termini = preg_split("/[\s,+]+/", $request->filtra);
+
+                    foreach ($termini as $termine) {
+                        $query->whereAny(['codice', 'titolo', 'titolo_esteso', 'stato_pratica', 'zona', 'strade', 'importo', 'finanziamento'], 'like', "%" . $termine . "%");
+                    }
+                    return $query;
+                })
+                    ->when($request->is_in_corso, function ($query) use ($request) {
+                        return $query->where('is_in_corso', isset($request->is_in_corso) ? true : false);
+                    })
+
+                    ->when($request->status === 'dainiziare', function ($query) {
+                        return $query->where('is_avvio_progettazione', '!=', 1);
+                    })
+
+                    ->orderBy("codice", "desc")
+                    ->get();
+
+                // $practices = Practice::all();
+                // dd($practice);
+                return view("practices.index", compact("practices"));
+                */
 
     }
 
