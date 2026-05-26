@@ -9,8 +9,19 @@ use Illuminate\Support\Facades\Schema;
 class PracticeController extends Controller
 {
 
+
+
     public function index(Request $request): View
     {
+
+        // Elenco mie Pratiche
+        $user = auth()->user();
+        $myPractices = [];
+        $practices = $user->practices;
+        foreach ($practices as $prac) {
+            $a = $prac->getAttributes()['id'];
+            array_push($myPractices, $a);
+        }
 
         // Query base
         $query = Practice::query();
@@ -39,7 +50,7 @@ class PracticeController extends Controller
         $practices = $query->orderBy("codice", "desc")->get();
 
         // Passa i dati filtrati alla vista
-        return view('practices.index', compact('practices'));
+        return view('practices.index', compact('practices', 'myPractices'));
 
 
         /*
@@ -70,6 +81,7 @@ class PracticeController extends Controller
                 */
 
     }
+
 
 
 

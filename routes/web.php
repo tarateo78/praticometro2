@@ -42,11 +42,15 @@ Route::put('/test/{test}', [TestController::class, 'update'])->name('test.update
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+
 // Route::get('/dashboard', function () {
 //     return view('dashboard', [DashboardController::class, 'index']);
 // })->middleware(['auth', 'verified'])->name('dashboard')
 
 Route::middleware('auth')->group(function () {
+
+    Route::post('/dashboard/swapUserPractice', [DashboardController::class, 'swapUserPractice']);
+
     Route::get('/controllo', [ControlloController::class, 'index'])->name("controllo.index");
     Route::get('/controllo/nuove-pratiche', [ControlloController::class, 'nuovePratiche'])->name("controllo.nuove-pratiche");
     Route::get('/elenco', [PracticeController::class, 'index'])->name("practices.index");

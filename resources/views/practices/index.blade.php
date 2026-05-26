@@ -10,6 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg  ">
 
 
+
                 <?php $importo_totale = 0; ?>
 
                 <div class="table-container" id="table-container">
@@ -18,6 +19,7 @@
                             <tr>
                                 <th class="left-0 z-40">Codice</th>
                                 <th>Titolo</th>
+                                <th>My</th>
                                 <th>In Corso</th>
                                 <th>Stato</th>
                                 <th>Area</th>
@@ -47,8 +49,12 @@
                                     <td class="sticky left-0 z-10 pratica text-center">
                                         <a href="{{ route('practices.edit', $prac) }}" class="link">{{ $prac->codice }}</a>
                                         {{ $prac->file_count != $prac->file_effettivi_count ? "🗘" : "" }}
+
                                     </td>
                                     <td>{{ $prac->titolo }}</td>
+                                    <td>
+                                        <input type="checkbox" name="myPractices" id="my_{{ $prac->id }}" {{ in_array($prac->id, $myPractices) ? "checked" : "" }}>
+                                    </td>
                                     <td>{{ $prac->is_in_corso ? "⦁" : "" }}</td>
                                     <td>
                                         @if ($prac->is_avvio_progettazione)
@@ -114,6 +120,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <td class="text-center">Totale:</td>
                             <td class="font-bold whitespace-nowrap"> {{ number_format($importo_totale, 2, ",", ".")}} €
                             </td>
@@ -139,7 +146,7 @@
 
                     $parametri['is_in_corso'] = isset($_GET['is_in_corso']) && $_GET['is_in_corso'] == 'on' ? 'on' : 'off';
 
-                    var_dump($parametri);
+                    // var_dump($parametri);
                     // dd($parametri);
                 @endphp
 
@@ -176,12 +183,38 @@
         </div>
     </div>
 
+    @php
+
+    @endphp
+
+
 
 
 
 </x-app-layout>
 
 
+
+<script>
+    const myCheck = document.getElementsByName("myPractices");
+    myCheck.forEach(element => {
+        element.addEventListener('click', e => {
+            // console.log(e.target.id);
+            // console.log(e.target.id.split("_")[1]);
+            // console.log(e.target.checked);
+
+
+            axios.post('/dashboard/swapUserPractice', {
+                id: e.target.id.split("_")[1],
+                azione: "swap",
+                stato: e.target.checked
+            })
+                .then(r => console.log(r.data))
+                .catch(err => console.error(err));
+
+        });
+    });
+</script>
 
 
 <script>
