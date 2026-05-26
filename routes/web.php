@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\OpenwebController;
 use App\Http\Controllers\ControlloController;
@@ -39,10 +40,11 @@ Route::put('/test/{test}', [TestController::class, 'update'])->name('test.update
 
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
+// Route::get('/dashboard', function () {
+//     return view('dashboard', [DashboardController::class, 'index']);
+// })->middleware(['auth', 'verified'])->name('dashboard')
 
 Route::middleware('auth')->group(function () {
     Route::get('/controllo', [ControlloController::class, 'index'])->name("controllo.index");

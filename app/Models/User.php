@@ -46,4 +46,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // RELAZIONI NEI MODELLI user_practice
+
+    public function practices()
+    {
+        // return $this->belongsToMany(Practice::class);
+        return $this->belongsToMany(Practice::class, 'user_practice');
+    }
+
 }

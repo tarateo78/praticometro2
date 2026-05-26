@@ -93,6 +93,15 @@ class Practice extends Model
         'scadenza_affidamento_at' => 'date',
         'scadenza_esecuzione_at' => 'date',
     ];
+
+
+    // RELAZIONI NEI MODELLI user_practice
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('priority', 'note');
+    }
+
 }
 
 

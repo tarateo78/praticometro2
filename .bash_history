@@ -109,3 +109,16 @@ php artisan
 php artisan view:clear
 php artisan cache:clear
 exit
+ll
+pwd
+php artisan make:migration create_utente_pratica_table
+cd database/migrations/
+ll
+cd ../..
+ll
+php artisan migrate
+php artisan migrate
+php artisan migrate
+php artisan migrate:rollback
+php artisan migrate
+exit

@@ -12,7 +12,12 @@
                     {{ __("Dashboard di") }} <strong>{{ auth()->user()->name }}</strong><br>
                     <i>{{ auth()->user()->email }}</i>
                     <br>
+                    user id: <i>{{ auth()->user()->id }}</i>
+
                     <br>
+                    <br>
+
+                    {{ $practices }}
 
                 </div>
             </div>
