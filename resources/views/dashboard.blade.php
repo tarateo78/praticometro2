@@ -7,35 +7,43 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 text-center">
-                    {{ __("Dashboard di") }} <strong>{{ auth()->user()->name }}</strong>
-                    {{-- <i>{{ auth()->user()->email }}</i> --}}
-                </div>
-
-                <h2>Da iniziare:</h2>
-                <x-table-dash :elencoPratiche=$start />
-                <br>
-
-                <h2>Progettazioni:</h2>
-                <x-table-dash :elencoPratiche=$prog />
-                <br>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4">
 
 
-                <h2>Conferenze dei servizi:</h2>
-                <x-table-dash :elencoPratiche=$cds />
-                <br>
+                @if ($start)
+                    <h2>Pratiche da iniziare:</h2>
+                    <x-table-dash :elencoPratiche=$start :titoloColonna="'Termine Esecutivo'" :campo="'ese_at'"/>
+                    <br>
+                @endif
 
-                <h2>Gare d'appalto:</h2>
-                <x-table-dash :elencoPratiche=$gara />
-                <br>
+                @if ($prog)
+                    <h2>Progettazione:</h2>
+                    <x-table-dash :elencoPratiche=$prog :titoloColonna="'Termine Esecutivo'" :campo="'ese_at'"/>
+                    <br>
+                @endif
 
-                <h2>Esecuzione Lavori:</h2>
-                <x-table-dash :elencoPratiche=$lavori />
-                <br>
+                @if ($cds)
+                    <h2>Conferenze dei servizi:</h2>
+                    <x-table-dash :elencoPratiche=$cds :titoloColonna="'Avvio CdS'" :campo="'cds_avvio_at'"/>
+                    <br>
+                @endif
 
-                <h2>Fine Lavori - CRE:</h2>
-                <x-table-dash :elencoPratiche=$cre />
+                @if ($gara)
+                    <h2>Procedura d'appalto:</h2>
+                    <x-table-dash :elencoPratiche=$gara :titoloColonna="'Termine Affidamento'" :campo="'scadenza_affidamento_at'"/>
+                    <br>
+                @endif
+
+                @if ($lavori)
+                    <h2>Esecuzione Lavori:</h2>
+                    <x-table-dash :elencoPratiche=$lavori :titoloColonna="'Termine Eseccuzione'" :campo="'scadenza_esecuzione_at'"/>
+                    <br>
+                @endif
+
+                @if ($cre)
+                    <h2>Lavori conclusi - CRE:</h2>
+                    <x-table-dash :elencoPratiche=$cre :titoloColonna="'Emesso CRE'" :campo="'cre_at'"/>
+                @endif
 
 
 

@@ -19,7 +19,7 @@
     }
 
     h2 {
-        @apply text-2xl font-bold text-gray-800 my-2
+        @apply text-xl font-bold text-gray-800 my-2
     }
 
     table{
