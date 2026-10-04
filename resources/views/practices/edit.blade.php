@@ -764,7 +764,7 @@
     // Aggiunge un Marker definito dall'utente
     map.on('click', function (e) {
         // e.latlng contiene le coordinate dove l'utente ha cliccato
-        creaNuovoMarker(e.latlng.lat, e.latlng.lng, aggiorna = true);
+        creaNuovoMarker(e.latlng.lat, e.latlng.lng, msg="", aggiorna = true);
     });
 
 
